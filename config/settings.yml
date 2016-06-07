@@ -1,3 +1,4 @@
 google_oauth:
   client_id: ''
   client_secret: ''
+email_domains: ['factual.com']
