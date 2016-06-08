@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  resources :kudos, only: [:index, :create], constraints: { format: :json }, defaults: { format: :json }
+
   get 'kudos_app', to: 'kudos_app#index'
   # Auth
   get 'auth/:provider/callback', to: 'sessions#create'
