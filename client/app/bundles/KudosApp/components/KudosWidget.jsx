@@ -16,23 +16,28 @@ export default class KudosWidget extends React.Component {
     super(props, context);
 
     this.state = {
-      email: ''
+      email: '',
+      message: ''
     }
 
     // Uses lodash to bind all methods to the context of the object instance, otherwise
     // the methods defined here would not refer to the component's class, not the component
     // instance itself.
-    _.bindAll(this, 'handleClick', 'setEmail');
+    _.bindAll(this, 'handleClick', 'setEmail', 'setMessage');
   }
 
   // React will automatically provide us with the event `e`
   handleClick(e) {
     console.log('createKudo with ' + this.state.email)
-    this.props.createKudo(this.state.email)
+    this.props.createKudo(this.state.email, this.state.message)
   }
 
   setEmail(e) {
     this.setState({email: e.target.value});
+  }
+
+  setMessage(e) {
+    this.setState({message: e.target.value});
   }
 
   render() {
@@ -47,9 +52,17 @@ export default class KudosWidget extends React.Component {
             Give kudos to:
           </label>
           <input
-            type="text"
+            required={true}
+            placeholder="Factual email address"
+            type="email"
             value={this.state.email}
             onChange={this.setEmail}
+          />
+          <input
+            placeholder="Optional message"
+            type="text"
+            value={this.state.message}
+            onChange={this.setMessage}
           />
           <button
             type="button"

@@ -8,16 +8,17 @@ request.defaults.headers.post['Content-Type'] = 'application/json';
 //     receiverEmail,
 //   };
 // }
-const postKudo = (receiverEmail) => {
+const willPostKudo = (receiverEmail, messageBody) => {
   return {
     type: actionTypes.POST_KUDO,
-    receiverEmail
+    receiverEmail,
+    messageBody
   }
 }
 
-const createKudo = (receiverEmail) => {
+const createKudo = (receiverEmail, messageBody) => {
   return dispatch => {
-    dispatch(postKudo(receiverEmail));
+    dispatch(willPostKudo(receiverEmail, messageBody));
 
     // TODO: factor into a request/post library
     return request({
@@ -30,7 +31,7 @@ const createKudo = (receiverEmail) => {
       data: {
         kudo: {
           receiver_email: receiverEmail,
-          body: 'test body',
+          body: messageBody,
         }
       },
     }).then(res => {
