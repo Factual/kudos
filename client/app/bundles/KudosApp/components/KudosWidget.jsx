@@ -9,31 +9,33 @@ export default class KudosWidget extends React.Component {
   static propTypes = {
     // If you have lots of data or action properties, you should consider grouping them by
     // passing two properties: "data" and "actions".
-    updateName: PropTypes.func.isRequired,
-    name: PropTypes.string.isRequired,
+    createKudo: PropTypes.func.isRequired,
   };
 
   constructor(props, context) {
     super(props, context);
 
+    this.state = {
+      email: ''
+    }
+
     // Uses lodash to bind all methods to the context of the object instance, otherwise
     // the methods defined here would not refer to the component's class, not the component
     // instance itself.
-    _.bindAll(this, 'handleChange');
+    _.bindAll(this, 'handleClick');
   }
 
   // React will automatically provide us with the event `e`
-  handleChange(e) {
+  handleClick(e) {
     const name = e.target.value;
-    this.props.updateName(name);
+    // this.props.updateName(name);
   }
 
   render() {
-    const { name } = this.props;
     return (
       <div className="container">
         <h3>
-          Kudos, {name}!
+          Kudos, {this.state.email}!
         </h3>
         <hr />
         <form className="form-horizontal">
@@ -42,9 +44,16 @@ export default class KudosWidget extends React.Component {
           </label>
           <input
             type="text"
-            value={name}
-            onChange={this.handleChange}
+            // value={this.state.email}
+            // onChange={this.createKudo}
           />
+          <button
+            type="button"
+            className="login__button"
+            // onClick={this.createKudo}
+          >
+            Give Kudo
+          </button>
         </form>
       </div>
     );

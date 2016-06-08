@@ -1,3 +1,19 @@
+# == Schema Information
+#
+# Table name: users
+#
+#  id               :integer          not null, primary key
+#  provider         :string
+#  uid              :string
+#  name             :string
+#  oauth_token      :string
+#  oauth_expires_at :datetime
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
+#  email            :string
+#  avatar           :string
+#
+
 class User < ApplicationRecord
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid).to_hash).first_or_initialize.tap do |user|

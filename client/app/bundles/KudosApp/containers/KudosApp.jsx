@@ -15,14 +15,13 @@ function select(state) {
 const KudosApp = (props) => {
   const { dispatch, $$kudosAppStore } = props;
   const actions = bindActionCreators(actionCreators, dispatch);
-  const { updateName } = actions;
-  const name = $$kudosAppStore.get('name');
+  const { createKudo } = actions;
 
   // This uses the ES2015 spread operator to pass properties as it is more DRY
   // This is equivalent to:
   // <HelloWorldWidget $$helloWorldStore={$$helloWorldStore} actions={actions} />
   return (
-    <KudosWidget {...{ updateName, name }} />
+    <KudosWidget {...{ createKudo }} />
   );
 };
 
