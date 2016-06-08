@@ -22,13 +22,17 @@ export default class KudosWidget extends React.Component {
     // Uses lodash to bind all methods to the context of the object instance, otherwise
     // the methods defined here would not refer to the component's class, not the component
     // instance itself.
-    _.bindAll(this, 'handleClick');
+    _.bindAll(this, 'handleClick', 'setEmail');
   }
 
   // React will automatically provide us with the event `e`
   handleClick(e) {
     const name = e.target.value;
     // this.props.updateName(name);
+  }
+
+  setEmail(e) {
+    this.setState({email: e.target.value});
   }
 
   render() {
@@ -44,8 +48,8 @@ export default class KudosWidget extends React.Component {
           </label>
           <input
             type="text"
-            // value={this.state.email}
-            // onChange={this.createKudo}
+            value={this.state.email}
+            onChange={this.setEmail}
           />
           <button
             type="button"
