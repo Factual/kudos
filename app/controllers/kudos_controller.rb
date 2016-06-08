@@ -13,10 +13,10 @@ class KudosController < ApplicationController
     receiver_email = params[:kudo][:receiver_email]
     receiver = User.find_by(email: receiver_email)
 
-Rails.logger.debug("**** kudo_parms: #{kudo_params}")
+   Rails.logger.debug("**** kudo_parms: #{kudo_params}")
 
-    kudo = Kudo.new({giver_id: giver_id, 
-                     receiver_id: receiver.id, 
+    kudo = Kudo.new({giver_id: giver_id,
+                     receiver_id: receiver.id,
                      body: params[:kudo][:body]})
 
     if kudo.save

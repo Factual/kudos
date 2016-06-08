@@ -4,8 +4,9 @@
 import mirrorCreator from 'mirror-creator';
 
 const actionTypes = mirrorCreator([
-  'CREATE_KUDO',
-  'POST_KUDO',
+  'WILL_POST_KUDO',
+  'SERVER_RECEIVED_KUDO',
+  'SERVER_REJECTED_KUDO'
 ]);
 
 // actionTypes = {HELLO_WORLD_NAME_UPDATE: "HELLO_WORLD_NAME_UPDATE"}

@@ -10,11 +10,29 @@ request.defaults.headers.post['Content-Type'] = 'application/json';
 // }
 const willPostKudo = (receiverEmail, messageBody) => {
   return {
-    type: actionTypes.POST_KUDO,
+    type: actionTypes.WILL_POST_KUDO,
     receiverEmail,
     messageBody
   }
 }
+
+const serverReceivedKudo = (res) => {
+  const receiverEmail = res.receiver_email
+  const messageBody = res.body
+
+  return {
+    type: actionTypes.SERVER_RECEIVED_KUDO,
+    receiverEmail,
+    messageBody
+  }
+}
+
+const serverRejectedKudo = (err) => {
+  return {
+    type: actionTypes.SERVER_REJECTED_KUDO
+  }
+}
+
 
 const createKudo = (receiverEmail, messageBody) => {
   return dispatch => {
@@ -36,10 +54,10 @@ const createKudo = (receiverEmail, messageBody) => {
       },
     }).then(res => {
       console.log(res)
-      // dispatch(serverReceivedKudo();
+      dispatch(serverReceivedKudo(res));
     }).catch(err => {
       console.log(err)
-      // dispatch(serverRejectedKudo())
+      dispatch(serverRejectedKudo(err))
     });
   };
 };
