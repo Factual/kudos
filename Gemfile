@@ -34,6 +34,8 @@ gem 'jbuilder', '~> 2.0'
 gem "omniauth-google-oauth2", "~>0.4.0"
 gem "config", "~>1.2.1"
 
+gem "react_on_rails", "~> 5"
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
