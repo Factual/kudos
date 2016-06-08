@@ -5,34 +5,34 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-User.create([
+users = User.create([
   {
-     id: 1,
      provider: 'manual',
      uid: 1,
      name: "Obi Wan Kenobi",
+     email: "kenobi@jedi.gov",
      avatar: "http://f.tqn.com/y/scifi/1/W/3/n/-/-/EP2-IA-60435_R_8x10.jpg"
    },
    {
-     id: 2,
      provider: 'manual',
      uid: 7567,
      name: "Captain Rex",
+     email: "rex@clones.gov",
      avatar: "http://vignette1.wikia.nocookie.net/starwarsrepublicclonetroopers/images/c/cd/Clone_Captain_Rex.jpg/revision/latest?cb=20110606002335"
    }
 ])
+kenobi = users[0]
+rex = users[1]
 
 Kudo.create([
   {
-    id: 1,
     body: "Great job fighting off the droids on Kamino, Captain Rex.",
-    giver_id: 1,
-    receiver_id: 2
+    giver_id: kenobi.id,
+    receiver_id: rex.id
   },
   {
-    id: 2,
     body: "Thanks for having my back Commander.",
-    giver_id: 2,
-    receiver_id: 1
+    giver_id: rex.id,
+    receiver_id: kenobi.id
   }
 ])
