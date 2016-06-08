@@ -1,0 +1,2 @@
+class Kudo < ApplicationRecord
+end
