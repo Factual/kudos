@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 
 import createStore from '../store/kudosAppStore';
-import HelloWorld from '../containers/HelloWorld';
+import KudosApp from '../containers/KudosApp';
 
 // See documentation for https://github.com/reactjs/react-redux.
 // This is how you get props from the Rails view into the redux store.
@@ -11,7 +11,7 @@ export default (props) => {
   const store = createStore(props);
   const reactComponent = (
     <Provider store={store}>
-      <HelloWorld />
+      <KudosApp />
     </Provider>
   );
   return reactComponent;

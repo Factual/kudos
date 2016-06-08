@@ -5,7 +5,7 @@ import React, { PropTypes } from 'react';
 import _ from 'lodash';
 
 // Simple example of a React "dumb" component
-export default class HelloWorldWidget extends React.Component {
+export default class KudosWidget extends React.Component {
   static propTypes = {
     // If you have lots of data or action properties, you should consider grouping them by
     // passing two properties: "data" and "actions".
@@ -33,12 +33,12 @@ export default class HelloWorldWidget extends React.Component {
     return (
       <div className="container">
         <h3>
-          Hello, {name}!
+          Kudos, {name}!
         </h3>
         <hr />
         <form className="form-horizontal">
           <label>
-            Say hello to:
+            Give kudos to:
           </label>
           <input
             type="text"
