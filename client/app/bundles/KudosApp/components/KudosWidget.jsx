@@ -27,8 +27,8 @@ export default class KudosWidget extends React.Component {
 
   // React will automatically provide us with the event `e`
   handleClick(e) {
-    const name = e.target.value;
-    // this.props.updateName(name);
+    console.log('createKudo with ' + this.state.email)
+    this.props.createKudo(this.state.email)
   }
 
   setEmail(e) {
@@ -54,7 +54,7 @@ export default class KudosWidget extends React.Component {
           <button
             type="button"
             className="login__button"
-            // onClick={this.createKudo}
+            onClick={this.handleClick}
           >
             Give Kudo
           </button>
