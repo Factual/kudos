@@ -12,5 +12,5 @@ Rails.application.routes.draw do
 
   get 'home/show'
 
-  root to: 'home#show'
+  root to: 'kudos_app#index'
 end
