@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import _ from 'lodash';
 
 import actionTypes from '../constants/appConstants';
 
@@ -13,16 +14,14 @@ const kudos = (state = [], action) => {
 
   switch (type) {
     case actionTypes.SERVER_RECEIVED_KUDO:
-      newKudos = state.concat(createKudo(action));
-      return newKudos;
+      return state.concat(createKudo(action));
     default:
       return state;
   }
 }
 
 const createKudo = (action) => {
-  const { receiverEmail, messageBody } = action;
-  return { receiverEmail, messageBody };
+  return _.pick(action, ['receiverId', 'messageBody']);
 }
 
 const error = (state = null, action) => {

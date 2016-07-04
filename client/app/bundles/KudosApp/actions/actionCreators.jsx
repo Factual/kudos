@@ -17,12 +17,12 @@ const postedKudo = (receiverEmail, messageBody) => {
 }
 
 const serverReceivedKudo = (res) => {
-  const receiverEmail = res.receiver_email
-  const messageBody = res.body
+  const receiverId = res.data.kudo.receiver_id
+  const messageBody = res.data.kudo.body
 
   return {
     type: actionTypes.SERVER_RECEIVED_KUDO,
-    receiverEmail,
+    receiverId,
     messageBody
   }
 }
