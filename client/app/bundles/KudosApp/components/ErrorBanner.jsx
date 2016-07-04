@@ -3,8 +3,8 @@ import _ from 'lodash';
 
 const ErrorBanner = ({ error }) => {
   if (error && error.length > 0) {
-    return <div class="alert alert-danger">
-      <strong>Error!</strong>{error}
+    return <div className="error-banner">
+      <strong>Error!</strong> {error}
     </div>
   } else {
     return null;

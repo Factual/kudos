@@ -1,0 +1,4 @@
+.error-banner {
+  @extend .alert;
+  @extend .alert-danger;
+}

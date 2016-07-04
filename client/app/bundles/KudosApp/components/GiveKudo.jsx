@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import { isPresent } from 'lib/util';
 import _ from 'lodash';
 
 // Simple example of a React "dumb" component
@@ -20,7 +21,7 @@ export default class GiveKudo extends React.Component {
     // Uses lodash to bind all methods to the context of the object instance, otherwise
     // the methods defined here would not refer to the component's class, not the component
     // instance itself.
-    _.bindAll(this, 'handleClick', 'setEmail', 'setMessage');
+    _.bindAll(this, 'handleClick', 'setEmail', 'setMessage', 'isButtonEnabled');
   }
 
   // React will automatically provide us with the event `e`
@@ -35,6 +36,10 @@ export default class GiveKudo extends React.Component {
 
   setMessage(e) {
     this.setState({message: e.target.value});
+  }
+
+  isButtonEnabled(state) {
+    return isPresent(state.email)
   }
 
   render() {
@@ -74,6 +79,7 @@ export default class GiveKudo extends React.Component {
               type="button"
               className="give-kudo__button"
               onClick={this.handleClick}
+              disabled={!this.isButtonEnabled(this.state)}
             >
               Give Kudo
             </button>
