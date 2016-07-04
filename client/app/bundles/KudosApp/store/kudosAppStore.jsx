@@ -1,4 +1,5 @@
 import { compose, createStore, applyMiddleware, combineReducers } from 'redux';
+import stateInvariant from 'redux-immutable-state-invariant'
 
 // See
 // https://github.com/gaearon/redux-thunk and http://redux.js.org/docs/advanced/AsyncActions.html
@@ -15,19 +16,26 @@ import { initialStates } from '../reducers';
 
 export default props => {
   // This is how we get initial props Rails into redux.
-  const { name } = props;
-  const { $$kudosAppState } = initialStates;
+  // const { name } = props;
+  const { kudosAppState } = initialStates;
 
   // Redux expects to initialize the store using an Object, not an Immutable.Map
   const initialState = {
-    $$kudosAppStore: $$kudosAppState.merge({
-      name,
-    }),
+    kudosAppStore: kudosAppState
+    // .merge({
+    //   name,
+    // }),
   };
+
+  const middleware = [thunkMiddleware]
+  if (process.env.NODE_ENV !== 'production') {
+    middleware.push(stateInvariant())
+    middleware.push(loggerMiddleware)
+  }
 
   const reducer = combineReducers(reducers);
   const composedStore = compose(
-    applyMiddleware(thunkMiddleware, loggerMiddleware)
+    applyMiddleware(...middleware)
   );
   const storeCreator = composedStore(createStore);
   const store = storeCreator(reducer, initialState);

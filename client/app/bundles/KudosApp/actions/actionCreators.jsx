@@ -8,9 +8,9 @@ request.defaults.headers.post['Content-Type'] = 'application/json';
 //     receiverEmail,
 //   };
 // }
-const willPostKudo = (receiverEmail, messageBody) => {
+const postedKudo = (receiverEmail, messageBody) => {
   return {
-    type: actionTypes.WILL_POST_KUDO,
+    type: actionTypes.POSTED_KUDO,
     receiverEmail,
     messageBody
   }
@@ -27,17 +27,17 @@ const serverReceivedKudo = (res) => {
   }
 }
 
-const serverRejectedKudo = (error) => {
+const serverRejectedKudo = (err) => {
   return {
     type: actionTypes.SERVER_REJECTED_KUDO,
-    error,
+    error: err.data.errors,
   }
 }
 
 
 const createKudo = (receiverEmail, messageBody) => {
   return dispatch => {
-    dispatch(willPostKudo(receiverEmail, messageBody));
+    dispatch(postedKudo(receiverEmail, messageBody));
 
     // TODO: factor into a request/post library
     return request({

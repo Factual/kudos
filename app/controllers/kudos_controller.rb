@@ -11,7 +11,10 @@ class KudosController < ApplicationController
   def create
     giver_id = current_user.id
     receiver_email = kudo_params[:receiver_email]
-    receiver = User.find_by!(email: receiver_email)
+
+    unless (receiver = User.find_by(email: receiver_email))
+      return render json: { errors: "recipient with email #{receiver_email} could not be found"}, status: :not_found
+    end
 
     kudo = Kudo.new(
       giver_id: giver_id,
