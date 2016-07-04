@@ -10,29 +10,25 @@ class KudosController < ApplicationController
   #   :body           [body of kudo]
   def create
     giver_id = current_user.id
-    receiver_email = params[:kudo][:receiver_email]
-    receiver = User.find_by(email: receiver_email)
+    receiver_email = kudo_params[:receiver_email]
+    receiver = User.find_by!(email: receiver_email)
 
-   Rails.logger.debug("**** kudo_parms: #{kudo_params}")
-
-    kudo = Kudo.new({giver_id: giver_id,
-                     receiver_id: receiver.id,
-                     body: params[:kudo][:body]})
+    kudo = Kudo.new(
+      giver_id: giver_id,
+      receiver_id: receiver.id,
+      body: kudo_params[:body]
+    )
 
     if kudo.save
-      Rails.logger.debug("**** SAVED! kudo id = #{kudo.id}  8-]")
+      render json: { kudo: kudo }
     else
-      Rails.logger.debug("**** looked up receiver: #{recevier}")
+      render json: { errors: kudo.errors }
     end
-
-    #TODO: REST/post resp?
-    render json: kudo_params.inspect
   end
 
   private
+
   def kudo_params
     params.require(:kudo).permit(:body, :receiver_email)
   end
-
-
 end

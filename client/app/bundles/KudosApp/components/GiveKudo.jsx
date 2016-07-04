@@ -5,7 +5,7 @@ import React, { PropTypes } from 'react';
 import _ from 'lodash';
 
 // Simple example of a React "dumb" component
-export default class KudosWidget extends React.Component {
+export default class GiveKudo extends React.Component {
   static propTypes = {
     // If you have lots of data or action properties, you should consider grouping them by
     // passing two properties: "data" and "actions".
@@ -42,35 +42,45 @@ export default class KudosWidget extends React.Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="give-kudo">
         <h3>
-          Kudos, {this.state.email}!
+          Give Kudo
         </h3>
-        <hr />
-        <form className="form-horizontal">
-          <label>
-            Give kudos to:
-          </label>
-          <input
-            required={true}
-            placeholder="Factual email address"
-            type="email"
-            value={this.state.email}
-            onChange={this.setEmail}
-          />
-          <input
-            placeholder="Optional message"
-            type="text"
-            value={this.state.message}
-            onChange={this.setMessage}
-          />
-          <button
-            type="button"
-            className="login__button"
-            onClick={this.handleClick}
-          >
-            Give Kudo
-          </button>
+        <form className="give-kudo__form">
+          <fieldset className="give-kudo__inputs">
+            <label htmlFor="give-kudo__input-email">
+              To:
+            </label>
+            <input
+              required={true}
+              placeholder="Factual email address"
+              type="email"
+              id="give-kudo__input-email"
+              className="give-kudo__input"
+              value={this.state.email}
+              onChange={this.setEmail}
+            />
+            <label htmlFor="give-kudo__input-message">
+              Say:
+            </label>
+            <input
+              placeholder="Optional message"
+              type="text"
+              id="give-kudo__input-message"
+              className="give-kudo__input"
+              value={this.state.message}
+              onChange={this.setMessage}
+            />
+          </fieldset>
+          <div className="give-kudo__actions">
+            <button
+              type="button"
+              className="give-kudo__button"
+              onClick={this.handleClick}
+            >
+              Give Kudo
+            </button>
+          </div>
         </form>
       </div>
     );

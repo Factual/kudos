@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '>= 5.0.0.rc1', '< 5.1'
 # Use postgresql as the database for Active Record
@@ -36,6 +35,8 @@ gem "config", "~>1.2.1"
 gem "react_on_rails", "~> 5"
 
 gem "annotate"
+
+gem 'bootstrap', '>= 4.0.0.alpha3', '<= 4.1'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

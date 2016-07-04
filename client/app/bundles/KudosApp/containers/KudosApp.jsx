@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import KudosWidget from '../components/KudosWidget';
+import GiveKudo from '../components/GiveKudo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Immutable from 'immutable';
@@ -21,7 +21,7 @@ const KudosApp = (props) => {
   // This is equivalent to:
   // <HelloWorldWidget $$helloWorldStore={$$helloWorldStore} actions={actions} />
   return (
-    <KudosWidget {...{ createKudo }} />
+    <GiveKudo {...{ createKudo }} />
   );
 };
 

@@ -1,0 +1,36 @@
+// The main container
+.give-kudo {
+  @extend .container;
+  max-width: 600px;
+}
+
+.give-kudo__form {
+  @extend .row;
+}
+
+.give-kudo__input {
+  @extend .form-control;
+}
+
+.give-kudo__inputs {
+  @extend .form-group;
+  @extend .col-sm-9;
+}
+
+.give-kudo__left-pane {
+}
+
+.give-kudo__actions {
+  @extend .col-sm-3;
+}
+
+.give-kudo__button {
+  @extend .btn;
+  @extend .btn-primary;
+  width: 100%;
+
+  @include media-breakpoint-up(sm) {
+    height: 110px;
+    margin-top: 31px; // to bring down inline with field edges
+  }
+}
