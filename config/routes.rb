@@ -7,8 +7,7 @@ Rails.application.routes.draw do
   get 'auth/failure', to: redirect('/')
   get 'logout', to: 'sessions#destroy', as: 'logout'
 
-  get 'sessions/create'
-  get 'sessions/destroy'
+  resources :sessions, only: [:new, :create, :destroy]
 
   get 'home/show'
 

@@ -1,4 +1,9 @@
 class SessionsController < ApplicationController
+  skip_before_action :require_logged_in_user, only: [:create, :new]
+
+  def new
+  end
+
   def create
     user = User.from_omniauth(env["omniauth.auth"])
     if user

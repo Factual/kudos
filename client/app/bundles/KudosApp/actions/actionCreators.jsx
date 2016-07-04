@@ -27,9 +27,10 @@ const serverReceivedKudo = (res) => {
   }
 }
 
-const serverRejectedKudo = (err) => {
+const serverRejectedKudo = (error) => {
   return {
-    type: actionTypes.SERVER_REJECTED_KUDO
+    type: actionTypes.SERVER_REJECTED_KUDO,
+    error,
   }
 }
 
