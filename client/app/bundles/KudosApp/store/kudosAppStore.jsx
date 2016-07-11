@@ -17,14 +17,11 @@ import { initialStates } from '../reducers';
 export default props => {
   // This is how we get initial props Rails into redux.
   // const { name } = props;
-  const { kudosAppState } = initialStates;
+  let { kudosAppState } = initialStates;
+  kudosAppState.kudos = props.kudos;
 
-  // Redux expects to initialize the store using an Object, not an Immutable.Map
   const initialState = {
     kudosAppStore: kudosAppState
-    // .merge({
-    //   name,
-    // }),
   };
 
   const middleware = [thunkMiddleware]

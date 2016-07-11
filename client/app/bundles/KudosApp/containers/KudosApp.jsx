@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import GiveKudo from '../components/GiveKudo';
+import KudosList from '../components/KudosList';
 import ErrorBanner from '../components/ErrorBanner';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -17,6 +18,7 @@ const KudosApp = (props) => {
     <div>
       <ErrorBanner error={kudosAppStore.error} />
       <GiveKudo {...{ createKudo }} />
+      <KudosList kudos={kudosAppStore.kudos} />
     </div>
   );
 };
