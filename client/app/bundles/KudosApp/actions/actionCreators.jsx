@@ -34,10 +34,16 @@ const serverRejectedKudo = (err) => {
   }
 }
 
+const resetErrorMessage = () => {
+  return {
+    type: actionTypes.RESET_ERROR_MESSAGE,
+  }
+}
 
-const createKudo = (receiverEmail, messageBody) => {
+const createKudo = (receiverEmail, messageBody, onSuccess = null, onFailure = null) => {
   return dispatch => {
     dispatch(postedKudo(receiverEmail, messageBody));
+    dispatch(resetErrorMessage());
 
     // TODO: factor into a request/post library
     return request({
@@ -55,9 +61,15 @@ const createKudo = (receiverEmail, messageBody) => {
       },
     }).then(res => {
       console.log(res)
+      if (onSuccess) {
+        onSuccess(res);
+      }
       dispatch(serverReceivedKudo(res));
     }).catch(err => {
       console.log(err)
+      if (onFailure) {
+        onFailure(err);
+      }
       dispatch(serverRejectedKudo(err))
     });
   };

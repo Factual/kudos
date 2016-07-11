@@ -10,24 +10,37 @@ export default class GiveKudo extends React.Component {
     createKudo: PropTypes.func.isRequired,
   };
 
+  _initialState() {
+    return {
+      email: '',
+      message: '',
+      inFlight: false
+    }
+  }
+
   constructor(props, context) {
     super(props, context);
 
-    this.state = {
-      email: '',
-      message: ''
-    }
+    this.state = this._initialState();
 
     // Uses lodash to bind all methods to the context of the object instance, otherwise
     // the methods defined here would not refer to the component's class, not the component
     // instance itself.
-    _.bindAll(this, 'handleClick', 'setEmail', 'setMessage', 'isButtonEnabled');
+    _.bindAll(this, 'handleClick', 'setEmail', 'setMessage', 'onSuccess', 'onFailure');
   }
 
   // React will automatically provide us with the event `e`
   handleClick(e) {
-    console.log('createKudo with ' + this.state.email)
-    this.props.createKudo(this.state.email, this.state.message)
+    this.setState({inFlight: true})
+    this.props.createKudo(this.state.email, this.state.message, this.onSuccess, this.onFailure)
+  }
+
+  onSuccess(_res) {
+    this.setState(this._initialState())
+  }
+
+  onFailure(_err) {
+    this.setState({inFlight: false})
   }
 
   setEmail(e) {
@@ -38,11 +51,9 @@ export default class GiveKudo extends React.Component {
     this.setState({message: e.target.value});
   }
 
-  isButtonEnabled(state) {
-    return isPresent(state.email)
-  }
-
   render() {
+    const buttonInnerHTML = this.state.inFlight ? '<i class="fa fa-spinner fa-spin"></i>' : 'Give Kudo';
+    const buttonEnabled = isPresent(this.state.email) && !this.state.inFlight;
     return (
       <div className="give-kudo">
         <h3>
@@ -61,6 +72,7 @@ export default class GiveKudo extends React.Component {
               className="give-kudo__input"
               value={this.state.email}
               onChange={this.setEmail}
+              disabled={this.state.inFlight}
             />
             <label htmlFor="give-kudo__input-message">
               Say:
@@ -72,6 +84,7 @@ export default class GiveKudo extends React.Component {
               className="give-kudo__input"
               value={this.state.message}
               onChange={this.setMessage}
+              disabled={this.state.inFlight}
             />
           </fieldset>
           <div className="give-kudo__actions">
@@ -79,9 +92,9 @@ export default class GiveKudo extends React.Component {
               type="button"
               className="give-kudo__button"
               onClick={this.handleClick}
-              disabled={!this.isButtonEnabled(this.state)}
+              disabled={!buttonEnabled}
+              dangerouslySetInnerHTML={{__html: buttonInnerHTML}}
             >
-              Give Kudo
             </button>
           </div>
         </form>

@@ -37,6 +37,7 @@ gem "react_on_rails", "~> 5"
 gem "annotate"
 
 gem 'bootstrap', '>= 4.0.0.alpha3', '<= 4.1'
+gem "font-awesome-rails"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -30,7 +30,7 @@ const error = (state = null, action) => {
   if (type == actionTypes.RESET_ERROR_MESSAGE) {
     return null
   } else if (error) {
-    return action.error
+    return error
   } else {
     return state;
   };
