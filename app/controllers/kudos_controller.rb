@@ -5,9 +5,14 @@ class KudosController < ApplicationController
     end
     offset = params[:offset] || 0
     limit = params[:limit] || 10
+    filtered = Kudo.all.filter(params.slice(:giver_id, :receiver_id))
     render json: {
-      total: Kudo.all.count,
-      data: expand_user_info(Kudo.all.limit(limit).offset(offset))
+      total: filtered.count,
+      data: expand_user_info(
+        filtered
+          .limit(limit)
+          .offset(offset)
+      )
     }
   end
 
