@@ -23,4 +23,13 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  def render_client_error(message)
+    if message
+      resp = { error: message }
+      render :json => resp, :status => 400
+    else
+      render :nothing => true, :status => 400
+    end
+  end
 end

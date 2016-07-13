@@ -1,6 +1,14 @@
 class KudosController < ApplicationController
   def index
-    render json: expand_user_info(Kudo.all)
+    unless params[:limit].to_i >= 0 && params[:limit].to_i <= 100
+      return render_client_error 'limit is invalid'
+    end
+    offset = params[:offset] || 0
+    limit = params[:limit] || 10
+    render json: {
+      total: Kudo.all.count,
+      data: expand_user_info(Kudo.all.limit(limit).offset(offset))
+    }
   end
 
   # Creates a new Kudo based on current user and specified receiver & body
