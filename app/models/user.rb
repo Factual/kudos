@@ -27,4 +27,9 @@ class User < ApplicationRecord
       user.save!
     end
   end
+
+  def self.fuzzy_search(query)
+    self.where("similarity(name || email, ?) > 0", query)
+      .order("similarity(name || email, #{ActiveRecord::Base.connection.quote(query)}) DESC")
+  end
 end
