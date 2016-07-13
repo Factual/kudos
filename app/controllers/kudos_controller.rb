@@ -14,7 +14,11 @@ class KudosController < ApplicationController
 
     offset = params[:offset] || 0
     limit = params[:limit] || 10
-    order = ORDER_OPTIONS[params[:order].to_sym] || ORDER_OPTIONS['newest']
+    if params[:order]
+      order = ORDER_OPTIONS[params[:order].to_sym]
+    else
+      order = ORDER_OPTIONS['newest']
+    end
 
     filtered = Kudo.all.filter(params.slice(:giver_id, :receiver_id))
     render json: {
