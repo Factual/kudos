@@ -1,10 +1,21 @@
 class KudosController < ApplicationController
+  ORDER_OPTIONS = {
+    'newest': 'created_at DESC',
+    'oldest': 'created_at ASC',
+  }
+
   def index
     unless params[:limit].to_i >= 0 && params[:limit].to_i <= 100
       return render_client_error 'limit is invalid'
     end
+    if params[:order] && !(ORDER_OPTIONS.key? params[:order].to_sym)
+      return render_client_error 'invalid sort order'
+    end
+
     offset = params[:offset] || 0
     limit = params[:limit] || 10
+    order = ORDER_OPTIONS[params[:order].to_sym] || ORDER_OPTIONS['newest']
+
     filtered = Kudo.all.filter(params.slice(:giver_id, :receiver_id))
     render json: {
       total: filtered.count,
@@ -12,6 +23,7 @@ class KudosController < ApplicationController
         filtered
           .limit(limit)
           .offset(offset)
+          .order(order)
       )
     }
   end
