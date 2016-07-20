@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
-  #protect_from_forgery with: :exception
+  # protect_from_forgery with: :exception
   helper_method :current_user
   before_action :require_logged_in_user
 
@@ -27,9 +28,9 @@ class ApplicationController < ActionController::Base
   def render_client_error(message)
     if message
       resp = { error: message }
-      render :json => resp, :status => 400
+      render json: resp, status: 400
     else
-      render :nothing => true, :status => 400
+      render nothing: true, status: 400
     end
   end
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # Shown below are the defaults for configuration
 ReactOnRails.configure do |config|
   # Client bundles are configured in application.js
@@ -7,8 +8,7 @@ ReactOnRails.configure do |config|
 
   # Define the files for we need to check for webpack compilation when running tests
 
-  config.webpack_generated_files = %w( client-bundle.js )
-
+  config.webpack_generated_files = %w(client-bundle.js)
 
   # Server rendering:
   # Server bundle is a single file for all server rendering of components.

@@ -1,0 +1,53 @@
+Metrics/MethodLength:
+  Enabled: true
+  Max: 100
+
+Style/SignalException:
+  Enabled: false
+
+Lint/ShadowingOuterLocalVariable:
+  Enabled: false
+
+Metrics/LineLength:
+  Enabled: false
+  Max: 160
+
+Style/StringLiterals:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: true
+
+Style/GuardClause:
+  Enabled: false
+
+Style/SpaceInsideBlockBraces:
+  Enabled: true
+  SpaceBeforeBlockParameters: false
+
+Style/NumericLiterals:
+  Enabled: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Rails:
+  Enabled: true
+
+AllCops:
+  TargetRubyVersion: 2.3
+  Include:
+    - Rakefile
+    - config.ru
+  Exclude:
+    - db/**
+    - client/**/*

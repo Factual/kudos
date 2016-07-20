@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 class KudosController < ApplicationController
   ORDER_OPTIONS = {
     'newest': 'created_at DESC',
-    'oldest': 'created_at ASC',
-  }
+    'oldest': 'created_at ASC'
+  }.freeze
 
   def index
     unless params[:limit].to_i >= 0 && params[:limit].to_i <= 100
@@ -14,11 +15,11 @@ class KudosController < ApplicationController
 
     offset = params[:offset] || 0
     limit = params[:limit] || 10
-    if params[:order]
-      order = ORDER_OPTIONS[params[:order].to_sym]
-    else
-      order = ORDER_OPTIONS['newest']
-    end
+    order = if params[:order]
+              ORDER_OPTIONS[params[:order].to_sym]
+            else
+              ORDER_OPTIONS['newest']
+            end
 
     filtered = Kudo.all.filter(params.slice(:giver_id, :receiver_id))
     render json: {
@@ -42,7 +43,7 @@ class KudosController < ApplicationController
     receiver_email = kudo_params[:receiver_email]
 
     unless (receiver = User.find_by(email: receiver_email))
-      return render json: { errors: "recipient with email #{receiver_email.inspect} could not be found"}, status: :not_found
+      return render json: { errors: "recipient with email #{receiver_email.inspect} could not be found" }, status: :not_found
     end
 
     kudo = Kudo.new(
@@ -79,7 +80,7 @@ class KudosController < ApplicationController
       id: user.id,
       name: user.name,
       email: user.email,
-      avatar: user.avatar,
+      avatar: user.avatar
     }
   end
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # == Schema Information
 #
 # Table name: users
@@ -23,13 +24,13 @@ class User < ApplicationRecord
       user.email = auth.info.email
       user.avatar = auth.info.image
       user.oauth_token = auth.credentials.token
-      user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+      user.oauth_expires_at = Time.zone.at(auth.credentials.expires_at)
       user.save!
     end
   end
 
   def self.fuzzy_search(query)
-    self.where("similarity(name || email, ?) > 0", query)
+    where("similarity(name || email, ?) > 0", query)
       .order("similarity(name || email, #{ActiveRecord::Base.connection.quote(query)}) DESC")
   end
 end
