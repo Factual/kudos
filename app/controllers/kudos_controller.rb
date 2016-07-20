@@ -6,7 +6,7 @@ class KudosController < ApplicationController
   }.freeze
 
   def index
-    unless params[:limit].to_i >= 0 && params[:limit].to_i <= 100
+    unless (0..100).cover?(params[:limit].to_i)
       return render_client_error 'limit is invalid'
     end
     if params[:order] && !(ORDER_OPTIONS.key? params[:order].to_sym)

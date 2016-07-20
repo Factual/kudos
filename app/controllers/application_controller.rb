@@ -28,9 +28,9 @@ class ApplicationController < ActionController::Base
   def render_client_error(message)
     if message
       resp = { error: message }
-      render json: resp, status: 400
+      render json: resp, status: :unprocessable_entity
     else
-      render nothing: true, status: 400
+      render nothing: true, status: :unprocessable_entity
     end
   end
 end
