@@ -15,7 +15,7 @@ const KudosApp = (props) => {
 
   // TODO: add real app container element.
   return (
-    <div>
+    <div className="kudo-pane">
       <ErrorBanner error={kudosAppStore.error} />
       <GiveKudo {...{ createKudo }} />
       <KudosList kudos={kudosAppStore.kudos} />

@@ -1,0 +1,28 @@
+.kudo {
+  @extend .list-group-item;
+  // position: relative;
+  // // border-left: 1px solid;
+  // // border-right: 1px solid;
+  // border-color: $pgm-dark-grey;
+  // margin: auto;
+  // background-color: $pgm-light-grey;
+  // padding: 0.5rem 1rem 0.5rem 1rem;
+  // display: flex;
+  // align-items: center;
+}
+
+.kudo__receiver {
+
+}
+
+.kudo__message {
+
+}
+
+.kudo__timestamp {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0;
+  width: 100%;
+  text-align: right;
+}

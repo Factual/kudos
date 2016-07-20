@@ -30,7 +30,7 @@ const serverReceivedKudo = (res) => {
 const serverRejectedKudo = (err) => {
   return {
     type: actionTypes.SERVER_REJECTED_KUDO,
-    error: err.data.errors,
+    error: err.data.error,
   }
 }
 
