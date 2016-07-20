@@ -10,7 +10,7 @@ const Kudo = ({ kudo }) => {
       {kudo.giver} gave kudos to {kudo.receiver}
     </div>
     <div className="kudo__message">
-      "{kudo.body}"
+      <blockquote className="blockquote">{kudo.body}</blockquote>
     </div>
     <div className="kudo__timestamp">
       {formattedTimestamp}
@@ -25,8 +25,21 @@ export default class KudosList extends React.Component {
 
   render() {
     console.log(this.props.kudos)
-    return <div className="kudos-list">
-      {this.props.kudos.map(kudo => <Kudo key={kudo.id} kudo={kudo}/>)}
+    return <div className="kudos-list__container">
+      <ul className="kudos-list__nav">
+        <li className="nav-item">
+          <a className="nav-link active" href="#">Recent</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#">My Kudos</a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" href="#">Awarded Kudos</a>
+        </li>
+      </ul>
+      <div className="kudos-list">
+        {this.props.kudos.map(kudo => <Kudo key={kudo.id} kudo={kudo}/>)}
+      </div>
     </div>
   }
 }
