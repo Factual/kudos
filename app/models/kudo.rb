@@ -16,7 +16,8 @@ class Kudo < ApplicationRecord
       giver_id: giver.id,
       receiver: receiver.name,
       receiver_id: receiver.id,
-      given_at: created_at
+      given_at: created_at,
+      receiver_avatar: receiver.avatar
     }
   end
 

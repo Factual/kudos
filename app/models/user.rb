@@ -16,6 +16,8 @@
 #
 
 class User < ApplicationRecord
+  validates :name, presence: true
+
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid).to_hash).first_or_initialize.tap do |user|
       user.provider = auth.provider

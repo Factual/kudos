@@ -32,7 +32,8 @@ export default props => {
 
   const reducer = combineReducers(reducers);
   const composedStore = compose(
-    applyMiddleware(...middleware)
+    applyMiddleware(...middleware),
+    window.devToolsExtension ? window.devToolsExtension() : f => f // detect devtools extension
   );
   const storeCreator = composedStore(createStore);
   const store = storeCreator(reducer, initialState);
