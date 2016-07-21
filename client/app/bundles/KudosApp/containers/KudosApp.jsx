@@ -8,32 +8,36 @@ import * as actionCreators from '../actions/actionCreators';
 
 
 // Simple example of a React "smart" component
-const KudosApp = (props) => {
-  const { dispatch, kudosAppStore } = props;
-  const actions = bindActionCreators(actionCreators, dispatch);
-  const { createKudo } = actions;
-
-  // TODO: add real app container element.
+const KudosApp = ({ kudos, error, createKudo }) => {
   return (
     <div className="kudo-pane">
-      <ErrorBanner error={kudosAppStore.error} />
+      <ErrorBanner error={ error } />
       <GiveKudo {...{ createKudo }} />
-      <KudosList kudos={kudosAppStore.kudos} />
+      <KudosList kudos={ kudos } />
     </div>
   );
 };
 
 KudosApp.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  kudosAppStore: PropTypes.object.isRequired,
+  kudos: PropTypes.array.isRequired,
+  error: PropTypes.string,
+  createKudo: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
   // Which part of the Redux global state does our component want to receive as props?
-  return { kudosAppStore: state.kudosAppStore };
+  const { kudosAppStore } = state
+  const { kudos, error } = kudosAppStore
+  return { kudos, error }
+}
+
+function mapDispatchToProps(dispatch) {
+  const actions = bindActionCreators(actionCreators, dispatch);
+  const { createKudo } = actions
+  return { createKudo }
 }
 
 // Don't forget to actually use connect!
 // Note that we don't export HelloWorld, but the redux "connected" version of it.
 // See https://github.com/reactjs/react-redux/blob/master/docs/api.md#examples
-export default connect(mapStateToProps)(KudosApp);
+export default connect(mapStateToProps, mapDispatchToProps)(KudosApp);
