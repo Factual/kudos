@@ -5,6 +5,7 @@
 .kudos-list__nav {
   @extend .nav;
   @extend .nav-tabs;
+  margin-bottom: $spacer;
 }
 
 .kudos-list__tab {

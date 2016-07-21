@@ -1,6 +1,7 @@
 // The main container
 .give-kudo {
   @extend .container;
+  margin-bottom: $spacer;
 }
 
 .give-kudo__form {
