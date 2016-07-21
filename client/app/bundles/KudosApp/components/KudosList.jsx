@@ -25,7 +25,7 @@ const Kudo = ({ kudo }) => {
 
 const List = ({ kudos }) => {
   return <div className="kudos-list">
-    {kudos.map(kudo => <Kudo key={kudo.id} kudo={kudo}/>)}
+    { kudos.length > 0 ? kudos.map(kudo => <Kudo key={kudo.id} kudo={kudo}/>) : 'No kudos' }
   </div>
 }
 
