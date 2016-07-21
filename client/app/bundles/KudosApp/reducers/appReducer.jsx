@@ -6,6 +6,7 @@ import actionTypes from '../constants/appConstants';
 export const initialState = {
   kudos: [], // this is the default state that would be used if one were not passed into the store
   error: null,
+  currentTab: 'Recent'
 };
 
 
@@ -36,9 +37,20 @@ const error = (state = null, action) => {
   };
 }
 
+const currentTab = (state = 'Recent', action) => {
+  const { type, newActiveTab } = action
+
+  if (type == actionTypes.SET_ACTIVE_TAB) {
+    return newActiveTab
+  } else {
+    return state
+  }
+}
+
 const appReducer = combineReducers({
   kudos,
   error,
+  currentTab
 });
 
 export default appReducer;

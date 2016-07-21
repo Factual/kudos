@@ -6,3 +6,8 @@
   @extend .nav;
   @extend .nav-tabs;
 }
+
+.kudos-list__tab {
+  @extend .nav-item;
+  cursor: pointer;
+}

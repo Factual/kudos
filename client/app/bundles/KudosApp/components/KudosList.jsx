@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import TabBarContainer from 'TabBarContainer';
+import TabBarContainer from '../containers/TabBarContainer';
 import _ from 'lodash';
 import moment from 'moment';
 
