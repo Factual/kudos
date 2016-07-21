@@ -6,7 +6,8 @@ import actionTypes from '../constants/appConstants';
 export const initialState = {
   kudos: [], // this is the default state that would be used if one were not passed into the store
   error: null,
-  currentTab: 'Recent'
+  currentTab: 'Recent',
+  isFetchingKudos: false,
 };
 
 
@@ -16,6 +17,8 @@ const kudos = (state = [], action) => {
   switch (type) {
     case actionTypes.SERVER_RECEIVED_KUDO:
       return state.concat(createKudo(action));
+    case actionTypes.FETCH_KUDOS_SUCCESS:
+      return action.kudos;
     default:
       return state;
   }
@@ -47,10 +50,22 @@ const currentTab = (state = 'Recent', action) => {
   }
 }
 
+const isFetchingKudos = (state = false, action) => {
+  const { type } = action
+  if (type == actionTypes.FETCH_KUDOS_REQUEST) {
+    return true
+  } else if ([actionTypes.FETCH_KUDOS_SUCCESS, actionTypes.FETCH_KUDOS_FAILURE].includes(type)) {
+    return false
+  } else {
+    return state
+  }
+}
+
 const appReducer = combineReducers({
   kudos,
   error,
-  currentTab
+  currentTab,
+  isFetchingKudos
 });
 
 export default appReducer;

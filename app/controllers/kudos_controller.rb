@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 class KudosController < ApplicationController
   ORDER_OPTIONS = {
-    'newest': 'created_at DESC',
-    'oldest': 'created_at ASC'
+    'newest' => { created_at: :desc },
+    'oldest' => { created_at: :asc }
   }.freeze
 
   def index
@@ -11,6 +11,8 @@ class KudosController < ApplicationController
     end
     if params[:order] && !(ORDER_OPTIONS.key? params[:order].to_sym)
       return render_client_error 'invalid sort order'
+    end
+    if params[:tab]
     end
 
     offset = params[:offset] || 0
@@ -21,16 +23,18 @@ class KudosController < ApplicationController
               ORDER_OPTIONS['newest']
             end
 
-    filtered = Kudo.all.filter(params.slice(:giver_id, :receiver_id))
-    render json: {
-      total: filtered.count,
-      data: expand_user_info(
-        filtered
-          .limit(limit)
-          .offset(offset)
-          .order(order)
-      )
-    }
+    kudos = Kudo.includes(:receiver, :giver).order(order).limit(limit).offset(offset)
+    kudos =
+      case params[:tab]
+      when 'My Kudos'
+        kudos.where(receiver_id: current_user.id)
+      when 'Awarded Kudos'
+        kudos.where(giver_id: current_user.id)
+      else
+        kudos
+      end
+
+    render json: { kudos: kudos }
   end
 
   # Creates a new Kudo based on current user and specified receiver & body
@@ -60,19 +64,6 @@ class KudosController < ApplicationController
   end
 
   private
-
-  def expand_user_info(kudos)
-    kudos_array = []
-    kudos.each do |kudo|
-      kudo_hash = kudo.attributes
-      kudo_hash['giver'] = basic_user_info_by_id kudo.giver_id
-      kudo_hash.delete 'giver_id'
-      kudo_hash['receiver'] = basic_user_info_by_id kudo.receiver_id
-      kudo_hash.delete 'receiver_id'
-      kudos_array.push kudo_hash
-    end
-    kudos_array
-  end
 
   def basic_user_info_by_id(id)
     user = User.find(id)

@@ -23,18 +23,26 @@ const Kudo = ({ kudo }) => {
   </div>
 }
 
+const List = ({ kudos }) => {
+  return <div className="kudos-list">
+    {kudos.map(kudo => <Kudo key={kudo.id} kudo={kudo}/>)}
+  </div>
+}
+
+const Spinner = () => <div className="kudos-list__fetching-container">
+  <i className="fa fa-spin fa-spinner fa-5x" aria-hidden="true"></i>
+</div>
+
 export default class KudosList extends React.Component {
   static propTypes = {
     kudos: PropTypes.array.isRequired,
+    isFetchingKudos: PropTypes.bool.isRequired
   }
 
   render() {
-    console.log(this.props.kudos)
     return <div className="kudos-list__container">
       <TabBarContainer />
-      <div className="kudos-list">
-        {this.props.kudos.map(kudo => <Kudo key={kudo.id} kudo={kudo}/>)}
-      </div>
+      {this.props.isFetchingKudos ? <Spinner /> : <List kudos={this.props.kudos} />}
     </div>
   }
 }

@@ -8,12 +8,12 @@ import * as actionCreators from '../actions/actionCreators';
 
 
 // Simple example of a React "smart" component
-const KudosApp = ({ kudos, error, createKudo }) => {
+const KudosApp = ({ kudos, error, createKudo, isFetchingKudos }) => {
   return (
     <div className="kudo-pane">
       <ErrorBanner error={ error } />
       <GiveKudo {...{ createKudo }} />
-      <KudosList kudos={ kudos } />
+      <KudosList {...{ kudos, isFetchingKudos }} />
     </div>
   );
 };
@@ -21,14 +21,15 @@ const KudosApp = ({ kudos, error, createKudo }) => {
 KudosApp.propTypes = {
   kudos: PropTypes.array.isRequired,
   error: PropTypes.string,
+  isFetchingKudos: PropTypes.bool.isRequired,
   createKudo: PropTypes.func.isRequired
 };
 
 function mapStateToProps(state) {
   // Which part of the Redux global state does our component want to receive as props?
   const { kudosAppStore } = state
-  const { kudos, error } = kudosAppStore
-  return { kudos, error }
+  const { kudos, error, isFetchingKudos } = kudosAppStore
+  return { kudos, error, isFetchingKudos }
 }
 
 function mapDispatchToProps(dispatch) {
