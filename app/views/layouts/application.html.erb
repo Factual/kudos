@@ -16,14 +16,14 @@
       <nav class="navbar navbar-default">
       <% if current_user %>
           Signed in as <strong><%= current_user.name %></strong>!
-          <button class="btn btn-primary">
+          <button class="btn login btn-primary">
             <%= link_to "Sign out", logout_path, id: "sign_out" %>
           </button>
           <% if current_user.avatar %>
             <img width='60' src="<%= current_user.avatar %>" alt="avatar" />
           <% end %>
       <% else %>
-        <button class="btn btn-primary">
+        <button class="btn login btn-primary">
           <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in" %>
         </button>
       <% end %>
