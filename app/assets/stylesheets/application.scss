@@ -4,3 +4,29 @@
 
 // app-specific styles
 @import "kudos/main";
+
+
+nav {
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 1em;
+  height: 80px;
+  position: relative;
+}
+
+#sign_out {
+  float: right;
+}
+
+.btn.login {
+  display: inline-block;
+  float: right;
+  color: white;
+  position: absolute;
+  top: 50%;
+  right: 1%;
+  transform: translateY(-50%);
+
+  a {
+    color: white;
+  }
+}
