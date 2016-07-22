@@ -19,7 +19,7 @@ const fetchKudosSuccess = (kudos, totalKudos, append = false) => ({
 const setActiveTab = (newActiveTab) => {
   return dispatch => {
     dispatch(showActiveTab(newActiveTab))
-    dispatch({ type: actionTypes.FETCH_KUDOS_REQUEST })
+    dispatch({ type: actionTypes.FETCH_KUDOS_REQUEST, append: false })
 
     return request({
       method: 'GET',
@@ -40,7 +40,7 @@ const setActiveTab = (newActiveTab) => {
 
 const fetchPage = (currentTab, offset) => {
   return dispatch => {
-    dispatch({ type: actionTypes.FETCH_KUDOS_REQUEST })
+    dispatch({ type: actionTypes.FETCH_KUDOS_REQUEST, append: true })
 
     return request({
       method: 'GET',

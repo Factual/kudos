@@ -16,6 +16,12 @@ const kudos = (state = [], action) => {
   const { type } = action;
 
   switch (type) {
+    case actionTypes.FETCH_KUDOS_REQUEST:
+      if (action.append) {
+        return state
+      } else {
+        return []
+      }
     case actionTypes.SERVER_RECEIVED_KUDO:
       return state.concat(createKudo(action));
     case actionTypes.FETCH_KUDOS_SUCCESS:
