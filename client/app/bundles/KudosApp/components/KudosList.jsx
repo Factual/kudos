@@ -36,13 +36,41 @@ const Spinner = () => <div className="kudos-list__fetching-container">
 export default class KudosList extends React.Component {
   static propTypes = {
     kudos: PropTypes.array.isRequired,
-    isFetchingKudos: PropTypes.bool.isRequired
+    isFetchingKudos: PropTypes.bool.isRequired,
+    totalKudos: PropTypes.number.isRequired,
+    fetchPage: PropTypes.func.isRequired
+  }
+
+  constructor(props, context) {
+    super(props, context);
+    _.bindAll(this, 'areMoreKudos', 'handleScroll');
+  }
+
+  areMoreKudos() {
+    return this.props.totalKudos > this.props.kudos.length
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll);
+  }
+
+  handleScroll(event) {
+    const isAtBottom = event.srcElement.body.scrollTop + window.innerHeight == document.body.offsetHeight
+
+    if (isAtBottom && this.areMoreKudos() && !this.props.isFetchingKudos) {
+      this.props.fetchPage()
+    }
   }
 
   render() {
     return <div className="kudos-list__container">
       <TabBarContainer />
-      {this.props.isFetchingKudos ? <Spinner /> : <List kudos={this.props.kudos} />}
+      <List kudos={this.props.kudos} />
+      {this.props.isFetchingKudos ? <Spinner /> : null}
     </div>
   }
 }

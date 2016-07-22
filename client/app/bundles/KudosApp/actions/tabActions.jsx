@@ -9,7 +9,12 @@ const showActiveTab = (newActiveTab) => {
   }
 }
 
-const fetchKudosSuccess = kudos => ({ type: actionTypes.FETCH_KUDOS_SUCCESS, kudos: kudos })
+const fetchKudosSuccess = (kudos, totalKudos, append = false) => ({
+  type: actionTypes.FETCH_KUDOS_SUCCESS,
+  kudos,
+  totalKudos,
+  append
+})
 
 const setActiveTab = (newActiveTab) => {
   return dispatch => {
@@ -25,13 +30,34 @@ const setActiveTab = (newActiveTab) => {
         tab: newActiveTab
       }
     }).then(res => {
-      dispatch(fetchKudosSuccess(res.data.kudos))
+      dispatch(fetchKudosSuccess(res.data.kudos, res.data.total))
     }).catch(err => {
       console.log(err)
       dispatch(fetchKudosFailure(err))
     })
   }
-
 }
 
-export { setActiveTab };
+const fetchPage = (currentTab, offset) => {
+  return dispatch => {
+    dispatch({ type: actionTypes.FETCH_KUDOS_REQUEST })
+
+    return request({
+      method: 'GET',
+      url: '/kudos',
+      responseType: 'json',
+      params: {
+        limit: 10,
+        tab: currentTab,
+        offset: offset
+      }
+    }).then(res => {
+      dispatch(fetchKudosSuccess(res.data.kudos, res.data.total, true))
+    }).catch(err => {
+      console.log(err)
+      dispatch(fetchKudosFailure(err))
+    })
+  }
+}
+
+export { setActiveTab, fetchPage };

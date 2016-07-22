@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import GiveKudo from '../components/GiveKudo';
-import KudosList from '../components/KudosList';
+import KudosListContainer from './KudosListContainer';
 import ErrorBanner from '../components/ErrorBanner';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -8,28 +8,26 @@ import * as actionCreators from '../actions/actionCreators';
 
 
 // Simple example of a React "smart" component
-const KudosApp = ({ kudos, error, createKudo, isFetchingKudos }) => {
+const KudosApp = ({ kudos, error, createKudo, isFetchingKudos, totalKudos }) => {
   return (
     <div className="kudo-pane">
       <ErrorBanner error={ error } />
       <GiveKudo {...{ createKudo }} />
-      <KudosList {...{ kudos, isFetchingKudos }} />
+      <KudosListContainer />
     </div>
   );
 };
 
 KudosApp.propTypes = {
-  kudos: PropTypes.array.isRequired,
   error: PropTypes.string,
-  isFetchingKudos: PropTypes.bool.isRequired,
-  createKudo: PropTypes.func.isRequired
+  createKudo: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
   // Which part of the Redux global state does our component want to receive as props?
   const { kudosAppStore } = state
-  const { kudos, error, isFetchingKudos } = kudosAppStore
-  return { kudos, error, isFetchingKudos }
+  const { kudos, error, isFetchingKudos, totalKudos } = kudosAppStore
+  return { kudos, error, isFetchingKudos, totalKudos }
 }
 
 function mapDispatchToProps(dispatch) {

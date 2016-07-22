@@ -23,7 +23,8 @@ class KudosController < ApplicationController
               ORDER_OPTIONS['newest']
             end
 
-    kudos = Kudo.includes(:receiver, :giver).order(order).limit(limit).offset(offset)
+            sleep 1
+    kudos = Kudo.includes(:receiver, :giver).order(order)
     kudos =
       case params[:tab]
       when 'My Kudos'
@@ -34,7 +35,9 @@ class KudosController < ApplicationController
         kudos
       end
 
-    render json: { kudos: kudos }
+    paginated_kudos = kudos.offset(offset).limit(limit)
+
+    render json: { kudos: paginated_kudos, total: kudos.count }
   end
 
   # Creates a new Kudo based on current user and specified receiver & body

@@ -8,6 +8,7 @@ export const initialState = {
   error: null,
   currentTab: 'Recent',
   isFetchingKudos: false,
+  totalKudos: 0,
 };
 
 
@@ -18,7 +19,11 @@ const kudos = (state = [], action) => {
     case actionTypes.SERVER_RECEIVED_KUDO:
       return state.concat(createKudo(action));
     case actionTypes.FETCH_KUDOS_SUCCESS:
-      return action.kudos;
+      if (action.append) {
+        return state.concat(action.kudos); // append the next page
+      } else {
+        return action.kudos // clobber anything in the existing store
+      }
     default:
       return state;
   }
@@ -61,11 +66,23 @@ const isFetchingKudos = (state = false, action) => {
   }
 }
 
+const totalKudos = (state = 0, action) => {
+  switch (action.type) {
+    case actionTypes.FETCH_KUDOS_REQUEST:
+      return 0
+    case actionTypes.FETCH_KUDOS_SUCCESS:
+      return action.totalKudos
+    default:
+      return state
+  }
+}
+
 const appReducer = combineReducers({
   kudos,
   error,
   currentTab,
-  isFetchingKudos
+  isFetchingKudos,
+  totalKudos
 });
 
 export default appReducer;
