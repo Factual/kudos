@@ -23,7 +23,7 @@ class KudosController < ApplicationController
               ORDER_OPTIONS['newest']
             end
 
-            sleep 1
+            sleep 1 # demo infinite scroll
     kudos = Kudo.includes(:receiver, :giver).order(order)
     kudos =
       case params[:tab]
