@@ -1,0 +1,18 @@
+version: '2'
+services:
+  web:
+    build: .
+    command: 'rails s -b 0.0.0.0'
+    ports:
+      - 3000:3000
+    links:
+      - 'db:db'
+    volumes:
+      - .:/usr/src/app # This is for easy development and should NOT be in prod
+  db:
+    image: 'postgres:9.6'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+volumes:
+  postgres-data:
+    driver: local

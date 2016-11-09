@@ -1,24 +1,7 @@
-# README
+# Setup
+1. Install Docker (use [Docker for Mac](https://docs.docker.com/docker-for-mac/) if you're on a Mac).
+1. Run `docker-compose build` to build the web container.
+1. Run `docker-compose run web rails db:create` to create the database.
+1. Run `docker-compose up` to start the server on port 3000.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+If you want to override any settings for your local environment, do so in a file named `docker-compose.override.yml`. This is ignored in git and will override the default `docker-compose.yml` file.
