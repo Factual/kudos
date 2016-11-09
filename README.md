@@ -15,3 +15,7 @@ Since we're using docker-compose, you can run `docker-compose run [SERVICE] [COM
 * To migrate the database, run `docker-compose run web rails db:migrate`
 
 Since the docker-compose file *mounts* the working directory inside the docker container, any changes the filesystem inside the docker are reflected locally.
+
+## Using byebug
+1. Start the db service in non-interactive mode with `docker-compose up db`
+1. Start the web service in interactive mode with `docker-compose run --service-ports web`. If you keep this open, you'll be able to use byebug in interactive mode.
