@@ -1,0 +1,4 @@
+# This directory contains generated webpack files. Ignore everything here
+# except this file. (So we can commit an empty directory.)
+*
+!.gitignore
