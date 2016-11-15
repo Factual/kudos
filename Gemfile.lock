@@ -38,6 +38,8 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
+    addressable (2.5.0)
+      public_suffix (~> 2.0, >= 2.0.2)
     annotate (2.7.1)
       activerecord (>= 3.2, < 6.0)
       rake (>= 10.4, < 12.0)
@@ -60,7 +62,7 @@ GEM
     config (1.2.1)
       activesupport (>= 3.0)
       deep_merge (~> 1.0, >= 1.0.1)
-    connection_pool (2.2.0)
+    connection_pool (2.2.1)
     debug_inspector (0.0.2)
     deep_merge (1.0.1)
     diff-lcs (1.2.5)
@@ -125,6 +127,7 @@ GEM
       omniauth (~> 1.2)
     pg (0.18.4)
     pkg-config (1.1.7)
+    public_suffix (2.0.4)
     puma (3.4.0)
     rack (2.0.0.rc1)
       json
@@ -161,7 +164,8 @@ GEM
     rb-fsevent (0.9.7)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
-    react_on_rails (5.2.0)
+    react_on_rails (6.1.2)
+      addressable
       connection_pool
       execjs (~> 2.5)
       foreman
@@ -236,7 +240,7 @@ DEPENDENCIES
   pg (~> 0.18)
   puma (~> 3.0)
   rails (>= 5.0.0.rc1, < 5.1)
-  react_on_rails (~> 5)
+  react_on_rails (~> 6)
   rspec-rails
   sass-rails (~> 5.0)
   spring
@@ -247,4 +251,4 @@ DEPENDENCIES
   web-console
 
 BUNDLED WITH
-   1.12.5
+   1.13.6

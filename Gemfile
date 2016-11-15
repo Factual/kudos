@@ -32,7 +32,7 @@ gem 'jbuilder', '~> 2.0'
 gem "omniauth-google-oauth2", "~>0.4.0"
 gem "config", "~>1.2.1"
 
-gem "react_on_rails", "~> 5"
+gem "react_on_rails", "~> 6"
 
 gem "annotate"
 
