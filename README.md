@@ -42,6 +42,6 @@ You can use this same idea to use any interactive tool. Byebug is an interactive
 1. Start rails on its own with `docker-compose run --service-ports web foreman run -f Procfile.dev web`. If you keep this open, you'll be able to use byebug in interactive mode.
 
 ## Running the server in the background
-You can run any `docker-compose up` or `docker-compose run` command with the `-d` flag to start it in detached mode. You can find it again by running `docker ps`, then attach using `docker attach [CONTAINER_ID]`. You can disconnect by typing `Ctrl+p Ctrl+q`.
+You can run any `docker-compose up` or `docker-compose run` command with the `-d` flag to start it in detached mode. You can find it again by running `docker ps`, then attach using `docker attach [CONTAINER_ID]`. You can disconnect by typing `Ctrl+p Ctrl+q`. You can kill the docker with `docker kill [CONTAINER_ID]` or all of them with `docker-compose down`.
 
 You can also use multiple terminals (windows, tabs, tmux, screen, byobu, etc.).
