@@ -1,4 +1,2 @@
-google_oauth:
-  client_id: ''
-  client_secret: ''
+# TODO: Make this not hard-coded
 google_apps_domains: ['factual.com']

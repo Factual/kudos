@@ -2,4 +2,9 @@ version: '2'
 services:
   web:
     ports:
+      # Change the second number to override your local port
       - 3000:3000
+    environment:
+      # Make an OAuth id/secret from here: https://console.developers.google.com/
+      - rails_settings.google_oauth.client_id=OAUTH_ID
+      - rails_settings.google_oauth.client_secret=OAUTH_SECRET
