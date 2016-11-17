@@ -1,0 +1,2 @@
+web: RAILS_ENV=production rails s -b 0.0.0.0 -p 3000
+client: sh -c 'rm -f app/assets/webpack/* || true && cd client && npm run build:client'

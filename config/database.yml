@@ -1,5 +1,4 @@
 default: &default
-  host: db
   adapter: postgresql
   encoding: unicode
   # For details on connection pooling, see rails configuration guide
@@ -8,16 +7,20 @@ default: &default
 
 development:
   <<: *default
+  host: db
   database: kudos_development
   username: postgres
 
 test:
   <<: *default
+  host: db
   database: kudos_test
   username: postgres
 
 production:
   <<: *default
-  database: kudos_production
-  username: kudos
-  password: <%= ENV['KUDOS_DATABASE_PASSWORD'] %>
+  host: <%= ENV.fetch("KUDOS_DB_HOST", 'db') %>
+  database: <%= ENV.fetch("KUDOS_DB_NAME", 'kudos_production') %>
+  username: <%= ENV.fetch("KUDOS_DB_USERNAME", 'kudos') %>
+  password: <%= ENV["KUDOS_DB_PASSWORD"] %>
+  port: <%= ENV.fetch("KUDOS_DB_PORT", 5432) %>
