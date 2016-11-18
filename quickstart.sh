@@ -3,8 +3,9 @@
 # Build the web image (this includes doing a bundle install and npm install)
 docker-compose build
 
-# Start Postgres
+# Start Postgres (and wait for it to actually start)
 docker-compose up -d db
+sleep 15
 
 # Create and migrate dev and test databases in Postgres
 docker-compose run web rails db:create
