@@ -10,5 +10,6 @@ services:
       #   Type: Web application
       #   Authorized JavaScript origins: http://localhost:3000
       #   Authorized redirect URIs: http://localhost:3000/auth/google_oauth2/callback
+      # Make sure to enable the "Google+ API" in the console.
       - rails_settings.google_oauth.client_id=OAUTH_ID
       - rails_settings.google_oauth.client_secret=OAUTH_SECRET
