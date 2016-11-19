@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 Rails.application.config.middleware.use OmniAuth::Builder do
   provider :google_oauth2,
-           Settings.google_oauth.client_id,
-           Settings.google_oauth.client_secret,
+           ENV["G_OAUTH_ID"],
+           ENV["G_OAUTH_SECRET"],
            access_type: 'online',
            hd: Settings.google_apps_domains
 end

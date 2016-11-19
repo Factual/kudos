@@ -1,5 +1,10 @@
 FROM ruby:2.3
 
+# Install node, s3cmd
+RUN apt-get update
+RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+RUN apt-get install -y nodejs build-essential s3cmd
+
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
@@ -11,12 +16,6 @@ COPY Gemfile.lock /usr/src/app
 RUN bundle config --global frozen 1
 RUN bundle install
 RUN bundle config --global frozen 0
-
-# Install Node v6
-RUN apt-get update
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
-RUN apt-get install -y nodejs
-RUN apt-get install -y build-essential
 
 COPY . /usr/src/app
 
