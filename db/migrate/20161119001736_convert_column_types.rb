@@ -4,8 +4,8 @@ class ConvertColumnTypes < ActiveRecord::Migration[5.0]
     execute('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"')
 
     # Drop foreign keys
-    execute("ALTER TABLE kudos DROP CONSTRAINT fk_rails_7fc56424b0")
-    execute("ALTER TABLE kudos DROP CONSTRAINT fk_rails_864252c69c")
+    remove_foreign_key :kudos, column: :giver_id
+    remove_foreign_key :kudos, column: :receiver_id
 
     # Change column types at will!
 

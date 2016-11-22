@@ -3,7 +3,7 @@
 #
 # Table name: users
 #
-#  id               :integer          not null, primary key
+#  id               :uuid          not null, primary key
 #  provider         :string
 #  uid              :string
 #  name             :string
