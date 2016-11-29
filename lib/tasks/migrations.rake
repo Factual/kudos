@@ -17,7 +17,7 @@ namespace :db do
     system(%(pg_dump --exclude-table=ar_internal_metadata --no-owner -h #{db_config['host']} -p #{db_config['port']} -U #{db_config['username']} #{db_config['database']} -f db.sql))
 
     # Move old db.sql on S3 to archive folder
-    system("s3cmd --access_key=#{ENV['AWS_ACCESS_KEY']} --secret_key=#{ENV['AWS_SECRET_KEY']} mv #{BACKUP_S3_PATH}/db.sql #{ARCHIVE_S3_PATH}/#{VERSION}/#{Time.now.to_i}-db.sql")
+    system("s3cmd --access_key=#{ENV['AWS_ACCESS_KEY']} --secret_key=#{ENV['AWS_SECRET_KEY']} mv #{BACKUP_S3_PATH}/#{VERSION}-db.sql #{ARCHIVE_S3_PATH}/#{VERSION}/#{Time.now.to_i}-db.sql")
 
     # Put new db.sql on S3
     system("s3cmd --access_key=#{ENV['AWS_ACCESS_KEY']} --secret_key=#{ENV['AWS_SECRET_KEY']} put db.sql #{BACKUP_S3_PATH}/#{VERSION}-db.sql")
