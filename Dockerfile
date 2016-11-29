@@ -1,9 +1,12 @@
 FROM ruby:2.3
 
-# Install node, s3cmd
+# Install node, s3cmd, postgresql-client
+RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ jessie-pgdg main' > /etc/apt/sources.list.d/pgdg.list
+RUN curl -s https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN apt-get update
+
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
-RUN apt-get install -y nodejs build-essential s3cmd
+RUN apt-get install -y nodejs build-essential s3cmd postgresql-client-9.6
 
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
