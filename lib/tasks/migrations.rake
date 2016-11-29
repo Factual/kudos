@@ -3,7 +3,7 @@
 BACKUP_S3_PATH = "s3://factual-data/front/kudos/backups"
 ARCHIVE_S3_PATH = "s3://factual-data/front/kudos/backups/archive"
 
-VERSION = ENV['VERSION'] || 'unknown'
+VERSION = ENV['KUDOS_VERSION'] || 'unknown'
 
 db_config = Rails.application.config.database_configuration[Rails.env]
 
