@@ -29,7 +29,7 @@ gem 'jbuilder', '~> 2.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem "omniauth-google-oauth2", "~>0.4.0"
+gem "omniauth-google-oauth2"
 gem "config", "~>1.2.1"
 
 gem "react_on_rails", "~> 6"

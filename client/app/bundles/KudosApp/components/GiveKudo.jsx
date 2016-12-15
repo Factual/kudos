@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { isPresent } from 'lib/util';
+import Textarea from 'react-textarea-autosize';
 import _ from 'lodash';
 
 // Simple example of a React "dumb" component
@@ -77,11 +78,11 @@ export default class GiveKudo extends React.Component {
             <label htmlFor="give-kudo__input-message">
               Say:
             </label>
-            <input
-              placeholder="Optional message"
-              type="text"
+            <Textarea
+              placeholder="Message"
               id="give-kudo__input-message"
               className="give-kudo__input"
+              minRows={3}
               value={this.state.message}
               onChange={this.setMessage}
               disabled={this.state.inFlight}
