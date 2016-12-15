@@ -80,13 +80,13 @@ export default class GiveKudo extends React.Component {
             </label>
             <Textarea
               placeholder="Message"
-              type="text"
               id="give-kudo__input-message"
               className="give-kudo__input"
+              minRows={3}
               value={this.state.message}
               onChange={this.setMessage}
               disabled={this.state.inFlight}
-            Textarea/>
+            />
           </fieldset>
           <div className="give-kudo__actions">
             <button
