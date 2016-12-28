@@ -94,7 +94,7 @@ export default class GiveKudo extends React.Component {
 
   render() {
     const buttonInnerHTML = this.state.inFlight ? '<i class="fa fa-spinner fa-spin"></i>' : 'Give Kudo'
-    const buttonEnabled = isPresent(this.state.email) && !this.state.inFlight
+    const buttonEnabled = isPresent(this.state.email) && isPresent(this.state.message) && !this.state.inFlight
     const autoSuggestProps = {
       placeholder: 'Search a factualite by name',
       value: this.state.email,
@@ -119,7 +119,6 @@ export default class GiveKudo extends React.Component {
               getSuggestionValue={getSuggestionValue}
               renderSuggestion={renderSuggestion}
               inputProps={autoSuggestProps}
-              required={true}
             />
             <label htmlFor="give-kudo__input-message">
               Say:
@@ -132,7 +131,6 @@ export default class GiveKudo extends React.Component {
               value={this.state.message}
               onChange={this.setMessage}
               disabled={this.state.inFlight}
-              required={true}
             />
           </fieldset>
           <div className="give-kudo__actions">
