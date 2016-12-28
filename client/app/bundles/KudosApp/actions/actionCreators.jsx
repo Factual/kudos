@@ -1,13 +1,8 @@
-import actionTypes from '../constants/appConstants';
-import request from 'axios';
-request.defaults.headers.post['Content-Type'] = 'application/json';
+import actionTypes from '../constants/appConstants'
+import request from 'axios'
+import _ from 'lodash'
+request.defaults.headers.post['Content-Type'] = 'application/json'
 
-// export function createKudo(receiverEmail) {
-//   return {
-//     type: actionTypes.CREATE_KUDO,
-//     receiverEmail,
-//   };
-// }
 const postedKudo = (receiverEmail, messageBody) => {
   return {
     type: actionTypes.POSTED_KUDO,
@@ -42,7 +37,7 @@ const resetErrorMessage = () => {
 
 const createKudo = (receiverEmail, messageBody, onSuccess = null, onFailure = null) => {
   return dispatch => {
-    dispatch(postedKudo(receiverEmail, messageBody));
+    dispatch(postedKudo(receiverEmail, messageBody))
     dispatch(resetErrorMessage());
 
     // TODO: factor into a request/post library
@@ -71,8 +66,8 @@ const createKudo = (receiverEmail, messageBody, onSuccess = null, onFailure = nu
         onFailure(err);
       }
       dispatch(serverRejectedKudo(err))
-    });
-  };
-};
+    })
+  }
+}
 
 export { createKudo }
