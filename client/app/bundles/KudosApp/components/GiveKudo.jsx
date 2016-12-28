@@ -96,7 +96,7 @@ export default class GiveKudo extends React.Component {
     const buttonInnerHTML = this.state.inFlight ? '<i class="fa fa-spinner fa-spin"></i>' : 'Give Kudo'
     const buttonEnabled = isPresent(this.state.email) && isPresent(this.state.message) && !this.state.inFlight
     const autoSuggestProps = {
-      placeholder: 'Search a factualite by name',
+      placeholder: 'Search a factualite',
       value: this.state.email,
       onChange: this.onChangeSearchInput,
     }
