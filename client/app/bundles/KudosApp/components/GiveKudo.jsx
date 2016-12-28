@@ -1,7 +1,31 @@
-import React, { PropTypes } from 'react';
-import { isPresent } from 'lib/util';
-import Textarea from 'react-textarea-autosize';
-import _ from 'lodash';
+import React, { PropTypes } from 'react'
+import { isPresent } from 'lib/util'
+import Autosuggest from 'react-autosuggest'
+import Textarea from 'react-textarea-autosize'
+import _ from 'lodash'
+import request from 'axios'
+
+// Functions for Autosuggest component
+const fuzzySearchUsers = (query) => {
+  return request({
+    method: 'GET',
+    url: 'users/search',
+    responseType: 'json',
+    params: {
+      q: query
+    }
+  }).then((res) => {
+    return res.data.map(obj => _.pick(obj, [ 'name', 'email' ]))
+  }) 
+}
+
+const getSuggestionValue = suggestion => suggestion.email
+
+const renderSuggestion = suggestion => (
+  <div>
+    {suggestion.name}, {suggestion.email}
+  </div>
+)
 
 // Simple example of a React "dumb" component
 export default class GiveKudo extends React.Component {
@@ -9,25 +33,26 @@ export default class GiveKudo extends React.Component {
     // If you have lots of data or action properties, you should consider grouping them by
     // passing two properties: "data" and "actions".
     createKudo: PropTypes.func.isRequired,
-  };
+  }
 
   _initialState() {
     return {
       email: '',
       message: '',
+      userSuggestions: [],
       inFlight: false
     }
   }
 
   constructor(props, context) {
-    super(props, context);
+    super(props, context)
 
-    this.state = this._initialState();
+    this.state = this._initialState()
 
     // Uses lodash to bind all methods to the context of the object instance, otherwise
     // the methods defined here would not refer to the component's class, not the component
     // instance itself.
-    _.bindAll(this, 'handleClick', 'setEmail', 'setMessage', 'onSuccess', 'onFailure');
+    _.bindAll(this, 'handleClick', 'onChangeSearchInput', 'setMessage', 'onSuccess', 'onFailure')
   }
 
   // React will automatically provide us with the event `e`
@@ -44,17 +69,37 @@ export default class GiveKudo extends React.Component {
     this.setState({inFlight: false})
   }
 
-  setEmail(e) {
-    this.setState({email: e.target.value});
+  onChangeSearchInput = (event, { newValue }) => {
+    this.setState({
+      email: newValue
+    })
   }
 
+  onSuggestionsFetchRequested = ({ value }) => {
+    fuzzySearchUsers(value).then(suggestions => {
+      this.setState({
+        userSuggestions: suggestions
+      })
+    })
+  }
+
+  onSuggestionsClearRequested = () => {
+    this.setState({
+      userSuggestions: []
+    })
+  }
   setMessage(e) {
-    this.setState({message: e.target.value});
+    this.setState({message: e.target.value})
   }
 
   render() {
-    const buttonInnerHTML = this.state.inFlight ? '<i class="fa fa-spinner fa-spin"></i>' : 'Give Kudo';
-    const buttonEnabled = isPresent(this.state.email) && !this.state.inFlight;
+    const buttonInnerHTML = this.state.inFlight ? '<i class="fa fa-spinner fa-spin"></i>' : 'Give Kudo'
+    const buttonEnabled = isPresent(this.state.email) && isPresent(this.state.message) && !this.state.inFlight
+    const autoSuggestProps = {
+      placeholder: 'Search a factualite by name',
+      value: this.state.email,
+      onChange: this.onChangeSearchInput,
+    }
     return (
       <div className="give-kudo">
         <h3>
@@ -65,15 +110,15 @@ export default class GiveKudo extends React.Component {
             <label htmlFor="give-kudo__input-email">
               To:
             </label>
-            <input
-              required={true}
-              placeholder="Factual email address"
-              type="email"
+            <Autosuggest
+              suggestions={this.state.userSuggestions}
               id="give-kudo__input-email"
-              className="give-kudo__input"
-              value={this.state.email}
-              onChange={this.setEmail}
               disabled={this.state.inFlight}
+              onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+              onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+              getSuggestionValue={getSuggestionValue}
+              renderSuggestion={renderSuggestion}
+              inputProps={autoSuggestProps}
             />
             <label htmlFor="give-kudo__input-message">
               Say:
@@ -100,6 +145,6 @@ export default class GiveKudo extends React.Component {
           </div>
         </form>
       </div>
-    );
+    )
   }
 }

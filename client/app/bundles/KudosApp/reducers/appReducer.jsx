@@ -9,7 +9,7 @@ export const initialState = {
   currentTab: 'Recent',
   isFetchingKudos: false,
   totalKudos: 0,
-};
+}
 
 
 const kudos = (state = [], action) => {
@@ -88,7 +88,7 @@ const appReducer = combineReducers({
   error,
   currentTab,
   isFetchingKudos,
-  totalKudos
+  totalKudos,
 });
 
 export default appReducer;
