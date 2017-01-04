@@ -10,6 +10,9 @@ Rails.application.routes.draw do
 
   get 'users/search', to: 'users#search'
 
+  post 'like', to: 'likes#like'
+  post 'unlike', to: 'likes#unlike'
+
   resources :sessions, only: [:new, :create, :destroy]
 
   get 'home/show'

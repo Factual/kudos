@@ -9,8 +9,21 @@ export const initialState = {
   currentTab: 'Recent',
   isFetchingKudos: false,
   totalKudos: 0,
+  user: { name: '', id: '' }
 }
 
+function getKudo(kudos, kudoId) {
+  let matchingKudo = null
+  _.forEach(kudos, (kudo, index) => {
+    if (kudo.id === kudoId) {
+      matchingKudo = { ...kudo }
+      kudos[index] = matchingKudo
+      return
+    }
+  })
+
+  return matchingKudo
+}
 
 const kudos = (state = [], action) => {
   const { type } = action;
@@ -30,6 +43,27 @@ const kudos = (state = [], action) => {
       } else {
         return action.kudos // clobber anything in the existing store
       }
+    case actionTypes.SERVER_ACCEPTED_LIKE:
+    case actionTypes.SERVER_ACCEPTED_UNLIKE:
+      const newKudos = [...state]
+      const { giverId, giverName, kudoId } = action
+
+      const matchingKudo = getKudo(newKudos, kudoId)
+
+      if (type === actionTypes.SERVER_ACCEPTED_LIKE) {
+        matchingKudo.likes = matchingKudo.likes.concat({
+          giver: giverName,
+          giver_id: giverId
+        })
+      } else {
+        matchingKudo.likes = [...matchingKudo.likes]
+
+        _.remove(matchingKudo.likes, like => {
+          return like.giver_id === giverId
+        })
+      }
+
+      return newKudos
     default:
       return state;
   }
@@ -83,12 +117,23 @@ const totalKudos = (state = 0, action) => {
   }
 }
 
+const initialize = (state = { name: '', id: '' }, action) => {
+  if (action.type === actionTypes.INITIALIZE) {
+    return {
+      id: action.id,
+      name: action.name
+    }
+  }
+  return state
+}
+
 const appReducer = combineReducers({
   kudos,
   error,
   currentTab,
   isFetchingKudos,
   totalKudos,
+  user: initialize
 });
 
 export default appReducer;

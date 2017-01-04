@@ -1,16 +1,44 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
+import request from 'axios'
+import { addLike, failedLike, removeLike } from '../actions/actionCreators';
 import { fetchPage } from '../actions/tabActions';
 import KudosList from '../components/KudosList'
 import _ from 'lodash'
 
+const thumbKudo = (dispatch, up = true, giverId, giverName) => kudoId => () => {
+  request({
+    method: 'POST',
+    url: `/${up ? 'like' : 'unlike'}`,
+    responseType: 'json',
+    data: {
+      kudo_id: kudoId
+    }
+  }).then(res => {
+    const action = up ? addLike : removeLike
+    dispatch(action(kudoId, giverId, giverName))
+  }).catch(err => {
+    dispatch(failedLike(err))
+  })
+}
+
 function mapStateToProps({ kudosAppStore }) {
-  return _.pick(kudosAppStore, ['kudos', 'isFetchingKudos', 'totalKudos', 'currentTab'])
+  const { kudos, isFetchingKudos, totalKudos, currentTab, user: { id, name } } = kudosAppStore
+  return {
+    kudos,
+    isFetchingKudos,
+    totalKudos,
+    currentTab,
+    id,
+    name
+  }
 }
 
 function mergeProps(stateProps, { dispatch }, ownProps) {
-  const { currentTab, kudos } = stateProps
+  const { currentTab, kudos, name, id } = stateProps
   return Object.assign({
+    likeKudo: thumbKudo(dispatch, true, id, name),
+    unlikeKudo: thumbKudo(dispatch, false, id, name),
     fetchPage: () => dispatch(fetchPage(currentTab, kudos.length))
   }, ownProps, _.omit(stateProps, ['currentTab']))
 }

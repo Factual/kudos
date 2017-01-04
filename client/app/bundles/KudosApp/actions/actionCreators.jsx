@@ -22,6 +22,31 @@ const serverReceivedKudo = (res) => {
   }
 }
 
+const addLike = (kudoId, giverId, giverName) => {
+  return {
+    type: actionTypes.SERVER_ACCEPTED_LIKE,
+    giverId,
+    giverName,
+    kudoId
+  }
+}
+
+const removeLike = (kudoId, giverId, giverName) => {
+  return {
+    type: actionTypes.SERVER_ACCEPTED_UNLIKE,
+    giverId,
+    giverName,
+    kudoId
+  }
+}
+
+const failedLike = (error) => {
+  return {
+    type: actionTypes.SERVER_REJECTED_LIKE,
+    error: error.data.error
+  }
+}
+
 const serverRejectedKudo = (err) => {
   return {
     type: actionTypes.SERVER_REJECTED_KUDO,
@@ -70,4 +95,18 @@ const createKudo = (receiverEmail, messageBody, onSuccess = null, onFailure = nu
   }
 }
 
-export { createKudo }
+const initialize = ({ id, name }) => {
+  return {
+    type: actionTypes.INITIALIZE,
+    id,
+    name
+  }
+}
+
+export {
+  initialize,
+  createKudo,
+  addLike,
+  removeLike,
+  failedLike
+}
