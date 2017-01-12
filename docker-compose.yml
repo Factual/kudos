@@ -4,17 +4,7 @@ services:
     build: .
     command: 'foreman start -f Procfile.dev'
     ports:
-      # Change the second number to override your local port
-      - 3000:3000
-    environment:
-      # Make an OAuth id/secret from here: https://console.developers.google.com/
-      # Use these config parameters: (use your domain instead of localhost:3000)
-      #   Type: Web application
-      #   Authorized JavaScript origins: http://localhost:3000
-      #   Authorized redirect URIs: http://localhost:3000/auth/google_oauth2/callback
-      # Make sure to enable the "Google+ API" in the console.
-      - G_OAUTH_ID=429170907024-26olgfjp465eo6jv4a6g563chpkvpjg8.apps.googleusercontent.com
-      - G_OAUTH_SECRET=czbrFhdjpPA-GSKj506o-ScQ
+      - 3000
     links:
       - 'db:db'
     volumes:
