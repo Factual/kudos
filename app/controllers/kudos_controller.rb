@@ -50,7 +50,12 @@ class KudosController < ApplicationController
     receiver_email = kudo_params[:receiver_email]
 
     unless (receiver = User.find_by(email: receiver_email))
-      return render json: { errors: "recipient with email #{receiver_email.inspect} could not be found" }, status: :not_found
+      if !(/@factual.com$/ =~ receiver_email)
+        return render(json: { errors: "recipient with email #{receiver_email.inspect} is not part of this organization"}, status: :not_found)
+      end
+      #return render json: { errors: "recipient with email #{receiver_email.inspect} could not be found" }, status: :not_found
+      receiver = User.new(name: receiver_email, email: receiver_email)
+      receiver.save
     end
 
     kudo = Kudo.new(
