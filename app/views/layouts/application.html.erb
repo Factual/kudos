@@ -14,8 +14,8 @@
       <% flash.each do |name, msg| -%>
         <%= content_tag :div, msg, class: name %>
       <% end -%>
-      <nav class="navbar navbar-default">
       <% if current_user %>
+        <nav class="navbar navbar-default">
           Signed in as <strong><%= current_user.name %></strong>!
           <button class="btn login btn-primary">
             <%= link_to "Sign out", logout_path, id: "sign_out" %>
@@ -23,12 +23,20 @@
           <% if current_user.avatar %>
             <img width='60' src="<%= current_user.avatar %>" alt="avatar" />
           <% end %>
+        </nav>
       <% else %>
-        <button class="btn login btn-primary">
-          <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in" %>
-        </button>
+        <div class='container'>
+          <div class='col-md-4 col-md-offset-4 homepage-block'>
+            <div class='logo'>
+              <%= image_tag 'factual_logo_small.png' %>
+            </div>
+            <h1>Kudos</h1>
+            <button class="btn login btn-primary btn-homepage">
+              <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in" %>
+            </button>
+          </div>
+        </div>
       <% end %>
-      </nav>
     </div>
     <%= yield %>
   </body>
