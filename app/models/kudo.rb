@@ -7,8 +7,6 @@ class Kudo < ApplicationRecord
   scope :giver_id, -> (giver_id) { where giver_id: giver_id.to_i }
   scope :receiver_id, -> (receiver_id) { where receiver_id: receiver_id.to_i }
 
-  validate :giver_is_not_receiver
-
   def as_json(*args)
     {
       id: id,
@@ -21,13 +19,5 @@ class Kudo < ApplicationRecord
       receiver_avatar: receiver.avatar,
       likes: likes
     }
-  end
-
-  private
-
-  def giver_is_not_receiver
-    if giver == receiver
-      errors.add :receiver, 'You cannot give kudos to yourself. Nice try :)'
-    end
   end
 end
