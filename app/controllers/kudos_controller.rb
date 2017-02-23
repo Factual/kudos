@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 class KudosController < ApplicationController
 
-
   ORDER_OPTIONS = {
     'newest' => { created_at: :desc },
     'oldest' => { created_at: :asc }
@@ -73,14 +72,21 @@ class KudosController < ApplicationController
       ReceivedKudosMailer.received_kudos_notification(kudo).deliver_now
 
 
-      # Notify user via slack. This is initalized in kudos/environment.rb
-      # can this be called once initially and then regularly updated via scheduled job?
+      # Notify user via slack. This is initalized in kudos/environment.rb.
+      # Can this be called once initially and then regularly
+      # updated via scheduled job?
       slack_users_list = kudosbot.users_list.members
       receiver_slack_name = ""
 
-      # Find slack user name for receiver. Should this be a helper method in ../helpers/application_helper? That method should take an array of IDs and return a hash of emails to slack usernames.
-      # i.e. helpers.find_slack_usernames([ID1, ID2]) => {ID1: slackname1, ID2, slackname2}
-      # Per Byron, we should probably just add slack usernames to the DB for all new users
+      # Find slack user name for receiver. Should this be a helper method
+      # in ../helpers/application_helper? That method should take an
+      # array of IDs and return a hash of emails to slack usernames.
+      # i.e. helpers.find_slack_usernames([ID1, ID2]) =>
+      #   {ID1: slackname1, ID2, slackname2}
+
+      # Per Byron, we should probably just add slack usernames to
+      # the DB for all new users
+
       slack_users_list.each do |user|
         receiver_slack_name = user['name'] if user.profile["email"] == receiver_email
       end
