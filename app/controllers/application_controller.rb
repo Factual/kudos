@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
   private
 
   def kudosbot
-    # Initialize kudosbot. Not sure if this is in the right place
+    # Initialize kudosbot.
     @kudosbot ||= Slack::Web::Client.new
   end
 
