@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 class KudosController < ApplicationController
+
+
   ORDER_OPTIONS = {
     'newest' => { created_at: :desc },
     'oldest' => { created_at: :asc }
@@ -66,7 +68,27 @@ class KudosController < ApplicationController
 
     if kudo.save
       render json: { kudo: kudo }, status: :created
+
+      # Success, send email notification
       ReceivedKudosMailer.received_kudos_notification(kudo).deliver_now
+
+
+      # Notify user via slack. This is initalized in kudos/environment.rb
+      # can this be called once initially and then regularly updated via scheduled job?
+      slack_users_list = kudosbot.users_list.members
+      receiver_slack_name = ""
+
+      # Find slack user name for receiver. Should this be a helper method in ../helpers/application_helper? That method should take an array of IDs and return a hash of emails to slack usernames.
+      # i.e. helpers.find_slack_usernames([ID1, ID2]) => {ID1: slackname1, ID2, slackname2}
+      # Per Byron, we should probably just add slack usernames to the DB for all new users
+      slack_users_list.each do |user|
+        receiver_slack_name = user['name'] if user.profile["email"] == receiver_email
+      end
+      fail "No Slack user found with email #{receiver_email}" unless receiver_slack_name
+
+      # Post message to kudos channel in slack.
+      kudosbot.chat_postMessage(channel: '#kudos-dev', text: "Hey @#{receiver_slack_name}, you just received a kudos on http://kudos.factual.com!", as_user: true, "link_names": 1)
+
     else
       render json: { error: kudo.errors.messages.values.flatten.to_sentence }, status: :unprocessable_entity
     end
