@@ -1,5 +1,7 @@
 require "rails_helper"
 
+# reference ticket https://github.com/Factual/kudos/issues/12
+
 RSpec.describe ReceivedKudosMailer, :type => :mailer do
-  pending "add some examples to (or delete) #{__FILE__}"
+  pending "add spec - see https://github.com/Factual/kudos/issues/12"
 end
