@@ -10,6 +10,8 @@ Rails.application.routes.draw do
 
   get 'users/search', to: 'users#search'
 
+  post 'settings', to: 'users#update', as: :settings
+
   post 'like', to: 'likes#like'
   post 'unlike', to: 'likes#unlike'
 
