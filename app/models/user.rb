@@ -3,16 +3,17 @@
 #
 # Table name: users
 #
-#  id               :uuid          not null, primary key
-#  provider         :string
-#  uid              :string
-#  name             :string
-#  oauth_token      :string
-#  oauth_expires_at :datetime
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  email            :string
-#  avatar           :string
+#  id                   :uuid          not null, primary key
+#  provider             :string
+#  uid                  :string
+#  name                 :string
+#  oauth_token          :string
+#  oauth_expires_at     :datetime
+#  created_at           :datetime      not null
+#  updated_at           :datetime      not null
+#  email                :string
+#  avatar               :string
+#  email_notifications  :boolean       default is true
 #
 
 class User < ApplicationRecord

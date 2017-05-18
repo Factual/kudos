@@ -1,7 +1,28 @@
+# == Schema Information
+#
+# Table name: kudos
+#
+#  id               :string          not null, primary key
+#  body             :string          not null
+#  created_at       :datetime        not null
+#  updated_at       :datetime        not null
+#  giver_id         :string          not null
+#  receiver_id      :string          not null
+
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  text: 
+  id: "MyString"
+  body: "MyString"
+  created_at: 2016-06-07 14:19:20
+  updated_at: 2016-06-07 14:19:20
+  giver_id: "MyString"
+  receiver_id: "MyString"
 
 two:
-  text: 
+  id: "MyString"
+  body: "MyString"
+  created_at: 2016-06-07 14:19:20
+  updated_at: 2016-06-07 14:19:20
+  giver_id: "MyString"
+  receiver_id: "MyString"
