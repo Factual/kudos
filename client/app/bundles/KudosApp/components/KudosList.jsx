@@ -11,7 +11,7 @@ injectTapEventPlugin();
 
 function likedBySelf(likes, giverId) {
   let match = false
-  
+
   _.forEach(likes, val => {
     if (val.giver_id === giverId) {
       match = true
@@ -23,7 +23,7 @@ function likedBySelf(likes, giverId) {
 }
 
 const Kudo = ({ id, giverId, kudo, likeKudo, unlikeKudo }) => {
-  const timestamp = moment.parseZone(kudo.given_at);
+  const timestamp = moment(kudo.given_at);
   const formattedTimestamp = `At ${timestamp.format('h:mm a')} on ${timestamp.format('MMM D, YYYY')}`
   const numLikes = kudo.likes.length
   const likeText = `${ numLikes > 0 ? `${numLikes} ${numLikes === 1 ? 'person likes': 'people like'} this` : ''}`
