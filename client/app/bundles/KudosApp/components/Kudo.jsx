@@ -5,7 +5,7 @@ import { grey400, lightBlue400 } from 'material-ui/styles/colors';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
 
-export default class SingleKudo extends React.Component {
+export default class Kudo extends React.Component {
 
   constructor(props, context) {
     super(props, context);
