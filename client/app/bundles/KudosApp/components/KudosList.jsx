@@ -1,17 +1,15 @@
 import React, { PropTypes } from 'react';
 import TabBarContainer from '../containers/TabBarContainer';
+import SingleKudo from './SingleKudo';
 import _ from 'lodash';
 import moment from 'moment';
-import { grey400, lightBlue400 } from 'material-ui/styles/colors';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
 function likedBySelf(likes, giverId) {
   let match = false
-  
+
   _.forEach(likes, val => {
     if (val.giver_id === giverId) {
       match = true
@@ -58,7 +56,7 @@ const Kudo = ({ id, giverId, kudo, likeKudo, unlikeKudo }) => {
 
 const List = ({ giverId, kudos, likeKudo, unlikeKudo }) => {
   return <div className="kudos-list">
-    { kudos.length > 0 ? kudos.map(kudo => <Kudo id={kudo.id} giverId={giverId} key={kudo.id} kudo={kudo} likeKudo={likeKudo} unlikeKudo={unlikeKudo}/>) : 'No kudos' }
+    { kudos.length > 0 ? kudos.map(kudo => <SingleKudo id={kudo.id} giverId={giverId} key={kudo.id} kudo={kudo} likeKudo={likeKudo} unlikeKudo={unlikeKudo}/>) : 'No kudos' }
   </div>
 }
 
