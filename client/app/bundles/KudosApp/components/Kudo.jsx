@@ -9,13 +9,17 @@ export default class Kudo extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    _.bindAll(this, 'formatTimestamp', 'likedBySelf', 'formatLikeText');
+    _.bindAll(this, 'formatTimestamp', 'likedBySelf', 'formatLikeText', 'postedByActiveUser');
     this.state = {
       likeAction: this.props.likeKudo(this.props.id),
       timestamp: this.formatTimestamp(this.props.kudo.given_at),
       thumbColor: grey400,
-      likeText: this.formatLikeText(this.props.kudo.likes.length)
+      likeText: this.formatLikeText(this.props.kudo.likes.length),
+      editMsg: this.postedByActiveUser() ? "Edit" : ""
     };
+
+    console.log("here's the props");
+    console.log(this.props);
 
     if (this.likedBySelf(this.props.kudo.likes, this.props.giverId)) {
       this.state.thumbColor = lightBlue400;
@@ -25,7 +29,6 @@ export default class Kudo extends React.Component {
 
   formatTimestamp(t) {
     let ts = moment(t);
-    console.log("Parsed Zone:", ts);
     return `At ${ts.format('h:mm a')} on ${ts.format('MMM D, YYYY')}`
   }
 
@@ -47,6 +50,12 @@ export default class Kudo extends React.Component {
     })
 
     return match
+  }
+
+  postedByActiveUser() {
+    let user = this.props.giverId;
+    let poster = this.props.kudo.giver_id;
+    return (user == poster);
   }
 
   componentWillReceiveProps(props) {
@@ -78,6 +87,9 @@ export default class Kudo extends React.Component {
       <div>{this.state.likeText}</div>
       <div className="kudo__timestamp">
         {this.state.timestamp}
+      </div>
+      <div className="editable">
+        <a href='#'>{this.state.editMsg}</a>
       </div>
     </div>
   }
