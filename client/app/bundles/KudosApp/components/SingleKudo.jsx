@@ -9,17 +9,13 @@ export default class SingleKudo extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    _.bindAll(this, 'formatTimestamp', 'likedBySelf');
+    _.bindAll(this, 'formatTimestamp', 'likedBySelf', 'formatLikeText');
     this.state = {
       likeAction: this.props.likeKudo(this.props.id),
       timestamp: this.formatTimestamp(this.props.kudo.given_at),
       thumbColor: grey400,
-      likeText: ""
+      likeText: this.formatLikeText(this.props.kudo.likes.length)
     };
-
-    if (this.props.kudo.likes.length > 0){
-      this.state.likeText = `${this.props.kudo.likes.length} ${this.props.kudo.likes.length === 1 ? 'person likes': 'people like'} this`;
-    }
 
     if (this.likedBySelf(this.props.kudo.likes, this.props.giverId)) {
       this.state.thumbColor = lightBlue400;
@@ -33,6 +29,13 @@ export default class SingleKudo extends React.Component {
     return `At ${ts.format('h:mm a')} on ${ts.format('MMM D, YYYY')}`
   }
 
+  formatLikeText(numLikes) {
+    if (numLikes == 0) {
+      return "";
+    }
+    return `${numLikes} ${numLikes === 1 ? 'person likes': 'people like'} this`;
+  }
+
   likedBySelf(likes, giverId) {
     let match = false
 
@@ -44,6 +47,17 @@ export default class SingleKudo extends React.Component {
     })
 
     return match
+  }
+
+  componentWillReceiveProps(props) {
+    if (this.props.kudo.likes != props.kudo.likes) {
+      this.setState({ likeText: this.formatLikeText(props.kudo.likes.length) });
+      if (this.likedBySelf(props.kudo.likes, this.props.giverId)) {
+        this.setState({ thumbColor: lightBlue400, likeAction: this.props.unlikeKudo(this.props.id) });
+      } else {
+        this.setState({ thumbColor: grey400, likeAction: this.props.likeKudo(this.props.id) });
+      }
+    }
   }
 
   render() {
