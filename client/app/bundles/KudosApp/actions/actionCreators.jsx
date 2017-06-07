@@ -11,6 +11,14 @@ const postedKudo = (receiverEmail, messageBody) => {
   }
 }
 
+const updatedKudo = ( kudoId, newMessage ) => {
+  return {
+    type: actionTypes.UPDATED_KUDO,
+    kudoId,
+    newMessage
+  }
+}
+
 const serverReceivedKudo = (res) => {
   const receiverId = res.data.kudo.receiver_id
   const messageBody = res.data.kudo.body
@@ -76,6 +84,41 @@ const createKudo = (receiverEmail, messageBody, onSuccess = null, onFailure = nu
       data: {
         kudo: {
           receiver_email: receiverEmail,
+          body: messageBody,
+        }
+      },
+    }).then(res => {
+      console.log(res)
+      if (onSuccess) {
+        onSuccess(res);
+      }
+      dispatch(serverReceivedKudo(res));
+    }).catch(err => {
+      console.log(err)
+      if (onFailure) {
+        onFailure(err);
+      }
+      dispatch(serverRejectedKudo(err))
+    })
+  }
+}
+
+const editKudo = ({ id, message }) => {
+  // stub
+  return dispatch => {
+    dispatch(updatedKudo( id, message ))
+    dispatch(resetErrorMessage());
+
+    return request({
+      method: 'PATCH',
+      url: '/kudos.json',
+      responseType: 'json',
+      // headers: {
+      //   'X-CSRF-Token': Config.getCSRFToken(),
+      // },
+      data: {
+        kudo: {
+          id: id,
           body: messageBody,
         }
       },

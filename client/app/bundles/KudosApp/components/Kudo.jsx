@@ -9,17 +9,15 @@ export default class Kudo extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    _.bindAll(this, 'formatTimestamp', 'likedBySelf', 'formatLikeText', 'postedByActiveUser');
+    _.bindAll(this, 'formatTimestamp', 'likedBySelf', 'formatLikeText', 'postedByActiveUser', 'makeEditable');
     this.state = {
       likeAction: this.props.likeKudo(this.props.id),
+      updateAction: () => true, // placeholder, initialize from props
       timestamp: this.formatTimestamp(this.props.kudo.given_at),
       thumbColor: grey400,
       likeText: this.formatLikeText(this.props.kudo.likes.length),
-      editMsg: this.postedByActiveUser() ? "Edit" : ""
+      editing: false
     };
-
-    console.log("here's the props");
-    console.log(this.props);
 
     if (this.likedBySelf(this.props.kudo.likes, this.props.giverId)) {
       this.state.thumbColor = lightBlue400;
@@ -29,11 +27,11 @@ export default class Kudo extends React.Component {
 
   formatTimestamp(t) {
     let ts = moment(t);
-    return `At ${ts.format('h:mm a')} on ${ts.format('MMM D, YYYY')}`
+    return `At ${ts.format('h:mm a')} on ${ts.format('MMM D, YYYY')}`;
   }
 
   formatLikeText(numLikes) {
-    if (numLikes == 0) {
+    if (numLikes === 0) {
       return "";
     }
     return `${numLikes} ${numLikes === 1 ? 'person likes': 'people like'} this`;
@@ -58,6 +56,10 @@ export default class Kudo extends React.Component {
     return (user == poster);
   }
 
+  makeEditable(e) {
+    this.setState({editing: true});
+  }
+
   componentWillReceiveProps(props) {
     if (this.props.kudo.likes != props.kudo.likes) {
       this.setState({ likeText: this.formatLikeText(props.kudo.likes.length) });
@@ -70,6 +72,17 @@ export default class Kudo extends React.Component {
   }
 
   render() {
+
+    const Edit = () => <div className="edit-kudo-button">
+      <button type='button' className="btn" onClick={this.makeEditable}>
+        <i className="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+      </button>
+    </div>
+
+    const Save = () => <div className="save-kudo-button">
+      <button type='button' className='btn' onClick={this.props.updateAction}>Save</button>
+    </div>
+
     return <div className="kudo">
       <h4 className="list-group-item-heading">Kudos, {this.props.kudo.receiver}!</h4>
       <div className="kudo__receiver">
@@ -88,9 +101,7 @@ export default class Kudo extends React.Component {
       <div className="kudo__timestamp">
         {this.state.timestamp}
       </div>
-      <div className="editable">
-        <a href='#'>{this.state.editMsg}</a>
-      </div>
+      {this.postedByActiveUser() ? (this.state.editing ? <Save /> : <Edit />) : (null)}
     </div>
   }
 
