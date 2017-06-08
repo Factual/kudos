@@ -3,19 +3,21 @@ import _ from 'lodash';
 import moment from 'moment';
 import { grey400, lightBlue400 } from 'material-ui/styles/colors';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import Textarea from 'react-textarea-autosize';
 import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
 
 export default class Kudo extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    _.bindAll(this, 'formatTimestamp', 'likedBySelf', 'formatLikeText', 'postedByActiveUser', 'makeEditable');
+    _.bindAll(this, 'formatTimestamp', 'likedBySelf', 'formatLikeText', 'postedByActiveUser', 'makeEditable', 'setMessage');
     this.state = {
       likeAction: this.props.likeKudo(this.props.id),
-      updateAction: () => true, // placeholder, initialize from props
+      updateAction: () => console.log("Saved"), // placeholder, initialize from props
       timestamp: this.formatTimestamp(this.props.kudo.given_at),
       thumbColor: grey400,
       likeText: this.formatLikeText(this.props.kudo.likes.length),
+      body: this.props.kudo.body,
       editing: false
     };
 
@@ -71,6 +73,10 @@ export default class Kudo extends React.Component {
     }
   }
 
+  setMessage(e) {
+    this.setState({body: e.target.value})
+  }
+
   render() {
 
     const Edit = () => <div className="edit-kudo-button">
@@ -80,7 +86,7 @@ export default class Kudo extends React.Component {
     </div>
 
     const Save = () => <div className="save-kudo-button">
-      <button type='button' className='btn' onClick={this.props.updateAction}>Save</button>
+      <button type='button' className='btn' onClick={this.state.updateAction}>Save</button>
     </div>
 
     return <div className="kudo">
@@ -89,10 +95,18 @@ export default class Kudo extends React.Component {
         <img src={this.props.kudo.receiver_avatar} alt={this.props.kudo.receiver} className="kudo__avatar" />
       </div>
       <div className="kudo__message">
+      {this.state.editing ? (
+        <Textarea
+          minRows={2}
+          value={this.state.body}
+          onChange={this.setMessage}
+        />
+      ) : (
         <blockquote className="blockquote">
           {this.props.kudo.body}
           <footer className="blockquote-footer">{this.props.kudo.giver}</footer>
         </blockquote>
+      )}
       </div>
       <FloatingActionButton onClick={this.state.likeAction} mini={true} backgroundColor={this.state.thumbColor}>
         <ThumbUp/>
