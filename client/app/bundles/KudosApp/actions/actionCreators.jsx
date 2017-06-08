@@ -103,8 +103,7 @@ const createKudo = (receiverEmail, messageBody, onSuccess = null, onFailure = nu
   }
 }
 
-const editKudo = ({ id, message }) => {
-  // stub
+const editKudo = ({ id, message, onSuccess = null, onFailure = null }) => {
   return dispatch => {
     dispatch(updatedKudo( id, message ))
     dispatch(resetErrorMessage());
@@ -113,9 +112,6 @@ const editKudo = ({ id, message }) => {
       method: 'PATCH',
       url: '/kudos.json',
       responseType: 'json',
-      // headers: {
-      //   'X-CSRF-Token': Config.getCSRFToken(),
-      // },
       data: {
         kudo: {
           id: id,

@@ -71,6 +71,17 @@ class KudosController < ApplicationController
     end
   end
 
+  def update
+    kudo = Kudo.find_by(id: kudo_params[:id])
+    kudo.body = kudo_params[:body]
+
+    if kudo.save
+      render json: { kudo: kudo }, status: :created
+    else
+      render json: { error: kudo.errors.messages.values.flatten.to_sentence }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def basic_user_info_by_id(id)

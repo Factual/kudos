@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 Rails.application.routes.draw do
-  resources :kudos, only: [:index, :create], constraints: { format: :json }, defaults: { format: :json }
+  resources :kudos, only: [:index, :create, :update], constraints: { format: :json }, defaults: { format: :json }
 
   get 'kudos_app', to: 'kudos_app#index'
   # Auth
