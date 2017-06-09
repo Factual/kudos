@@ -83,15 +83,19 @@ export default class Kudo extends React.Component {
 
   render() {
 
-    const Edit = () => <div className="edit-kudo-button">
-      <button type='button' className="btn" onClick={this.makeEditable}>
-        <i className="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i>
+    const Edit = () => <button
+      type='button'
+      className="btn update-button edit-button"
+      onClick={this.makeEditable}>
+        Edit
       </button>
-    </div>
 
-    const Save = () => <div className="save-kudo-button">
-      <button type='button' className='btn' onClick={this.update}>Save</button>
-    </div>
+    const Save = () => <button
+      type='button'
+      className='btn save-button edit-button btn-primary'
+      onClick={this.update}>
+        Save
+      </button>
 
     return <div className="kudo">
       <h4 className="list-group-item-heading">Kudos, {this.props.kudo.receiver}!</h4>
@@ -99,27 +103,31 @@ export default class Kudo extends React.Component {
         <img src={this.props.kudo.receiver_avatar} alt={this.props.kudo.receiver} className="kudo__avatar" />
       </div>
       <div className="kudo__message">
-      {this.state.editing ? (
-        <Textarea
-          minRows={2}
-          value={this.state.body}
-          onChange={this.setMessage}
-        />
-      ) : (
         <blockquote className="blockquote">
-          {this.state.body}
+          {this.state.editing ? (
+            <Textarea
+              className="kudo__input"
+              value={this.state.body}
+              onChange={this.setMessage}
+            />
+          ) : (
+            this.state.body
+          )}
           <footer className="blockquote-footer">{this.props.kudo.giver}</footer>
         </blockquote>
-      )}
       </div>
       <FloatingActionButton onClick={this.state.likeAction} mini={true} backgroundColor={this.state.thumbColor}>
         <ThumbUp/>
       </FloatingActionButton>
       <div>{this.state.likeText}</div>
+      {this.postedByActiveUser ? (
+        <div className="kudo__update">
+          {this.state.editing ? <Save /> : <Edit />}
+        </div>
+      ) : (null)}
       <div className="kudo__timestamp">
         {this.state.timestamp}
       </div>
-      {this.postedByActiveUser() ? (this.state.editing ? <Save /> : <Edit />) : (null)}
     </div>
   }
 
