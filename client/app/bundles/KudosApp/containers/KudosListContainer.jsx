@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import request from 'axios'
-import { addLike, failedLike, removeLike } from '../actions/actionCreators';
+import { bindActionCreators } from 'redux';
+import { addLike, failedLike, removeLike, editKudo } from '../actions/actionCreators';
 import { fetchPage } from '../actions/tabActions';
 import KudosList from '../components/KudosList'
 import _ from 'lodash'
@@ -39,6 +40,7 @@ function mergeProps(stateProps, { dispatch }, ownProps) {
   return Object.assign({
     likeKudo: thumbKudo(dispatch, true, id, name),
     unlikeKudo: thumbKudo(dispatch, false, id, name),
+    updateKudo: bindActionCreators(editKudo, dispatch),
     fetchPage: () => dispatch(fetchPage(currentTab, kudos.length))
   }, ownProps, _.omit(stateProps, ['currentTab']))
 }

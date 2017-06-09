@@ -10,10 +10,9 @@ export default class Kudo extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    _.bindAll(this, 'formatTimestamp', 'likedBySelf', 'formatLikeText', 'postedByActiveUser', 'makeEditable', 'setMessage');
+    _.bindAll(this, 'formatTimestamp', 'likedBySelf', 'formatLikeText', 'postedByActiveUser', 'makeEditable', 'setMessage', "update");
     this.state = {
       likeAction: this.props.likeKudo(this.props.id),
-      updateAction: () => console.log("Saved"), // placeholder, initialize from props
       timestamp: this.formatTimestamp(this.props.kudo.given_at),
       thumbColor: grey400,
       likeText: this.formatLikeText(this.props.kudo.likes.length),
@@ -62,6 +61,18 @@ export default class Kudo extends React.Component {
     this.setState({editing: true});
   }
 
+  setMessage(e) {
+    this.setState({body: e.target.value})
+  }
+
+  update(e) {
+    console.log("Trying to save!");
+    console.log("ID:", this.props.kudo.id);
+    console.log("Old Message:", this.props.kudo.body);
+    console.log("New Message:", this.state.body);
+    this.props.updateKudo(this.props.kudo.id, this.state.body);
+  }
+
   componentWillReceiveProps(props) {
     if (this.props.kudo.likes != props.kudo.likes) {
       this.setState({ likeText: this.formatLikeText(props.kudo.likes.length) });
@@ -73,10 +84,6 @@ export default class Kudo extends React.Component {
     }
   }
 
-  setMessage(e) {
-    this.setState({body: e.target.value})
-  }
-
   render() {
 
     const Edit = () => <div className="edit-kudo-button">
@@ -86,7 +93,7 @@ export default class Kudo extends React.Component {
     </div>
 
     const Save = () => <div className="save-kudo-button">
-      <button type='button' className='btn' onClick={this.state.updateAction}>Save</button>
+      <button type='button' className='btn' onClick={this.update}>Save</button>
     </div>
 
     return <div className="kudo">

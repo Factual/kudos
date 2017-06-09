@@ -12,6 +12,9 @@ const postedKudo = (receiverEmail, messageBody) => {
 }
 
 const updatedKudo = ( kudoId, newMessage ) => {
+  console.log("Updated Kudo Action")
+  console.log("Kudo ID:", kudoId)
+  console.log("New Message:", newMessage)
   return {
     type: actionTypes.UPDATED_KUDO,
     kudoId,
@@ -103,22 +106,26 @@ const createKudo = (receiverEmail, messageBody, onSuccess = null, onFailure = nu
   }
 }
 
-const editKudo = ({ id, message, onSuccess = null, onFailure = null }) => {
+const editKudo = ( id, message, onSuccess = null, onFailure = null ) => {
+  console.log("In the edit kudo handler");
+  console.log("Id is", id);
+  console.log("Message is", message);
   return dispatch => {
     dispatch(updatedKudo( id, message ))
     dispatch(resetErrorMessage());
 
     return request({
       method: 'PATCH',
-      url: '/kudos.json',
+      url: '/kudos/'+id,
       responseType: 'json',
       data: {
         kudo: {
           id: id,
-          body: messageBody,
+          body: message,
         }
       },
     }).then(res => {
+      console.log("Made the Edit! Here's the Response:")
       console.log(res)
       if (onSuccess) {
         onSuccess(res);
@@ -145,6 +152,7 @@ const initialize = ({ id, name }) => {
 export {
   initialize,
   createKudo,
+  editKudo,
   addLike,
   removeLike,
   failedLike

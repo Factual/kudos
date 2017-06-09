@@ -95,6 +95,6 @@ class KudosController < ApplicationController
   end
 
   def kudo_params
-    params.require(:kudo).permit(:body, :receiver_email)
+    params.require(:kudo).permit(:body, :receiver_email, :id)
   end
 end

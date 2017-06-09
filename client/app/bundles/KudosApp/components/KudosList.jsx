@@ -7,9 +7,10 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
-const List = ({ giverId, kudos, likeKudo, unlikeKudo }) => {
+const List = ({ giverId, kudos, likeKudo, unlikeKudo, updateKudo }) => {
+  console.log("Trying to Render the List");
   return <div className="kudos-list">
-    { kudos.length > 0 ? kudos.map(kudo => <Kudo id={kudo.id} giverId={giverId} key={kudo.id} kudo={kudo} likeKudo={likeKudo} unlikeKudo={unlikeKudo}/>) : 'No kudos' }
+    { kudos.length > 0 ? kudos.map(kudo => <Kudo id={kudo.id} giverId={giverId} key={kudo.id} kudo={kudo} likeKudo={likeKudo} unlikeKudo={unlikeKudo} updateKudo={updateKudo}/>) : 'No kudos' }
   </div>
 }
 
@@ -25,11 +26,14 @@ export default class KudosList extends React.Component {
     totalKudos: PropTypes.number.isRequired,
     fetchPage: PropTypes.func.isRequired,
     likeKudo: PropTypes.func.isRequired,
-    unlikeKudo: PropTypes.func.isRequired
+    unlikeKudo: PropTypes.func.isRequired,
+    updateKudo: PropTypes.func.isRequired
   }
 
   constructor(props, context) {
     super(props, context);
+    console.log("List Props");
+    console.log(props);
     _.bindAll(this, 'areMoreKudos', 'handleScroll');
   }
 
@@ -56,7 +60,7 @@ export default class KudosList extends React.Component {
   render() {
     return <div className="kudos-list__container">
       <TabBarContainer />
-      <List giverId={this.props.id} kudos={this.props.kudos} likeKudo={this.props.likeKudo} unlikeKudo={this.props.unlikeKudo} />
+      <List giverId={this.props.id} kudos={this.props.kudos} likeKudo={this.props.likeKudo} unlikeKudo={this.props.unlikeKudo} updateKudo={this.props.updateKudo} />
       {this.props.isFetchingKudos ? <Spinner /> : null}
     </div>
   }
