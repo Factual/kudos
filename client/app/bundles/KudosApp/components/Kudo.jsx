@@ -66,10 +66,6 @@ export default class Kudo extends React.Component {
   }
 
   update(e) {
-    console.log("Trying to save!");
-    console.log("ID:", this.props.kudo.id);
-    console.log("Old Message:", this.props.kudo.body);
-    console.log("New Message:", this.state.body);
     this.props.updateKudo(this.props.kudo.id, this.state.body);
   }
 

@@ -8,7 +8,6 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 injectTapEventPlugin();
 
 const List = ({ giverId, kudos, likeKudo, unlikeKudo, updateKudo }) => {
-  console.log("Trying to Render the List");
   return <div className="kudos-list">
     { kudos.length > 0 ? kudos.map(kudo => <Kudo id={kudo.id} giverId={giverId} key={kudo.id} kudo={kudo} likeKudo={likeKudo} unlikeKudo={unlikeKudo} updateKudo={updateKudo}/>) : 'No kudos' }
   </div>
@@ -32,8 +31,6 @@ export default class KudosList extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    console.log("List Props");
-    console.log(props);
     _.bindAll(this, 'areMoreKudos', 'handleScroll');
   }
 
