@@ -123,7 +123,6 @@ const editKudo = ( id, message, onSuccess = null, onFailure = null ) => {
       if (onSuccess) {
         onSuccess(res);
       }
-      dispatch(serverReceivedKudo(res));
     }).catch(err => {
       console.log(err)
       if (onFailure) {
