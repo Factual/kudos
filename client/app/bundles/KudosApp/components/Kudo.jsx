@@ -15,7 +15,7 @@ export default class Kudo extends React.Component {
       likeAction: this.props.likeKudo(this.props.id),
       timestamp: this.formatTimestamp(this.props.kudo.given_at),
       thumbColor: grey400,
-      likeText: this.formatLikeText(this.props.kudo.likes.length),
+      likeText: this.formatLikeText((this.props.kudo.likes ? this.props.kudo.likes.length : 0)),
       body: this.props.kudo.body,
       editing: false
     };
@@ -66,6 +66,7 @@ export default class Kudo extends React.Component {
   }
 
   update(e) {
+    this.setState({editing: false});
     this.props.updateKudo(this.props.kudo.id, this.state.body);
   }
 
@@ -106,7 +107,7 @@ export default class Kudo extends React.Component {
         />
       ) : (
         <blockquote className="blockquote">
-          {this.props.kudo.body}
+          {this.state.body}
           <footer className="blockquote-footer">{this.props.kudo.giver}</footer>
         </blockquote>
       )}
