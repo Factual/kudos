@@ -73,6 +73,12 @@ class KudosController < ApplicationController
 
   def update
     kudo = Kudo.find_by(id: kudo_params[:id])
+
+    if kudo.giver_id != current_user.id
+      render json: { error: 'Only the original poster can edit Kudos' }, status: :unauthorized
+      return
+    end
+
     kudo.body = kudo_params[:body]
 
     if kudo.save
