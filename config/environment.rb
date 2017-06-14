@@ -10,6 +10,11 @@ Rails.application.initialize!
 
 # Set up ActionMailer for SMTP
 
+# Default values for port, authentication and enable_starttls_auto
+DEFAULT_SMTP_PORT = 587
+DEFAULT_SMTP_AUTH = :plain
+DEFAULT_STARTTLS_AUTO = true
+
 ActionMailer::Base.smtp_settings = {
   address:              ENV["SMTP_SERVER"],
   domain:               ENV["EMAIL_DOMAIN"],

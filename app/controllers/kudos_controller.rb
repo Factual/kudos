@@ -71,7 +71,6 @@ class KudosController < ApplicationController
       # Success, send email notification
       ReceivedKudosMailer.received_kudos_notification(kudo).deliver_now
 
-
       # Notify user via slack. This is initalized in kudos/environment.rb.
       # Can this be called once initially and then regularly
       # updated via scheduled job?
