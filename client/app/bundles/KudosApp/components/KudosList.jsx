@@ -9,7 +9,19 @@ injectTapEventPlugin();
 
 const List = ({ giverId, kudos, likeKudo, unlikeKudo, updateKudo }) => {
   return <div className="kudos-list">
-    { kudos.length > 0 ? kudos.map(kudo => <Kudo id={kudo.id} giverId={giverId} key={kudo.id} kudo={kudo} likeKudo={likeKudo} unlikeKudo={unlikeKudo} updateKudo={updateKudo}/>) : 'No kudos' }
+    { kudos.length > 0 ? (
+      kudos.map(kudo => <
+        Kudo id={kudo.id}
+        giverId={giverId}
+        key={kudo.id}
+        kudo={kudo}
+        likeKudo={likeKudo}
+        unlikeKudo={unlikeKudo}
+        updateKudo={updateKudo}
+        />)
+    ) : (
+      'No kudos'
+    )}
   </div>
 }
 
