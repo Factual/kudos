@@ -13,3 +13,12 @@ services:
       # Make sure to enable the "Google+ API" in the console.
       - G_OAUTH_ID=<OAUTH_ID>
       - G_OAUTH_SECRET=<OAUTH_SECRET>
+      - SMTP_SERVER=<EMAIL_SERVER>
+      - SMTP_PORT=<SMTP_PORT>
+      - SMTP_AUTH=<SMTP_AUTH>
+      - STARTTLS_AUTO=<STARTTLS_AUTO>
+      - DEFAULT_SENDER_EMAIL=<SENDER_EMAIL>
+      - EMAIL_DOMAIN=<DOMAIN>
+      - EMAIL_USERNAME=<EMAIL_USERNAME>
+      - EMAIL_PASSWORD=<EMAIL_PASSWORD>
+      - EMAIL_SITE_URL=<SITE_BASE_URL>
