@@ -72,16 +72,9 @@ class KudosController < ApplicationController
   end
 
   def update
-    kudo = Kudo.find_by(id: kudo_params[:id])
+    kudo = Kudo.find_by!(id: params[:kudo][:id], giver_id: current_user.id)
 
-    if kudo.giver_id != current_user.id
-      render json: { error: 'Only the original poster can edit Kudos' }, status: :unauthorized
-      return
-    end
-
-    kudo.body = kudo_params[:body]
-
-    if kudo.save
+    if kudo.update!(body: kudo_params[:body])
       render json: { kudo: kudo }, status: :created
     else
       render json: { error: kudo.errors.messages.values.flatten.to_sentence }, status: :unprocessable_entity
@@ -101,6 +94,6 @@ class KudosController < ApplicationController
   end
 
   def kudo_params
-    params.require(:kudo).permit(:body, :receiver_email, :id)
+    params.require(:kudo).permit(:body, :receiver_email)
   end
 end
