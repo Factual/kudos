@@ -54,7 +54,7 @@ export default class Kudo extends React.Component {
   postedByActiveUser() {
     let user = this.props.giverId;
     let poster = this.props.kudo.giver_id;
-    return (user == poster);
+    return (user === poster);
   }
 
   makeEditable(e) {
@@ -85,14 +85,14 @@ export default class Kudo extends React.Component {
 
     const Edit = () => <button
       type='button'
-      className="btn update-button edit-button"
+      className="kudo__edit-button"
       onClick={this.makeEditable}>
         Edit
       </button>
 
     const Save = () => <button
       type='button'
-      className='btn save-button edit-button btn-primary'
+      className='kudo__edit-button kudo__edit-button--save'
       onClick={this.update}>
         Save
       </button>
@@ -120,7 +120,7 @@ export default class Kudo extends React.Component {
         <ThumbUp/>
       </FloatingActionButton>
       <div>{this.state.likeText}</div>
-      {this.postedByActiveUser ? (
+      {this.postedByActiveUser() ? (
         <div className="kudo__update">
           {this.state.editing ? <Save /> : <Edit />}
         </div>

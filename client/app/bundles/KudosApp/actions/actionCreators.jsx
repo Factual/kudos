@@ -119,12 +119,10 @@ const editKudo = ( id, message, onSuccess = null, onFailure = null ) => {
         }
       },
     }).then(res => {
-      console.log(res)
       if (onSuccess) {
         onSuccess(res);
       }
     }).catch(err => {
-      console.log(err)
       if (onFailure) {
         onFailure(err);
       }
