@@ -6,12 +6,13 @@ import { grey400, lightBlue400 } from 'material-ui/styles/colors';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import { Link } from 'react-router-dom'
 
 injectTapEventPlugin();
 
 function likedBySelf(likes, giverId) {
   let match = false
-  
+
   _.forEach(likes, val => {
     if (val.giver_id === giverId) {
       match = true
@@ -104,6 +105,7 @@ export default class KudosList extends React.Component {
 
   render() {
     return <div className="kudos-list__container">
+      <Link to="/settings">Settings</Link>
       <TabBarContainer />
       <List giverId={this.props.id} kudos={this.props.kudos} likeKudo={this.props.likeKudo} unlikeKudo={this.props.unlikeKudo} />
       {this.props.isFetchingKudos ? <Spinner /> : null}

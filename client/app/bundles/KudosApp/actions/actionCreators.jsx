@@ -54,6 +54,60 @@ const serverRejectedKudo = (err) => {
   }
 }
 
+const subscribeToEmailNotifications = () => {
+  return {
+    type: actionTypes.SERVER_ACCEPTED_EMAIL_SUBSCRIBE,
+    email_notifications: true
+  }
+}
+
+const unsubscribeToEmailNotifications = () => {
+  return {
+    type: actionTypes.SERVER_ACCEPTED_EMAIL_UNSUBSCRIBE,
+    email_notifications: false
+  }
+}
+
+const serverRejectedEmailSubUpdate = (err) => {
+  return {
+    type: actionTypes.SERVER_REJECTED_EMAIL_SUB_TOGGLE,
+    error: err.data.error
+  }
+}
+
+const toggleEmailNotifications = (email_notifications, onSuccess = null, onFailure = null) => {
+  return dispatch => {
+    dispatch(resetErrorMessage());
+
+    // TODO: factor into a request/post library
+    return request({
+      method: 'POST',
+      url: '/settings.json',
+      responseType: 'json',
+      // headers: {
+      //   'X-CSRF-Token': Config.getCSRFToken(),
+      // },
+      data: {
+        user: {
+          email_notifications: !email_notifications,
+        }
+      },
+    }).then(res => {
+      console.log(res)
+      if (onSuccess) {
+        onSuccess(res);
+      }
+      !email_notifications ? dispatch(unsubscribeToEmailNotifications) : dispatch(subscribeToEmailNotifications);
+    }).catch(err => {
+      console.log(err)
+      if (onFailure) {
+        onFailure(err);
+      }
+      dispatch(serverRejectedEmailSubUpdate(err))
+    })
+  }
+}
+
 const resetErrorMessage = () => {
   return {
     type: actionTypes.RESET_ERROR_MESSAGE,
@@ -95,11 +149,12 @@ const createKudo = (receiverEmail, messageBody, onSuccess = null, onFailure = nu
   }
 }
 
-const initialize = ({ id, name }) => {
+const initialize = ({ id, name, email_notifications }) => {
   return {
     type: actionTypes.INITIALIZE,
     id,
-    name
+    name,
+    email_notifications
   }
 }
 

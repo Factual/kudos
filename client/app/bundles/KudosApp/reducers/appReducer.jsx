@@ -9,7 +9,7 @@ export const initialState = {
   currentTab: 'Recent',
   isFetchingKudos: false,
   totalKudos: 0,
-  user: { name: '', id: '' }
+  user: { name: '', id: '', email_notifications: true }
 }
 
 function getKudo(kudos, kudoId) {
@@ -23,6 +23,19 @@ function getKudo(kudos, kudoId) {
   })
 
   return matchingKudo
+}
+
+const emailNotifications = (state = true, action) => {
+  const { type } = action;
+
+  switch (type) {
+    case actionTypes.SERVER_ACCEPTED_EMAIL_SUBSCRIBE:
+      return true
+    case actionTypes.SERVER_ACCEPTED_EMAIL_UNSUBSCRIBE:
+      return false
+    default:
+      return state
+  }
 }
 
 const kudos = (state = [], action) => {
@@ -117,11 +130,12 @@ const totalKudos = (state = 0, action) => {
   }
 }
 
-const initialize = (state = { name: '', id: '' }, action) => {
+const initialize = (state = { name: '', id: '', email_notifications: true }, action) => {
   if (action.type === actionTypes.INITIALIZE) {
     return {
       id: action.id,
-      name: action.name
+      name: action.name,
+      email_notifications: action.email_notifications
     }
   }
   return state
@@ -133,6 +147,7 @@ const appReducer = combineReducers({
   currentTab,
   isFetchingKudos,
   totalKudos,
+  emailNotifications,
   user: initialize
 });
 
