@@ -11,6 +11,14 @@ const postedKudo = (receiverEmail, messageBody) => {
   }
 }
 
+const updatedKudo = ( kudoId, newMessage ) => {
+  return {
+    type: actionTypes.UPDATED_KUDO,
+    kudoId,
+    newMessage
+  }
+}
+
 const serverReceivedKudo = (res) => {
   const receiverId = res.data.kudo.receiver_id
   const messageBody = res.data.kudo.body
@@ -95,6 +103,34 @@ const createKudo = (receiverEmail, messageBody, onSuccess = null, onFailure = nu
   }
 }
 
+const editKudo = ( id, message, onSuccess = null, onFailure = null ) => {
+  return dispatch => {
+    dispatch(updatedKudo( id, message ))
+    dispatch(resetErrorMessage());
+
+    return request({
+      method: 'PATCH',
+      url: '/kudos/'+id,
+      responseType: 'json',
+      data: {
+        kudo: {
+          id: id,
+          body: message,
+        }
+      },
+    }).then(res => {
+      if (onSuccess) {
+        onSuccess(res);
+      }
+    }).catch(err => {
+      if (onFailure) {
+        onFailure(err);
+      }
+      dispatch(serverRejectedKudo(err))
+    })
+  }
+}
+
 const initialize = ({ id, name }) => {
   return {
     type: actionTypes.INITIALIZE,
@@ -106,6 +142,7 @@ const initialize = ({ id, name }) => {
 export {
   initialize,
   createKudo,
+  editKudo,
   addLike,
   removeLike,
   failedLike

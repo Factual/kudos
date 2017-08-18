@@ -5,6 +5,7 @@ import mirrorCreator from 'mirror-creator';
 
 const actionTypes = mirrorCreator([
   'POSTED_KUDO',
+  'UPDATED_KUDO',
   'INITIALIZE',
   'SERVER_RECEIVED_KUDO',
   'SERVER_REJECTED_KUDO',

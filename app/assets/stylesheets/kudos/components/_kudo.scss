@@ -21,6 +21,30 @@
   top: 1em;
 }
 
+.kudo__update {
+  position: absolute;
+  right: 1em;
+  text-align: right;
+  top: 4.25rem;
+}
+
+.kudo__edit-button {
+  @extend .btn;
+  height: 25px;
+  padding: 0;
+  text-align: center;
+  width: 50px;
+}
+
+.kudo__edit-button--save {
+  @extend .btn-primary;
+}
+
+.kudo__input {
+  border: 1px solid $dark-border-color;
+  border-radius: 0 0 4px 4px;
+}
+
 .kudo__receiver {
   // text-align: center;
 }

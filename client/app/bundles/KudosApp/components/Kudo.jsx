@@ -3,18 +3,21 @@ import _ from 'lodash';
 import moment from 'moment';
 import { grey400, lightBlue400 } from 'material-ui/styles/colors';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
+import Textarea from 'react-textarea-autosize';
 import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
 
 export default class Kudo extends React.Component {
 
   constructor(props, context) {
     super(props, context);
-    _.bindAll(this, 'formatTimestamp', 'likedBySelf', 'formatLikeText');
+    _.bindAll(this, 'formatTimestamp', 'likedBySelf', 'formatLikeText', 'postedByActiveUser', 'makeEditable', 'setMessage', "update");
     this.state = {
       likeAction: this.props.likeKudo(this.props.id),
       timestamp: this.formatTimestamp(this.props.kudo.given_at),
       thumbColor: grey400,
-      likeText: this.formatLikeText(this.props.kudo.likes.length)
+      likeText: this.formatLikeText((this.props.kudo.likes ? this.props.kudo.likes.length : 0)),
+      body: this.props.kudo.body,
+      editing: false
     };
 
     if (this.likedBySelf(this.props.kudo.likes, this.props.giverId)) {
@@ -25,12 +28,11 @@ export default class Kudo extends React.Component {
 
   formatTimestamp(t) {
     let ts = moment(t);
-    console.log("Parsed Zone:", ts);
-    return `At ${ts.format('h:mm a')} on ${ts.format('MMM D, YYYY')}`
+    return `At ${ts.format('h:mm a')} on ${ts.format('MMM D, YYYY')}`;
   }
 
   formatLikeText(numLikes) {
-    if (numLikes == 0) {
+    if (numLikes === 0) {
       return "";
     }
     return `${numLikes} ${numLikes === 1 ? 'person likes': 'people like'} this`;
@@ -49,6 +51,25 @@ export default class Kudo extends React.Component {
     return match
   }
 
+  postedByActiveUser() {
+    let user = this.props.giverId;
+    let poster = this.props.kudo.giver_id;
+    return (user === poster);
+  }
+
+  makeEditable(e) {
+    this.setState({editing: true});
+  }
+
+  setMessage(e) {
+    this.setState({body: e.target.value})
+  }
+
+  update(e) {
+    this.setState({editing: false});
+    this.props.updateKudo(this.props.kudo.id, this.state.body);
+  }
+
   componentWillReceiveProps(props) {
     if (this.props.kudo.likes != props.kudo.likes) {
       this.setState({ likeText: this.formatLikeText(props.kudo.likes.length) });
@@ -61,6 +82,21 @@ export default class Kudo extends React.Component {
   }
 
   render() {
+
+    const Edit = () => <button
+      type='button'
+      className="kudo__edit-button"
+      onClick={this.makeEditable}>
+        Edit
+      </button>
+
+    const Save = () => <button
+      type='button'
+      className='kudo__edit-button kudo__edit-button--save'
+      onClick={this.update}>
+        Save
+      </button>
+
     return <div className="kudo">
       <h4 className="list-group-item-heading">Kudos, {this.props.kudo.receiver}!</h4>
       <div className="kudo__receiver">
@@ -68,7 +104,15 @@ export default class Kudo extends React.Component {
       </div>
       <div className="kudo__message">
         <blockquote className="blockquote">
-          {this.props.kudo.body}
+          {this.state.editing ? (
+            <Textarea
+              className="kudo__input"
+              value={this.state.body}
+              onChange={this.setMessage}
+            />
+          ) : (
+            this.state.body
+          )}
           <footer className="blockquote-footer">{this.props.kudo.giver}</footer>
         </blockquote>
       </div>
@@ -76,6 +120,11 @@ export default class Kudo extends React.Component {
         <ThumbUp/>
       </FloatingActionButton>
       <div>{this.state.likeText}</div>
+      {this.postedByActiveUser() ? (
+        <div className="kudo__update">
+          {this.state.editing ? <Save /> : <Edit />}
+        </div>
+      ) : (null)}
       <div className="kudo__timestamp">
         {this.state.timestamp}
       </div>

@@ -47,7 +47,7 @@ class KudosController < ApplicationController
   #   :body           [body of kudo]
   def create
     giver_id = current_user.id
-    receiver_email = kudo_params[:receiver_email]
+    receiver_email = params[:kudo][:receiver_email]
 
     unless (receiver = User.find_by(email: receiver_email))
       if !(/@factual.com$/ =~ receiver_email)
@@ -71,6 +71,16 @@ class KudosController < ApplicationController
     end
   end
 
+  def update
+    kudo = Kudo.find_by!(id: params[:kudo][:id], giver_id: current_user.id)
+
+    if kudo.update!(body: kudo_params[:body])
+      render json: { kudo: kudo }, status: :created
+    else
+      render json: { error: kudo.errors.messages.values.flatten.to_sentence }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def basic_user_info_by_id(id)
@@ -84,6 +94,6 @@ class KudosController < ApplicationController
   end
 
   def kudo_params
-    params.require(:kudo).permit(:body, :receiver_email)
+    params.require(:kudo).permit(:body)
   end
 end
