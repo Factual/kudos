@@ -47,7 +47,7 @@ class KudosController < ApplicationController
   #   :body           [body of kudo]
   def create
     giver_id = current_user.id
-    receiver_email = kudo_params[:receiver_email]
+    receiver_email = params[:kudo][:receiver_email]
 
     unless (receiver = User.find_by(email: receiver_email))
       if !(/@factual.com$/ =~ receiver_email)
@@ -94,6 +94,6 @@ class KudosController < ApplicationController
   end
 
   def kudo_params
-    params.require(:kudo).permit(:body, :receiver_email)
+    params.require(:kudo).permit(:body)
   end
 end
