@@ -226,7 +226,7 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    slack-ruby-client (0.7.9)
+    slack-ruby-client (0.11.1)
       activesupport
       faraday (>= 0.9)
       faraday_middleware

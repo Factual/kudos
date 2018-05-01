@@ -54,7 +54,6 @@ class KudosController < ApplicationController
       if !(/@factual.com$/ =~ receiver_email)
         return render(json: { errors: "recipient with email #{receiver_email.inspect} is not part of this organization"}, status: :not_found)
       end
-      #return render json: { errors: "recipient with email #{receiver_email.inspect} could not be found" }, status: :not_found
       receiver = User.new(name: receiver_email, email: receiver_email)
       receiver.save
     end
@@ -69,32 +68,16 @@ class KudosController < ApplicationController
       render json: { kudo: kudo }, status: :created
 
       # Success, send email notification
-      ReceivedKudosMailer.received_kudos_notification(kudo).deliver_now
+      ReceivedKudosMailer.received_kudos_notification(kudo).deliver_later
 
-
-      # Notify user via slack. This is initalized in kudos/environment.rb.
-      # Can this be called once initially and then regularly
-      # updated via scheduled job?
-      slack_users_list = kudosbot.users_list.members
-      receiver_slack_name = ""
-
-      # Find slack user name for receiver. Should this be a helper method
-      # in ../helpers/application_helper? That method should take an
-      # array of IDs and return a hash of emails to slack usernames.
-      # i.e. helpers.find_slack_usernames([ID1, ID2]) =>
-      #   {ID1: slackname1, ID2, slackname2}
-
-      # Per Byron, we should probably just add slack usernames to
-      # the DB for all new users
-
-      slack_users_list.each do |user|
-        receiver_slack_name = user['name'] if user.profile["email"] == receiver_email
+      # Notify user via Slack. This is initalized in kudos/environment.rb.
+      begin
+        receiver_slack_user = kudosbot.users_lookupByEmail(email: receiver_email).user
+        send_slack_notification(receiver_slack_user)
+      rescue Slack::Web::Api::Errors::SlackError => e
+        # how to handle 'users_not_found' error?
+        puts e
       end
-      fail "No Slack user found with email #{receiver_email}" unless receiver_slack_name
-
-      # Post message to kudos channel in slack.
-      kudosbot.chat_postMessage(channel: '#kudos-dev', text: "Hey @#{receiver_slack_name}, you just received a kudos on http://kudos.factual.com!", as_user: true, "link_names": 1)
-
     else
       render json: { error: kudo.errors.messages.values.flatten.to_sentence }, status: :unprocessable_entity
     end
@@ -125,4 +108,20 @@ class KudosController < ApplicationController
   def kudo_params
     params.require(:kudo).permit(:body)
   end
+
+  # Sends a direct message to Slack user to notify of new Kudos
+  def send_slack_notification(slack_user)
+    user_id = slack_user['id']
+    user_name = slack_user['name']
+
+    im = kudosbot.im_open({user: user_id, return_im: true})
+    kudosbot.chat_postMessage(
+      channel: im.channel.id,
+      text: "Hey @#{user_name}, you just received a kudos on #{ENV['SITE_BASE_URL']}",
+      as_user: true,
+      "link_names": 1
+    )
+    kudosbot.im_close(channel: im.channel.id)
+  end
+
 end

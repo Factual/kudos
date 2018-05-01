@@ -4,7 +4,7 @@ class ReceivedKudosMailer < ApplicationMailer
     @kudo = kudo
     @giver = User.find_by(id: @kudo.giver_id)
     @receiver = User.find_by(id: @kudo.receiver_id)
-    @url = ENV["EMAIL_SITE_URL"]
+    @url = ENV["SITE_BASE_URL"]
     mail(to: @receiver.email, subject: "You just received Kudos from #{@giver.name}!")
   end
 

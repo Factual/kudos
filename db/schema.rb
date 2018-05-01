@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20170404213325) do
     t.string   "email"
     t.string   "avatar"
     t.integer  "old_id"
-    t.boolean  "email_notifications", default: true
+    t.boolean  "email_notifications", default: true, null: false
   end
 
   add_foreign_key "kudos", "users", column: "giver_id"
