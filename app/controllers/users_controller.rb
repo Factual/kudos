@@ -7,21 +7,18 @@ class UsersController < ApplicationController
   end
 
   def update
-
-    if params[:email_notifications] == 'subscribe'
-      response = true
-    elsif params[:email_notifications] == 'unsubscribe'
-      response = false
-    else
-      return render json: { error: "Incorrect parameter for email notifications." }, status: :bad_request
+    if !params[:email_notifications].nil?
+      current_user.email_notifications = params[:email_notifications]
     end
 
-    if current_user.update(email_notifications: response)
-      byebug
-      render json: { email_notifications: current_user.email_notifications }, status: :accepted
-    else
-      render json: { error: current_user.email_notifications.errors.messages.values.flatten.to_sentence }, status: :unprocessable_entity
+    if !params[:slack_notifications].nil?
+      current_user.slack_notifications = params[:slack_notifications]
     end
 
+    if current_user.save
+      render json: { message: "Notification settings have been updated!" }, status: :accepted
+    else
+      render json: { error: "Notification settings could not be updated. Please try again later." }, status: 500
+    end
   end
 end

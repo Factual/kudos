@@ -5,18 +5,15 @@ import ErrorBanner from '../components/ErrorBanner';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/actionCreators';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 // Simple example of a React "smart" component
 const KudosApp = ({ kudos, error, createKudo, isFetchingKudos, totalKudos }) => {
   return (
-    <MuiThemeProvider>
-      <div className="kudo-pane">
-        <ErrorBanner error={ error } />
-        <GiveKudo {...{ createKudo }} />
-        <KudosListContainer />
-      </div>
-    </MuiThemeProvider>
+    <div className="kudo-pane">
+      <ErrorBanner error={ error } />
+      <GiveKudo {...{ createKudo }} />
+      <KudosListContainer />
+    </div>
   );
 };
 

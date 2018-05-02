@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   resources :kudos, only: [:index, :create, :update], constraints: { format: :json }, defaults: { format: :json }
 
   get 'kudos_app', to: 'kudos_app#index'
+  get 'settings', to: 'kudos_app#index'
+
   # Auth
   get 'auth/:provider/callback', to: 'sessions#create'
   get 'auth/failure', to: redirect('/')
@@ -10,7 +12,7 @@ Rails.application.routes.draw do
 
   get 'users/search', to: 'users#search'
 
-  post 'settings', to: 'users#update', as: :settings
+  post 'users/settings', to: 'users#update'
 
   post 'like', to: 'likes#like'
   post 'unlike', to: 'likes#unlike'

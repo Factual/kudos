@@ -67,16 +67,20 @@ class KudosController < ApplicationController
     if kudo.save
       render json: { kudo: kudo }, status: :created
 
-      # Success, send email notification
-      ReceivedKudosMailer.received_kudos_notification(kudo).deliver_later
+      # Send email notification
+      if current_user.email_notifications
+        ReceivedKudosMailer.received_kudos_notification(kudo).deliver_later
+      end
 
-      # Notify user via Slack. This is initalized in kudos/environment.rb.
-      begin
-        receiver_slack_user = kudosbot.users_lookupByEmail(email: receiver_email).user
-        send_slack_notification(receiver_slack_user)
-      rescue Slack::Web::Api::Errors::SlackError => e
-        # how to handle 'users_not_found' error?
-        puts e
+      # Send Slack notification
+      if current_user.slack_notifications
+        begin
+          receiver_slack_user = kudosbot.users_lookupByEmail(email: receiver_email).user
+          send_slack_notification(receiver_slack_user)
+        rescue Slack::Web::Api::Errors::SlackError => e
+          # not likely to happen, but how to handle 'users_not_found' error?
+          puts e
+        end
       end
     else
       render json: { error: kudo.errors.messages.values.flatten.to_sentence }, status: :unprocessable_entity
