@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react'
 import { isPresent } from 'lib/util'
 import Autosuggest from 'react-autosuggest'
-import { TextField } from 'material-ui';
 import _ from 'lodash'
 import request from 'axios'
 
@@ -123,15 +122,11 @@ export default class GiveKudo extends React.Component {
             <label htmlFor="give-kudo__input-message">
               Say:
             </label>
-            <TextField
+            <textarea
               placeholder="Message"
               id="give-kudo__input-message"
               className="give-kudo__input"
-              multiLine
               rows={3}
-              rowsMax={5}
-              underlineShow={false}
-              fullWidth
               value={this.state.message}
               onChange={this.setMessage}
               disabled={this.state.inFlight}
