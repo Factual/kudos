@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { Toggle, RaisedButton } from 'material-ui';
-
 import request from 'axios'
 
 export default class Settings extends React.Component {
@@ -20,7 +19,7 @@ export default class Settings extends React.Component {
   onToggle = (e, checked) => {
     this.setState({[ e.target.name ]: checked})
   }
-  
+
   updateSettings = () => {
     const { email_notifications, slack_notifications } = this.state
     request({
@@ -32,13 +31,15 @@ export default class Settings extends React.Component {
       }
     }).then( response => {
       alert(response.data.message)
+    }).catch( error => {
+      alert(error.data.error)
     })
   }
 
   render() {
     return (
       <div className="kudo-pane">
-        <h2 className="margin-below"> Notification Settings </h2>
+        <h3 className="margin-below"> Notification Settings </h3>
         <Toggle
           label="Email notifications"
           name="email_notifications"

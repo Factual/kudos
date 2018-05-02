@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react'
 import { isPresent } from 'lib/util'
 import Autosuggest from 'react-autosuggest'
-import Textarea from 'react-textarea-autosize'
+import { TextField } from 'material-ui';
 import _ from 'lodash'
 import request from 'axios'
 
@@ -16,7 +16,7 @@ const fuzzySearchUsers = (query) => {
     }
   }).then((res) => {
     return res.data.map(obj => _.pick(obj, [ 'name', 'email' ]))
-  }) 
+  })
 }
 
 const getSuggestionValue = suggestion => suggestion.email
@@ -123,11 +123,15 @@ export default class GiveKudo extends React.Component {
             <label htmlFor="give-kudo__input-message">
               Say:
             </label>
-            <Textarea
+            <TextField
               placeholder="Message"
               id="give-kudo__input-message"
               className="give-kudo__input"
-              minRows={3}
+              multiLine
+              rows={3}
+              rowsMax={5}
+              underlineShow={false}
+              fullWidth
               value={this.state.message}
               onChange={this.setMessage}
               disabled={this.state.inFlight}

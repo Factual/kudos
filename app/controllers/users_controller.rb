@@ -6,6 +6,7 @@ class UsersController < ApplicationController
     render json: results
   end
 
+  # update user's notification settings
   def update
     if !params[:email_notifications].nil?
       current_user.email_notifications = params[:email_notifications]
