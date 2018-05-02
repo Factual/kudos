@@ -117,11 +117,14 @@ const totalKudos = (state = 0, action) => {
   }
 }
 
-const initialize = (state = { name: '', id: '' }, action) => {
+const initialize = (state = { name: '', id: '', email_notifications: true, slack_notifications: true }, action) => {
   if (action.type === actionTypes.INITIALIZE) {
+    const { id, name, email_notifications, slack_notifications } = action
     return {
-      id: action.id,
-      name: action.name
+      id,
+      name,
+      email_notifications,
+      slack_notifications,
     }
   }
   return state

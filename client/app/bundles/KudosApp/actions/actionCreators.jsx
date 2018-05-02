@@ -131,11 +131,14 @@ const editKudo = ( id, message, onSuccess = null, onFailure = null ) => {
   }
 }
 
-const initialize = ({ id, name }) => {
+const initialize = (props) => {
+  const { id, name, email_notifications, slack_notifications } = props
   return {
     type: actionTypes.INITIALIZE,
     id,
-    name
+    name,
+    email_notifications,
+    slack_notifications,
   }
 }
 
