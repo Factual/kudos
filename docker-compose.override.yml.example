@@ -11,6 +11,10 @@ services:
       #   Authorized JavaScript origins: http://localhost:3000
       #   Authorized redirect URIs: http://localhost:3000/auth/google_oauth2/callback
       # Make sure to enable the "Google+ API" in the console.
+      #
+      # SITE_BASE_URL should be set to the domain Kudos is hosted on,
+      # i.e. http://localhost:3000
+      #
       - G_OAUTH_ID=<OAUTH_ID>
       - G_OAUTH_SECRET=<OAUTH_SECRET>
       - SMTP_SERVER=<EMAIL_SERVER>
