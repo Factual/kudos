@@ -41,16 +41,16 @@
 }
 
 .kudo__input {
+  @extend .form-control;
   border: 1px solid $dark-border-color;
   border-radius: 0 0 4px 4px;
 }
 
 .kudo__receiver {
-  height: 50px; // match the height of .kudo__avatar img
 }
 
 .kudo__message {
-
+  padding-right: 50px; // match width of .kudo__avatar
 }
 
 .kudo__timestamp {
