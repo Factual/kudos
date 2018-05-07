@@ -20,13 +20,9 @@ const updatedKudo = ( kudoId, newMessage ) => {
 }
 
 const serverReceivedKudo = (res) => {
-  const receiverId = res.data.kudo.receiver_id
-  const messageBody = res.data.kudo.body
-
   return {
     type: actionTypes.SERVER_RECEIVED_KUDO,
-    receiverId,
-    messageBody
+    ...res.data.kudo
   }
 }
 
