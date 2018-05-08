@@ -47,7 +47,7 @@ class KudosController < ApplicationController
   #   :body           [body of kudo]
   def create
     giver_id = current_user.id
-    receiver_email = params[:kudo][:receiver_email]
+    receiver_email = params[:kudo][:receiver_email].split(',').first.strip
 
     unless (receiver = User.find_by(email: receiver_email))
       if !(/@factual.com$/ =~ receiver_email)

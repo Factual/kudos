@@ -98,9 +98,9 @@ export default class Kudo extends React.Component {
       </button>
 
     return <div className="kudo">
-      <h4 className="list-group-item-heading">Kudos, {this.props.kudo.receiver}!</h4>
+      <h4 className="list-group-item-heading">Kudos, {this.props.kudo.receivers[0].name}!</h4>
       <div className="kudo__receiver">
-        <img src={this.props.kudo.receiver_avatar} alt={this.props.kudo.receiver} className="kudo__avatar" />
+        <img src={this.props.kudo.receivers[0].avatar} alt={this.props.kudo.receivers[0].name} className="kudo__avatar" />
       </div>
       <div className="kudo__message">
         <blockquote className="blockquote">
