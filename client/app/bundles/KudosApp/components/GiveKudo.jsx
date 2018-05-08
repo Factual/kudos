@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { isPresent } from 'lib/util'
+import { isEmpty, trim } from 'lodash'
 import Autosuggest from 'react-autosuggest'
 import Textarea from 'react-textarea-autosize'
 import _ from 'lodash'
@@ -16,7 +16,7 @@ const fuzzySearchUsers = (query) => {
     }
   }).then((res) => {
     return res.data.map(obj => _.pick(obj, [ 'name', 'email' ]))
-  }) 
+  })
 }
 
 const getSuggestionValue = suggestion => suggestion.email
@@ -37,7 +37,7 @@ export default class GiveKudo extends React.Component {
 
   _initialState() {
     return {
-      email: '',
+      emails: [],
       message: '',
       userSuggestions: [],
       inFlight: false
@@ -58,7 +58,7 @@ export default class GiveKudo extends React.Component {
   // React will automatically provide us with the event `e`
   handleClick(e) {
     this.setState({inFlight: true})
-    this.props.createKudo(this.state.email, this.state.message, this.onSuccess, this.onFailure)
+    this.props.createKudo(this.state.emails, this.state.message, this.onSuccess, this.onFailure)
   }
 
   onSuccess(_res) {
@@ -71,7 +71,7 @@ export default class GiveKudo extends React.Component {
 
   onChangeSearchInput = (event, { newValue }) => {
     this.setState({
-      email: newValue
+      emails: newValue.split(',').map(trim)
     })
   }
 
@@ -94,10 +94,10 @@ export default class GiveKudo extends React.Component {
 
   render() {
     const buttonInnerHTML = this.state.inFlight ? '<i class="fa fa-spinner fa-spin"></i>' : 'Give Kudo'
-    const buttonEnabled = isPresent(this.state.email) && isPresent(this.state.message) && !this.state.inFlight
+    const buttonDisabled = isEmpty(this.state.emails) || isEmpty(this.state.message) || this.state.inFlight
     const autoSuggestProps = {
       placeholder: 'Type an email or search a factualite',
-      value: this.state.email,
+      value: this.state.emails.join(', '),
       onChange: this.onChangeSearchInput,
     }
     return (
@@ -138,7 +138,7 @@ export default class GiveKudo extends React.Component {
               type="button"
               className="give-kudo__button"
               onClick={this.handleClick}
-              disabled={!buttonEnabled}
+              disabled={buttonDisabled}
               dangerouslySetInnerHTML={{__html: buttonInnerHTML}}
             >
             </button>

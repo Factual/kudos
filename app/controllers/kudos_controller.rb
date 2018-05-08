@@ -43,24 +43,32 @@ class KudosController < ApplicationController
   # Creates a new Kudo based on current user and specified receiver & body
   #
   # Required params:
-  #   :receiver_email [email of receiver]
-  #   :body           [body of kudo]
+  #   :receiver_emails [array of emails of receivers]
+  #   :body            [body of kudo]
   def create
     giver_id = current_user.id
-    receiver_email = params[:kudo][:receiver_email].split(',').first.strip
+    receiver_emails = params[:kudo][:receiver_emails]
+    receivers = User.where(email: receiver_emails)
 
-    unless (receiver = User.find_by(email: receiver_email))
-      if !(/@factual.com$/ =~ receiver_email)
-        return render(json: { errors: "recipient with email #{receiver_email.inspect} is not part of this organization"}, status: :not_found)
+    uncreated_emails = receiver_emails - receivers.pluck(:email)
+    uncreated_receivers = uncreated_emails.map do |email|
+      if !(/@factual.com$/ =~ email)
+        return render(
+          json: {
+            errors: "recipient with email #{email.inspect} is not part of this organization"
+          },
+          status: :not_found
+        )
       end
-      #return render json: { errors: "recipient with email #{receiver_email.inspect} could not be found" }, status: :not_found
-      receiver = User.new(name: receiver_email, email: receiver_email)
-      receiver.save
+      { name: email, email: email }
     end
+
+    new_receivers = User.create!(uncreated_receivers)
+    receiver_ids = receivers.ids.concat new_receivers.map(&:id)
 
     kudo = Kudo.new(
       giver_id: giver_id,
-      receiver_ids: [receiver.id],
+      receiver_ids: receiver_ids,
       body: kudo_params[:body]
     )
 

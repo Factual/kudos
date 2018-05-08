@@ -3,10 +3,10 @@ import request from 'axios'
 import _ from 'lodash'
 request.defaults.headers.post['Content-Type'] = 'application/json'
 
-const postedKudo = (receiverEmail, messageBody) => {
+const postedKudo = (receiverEmails, messageBody) => {
   return {
     type: actionTypes.POSTED_KUDO,
-    receiverEmail,
+    receiverEmails,
     messageBody
   }
 }
@@ -68,9 +68,9 @@ const resetErrorMessage = () => {
   }
 }
 
-const createKudo = (receiverEmail, messageBody, onSuccess = null, onFailure = null) => {
+const createKudo = (receiverEmails, messageBody, onSuccess = null, onFailure = null) => {
   return dispatch => {
-    dispatch(postedKudo(receiverEmail, messageBody))
+    dispatch(postedKudo(receiverEmails, messageBody))
     dispatch(resetErrorMessage());
 
     // TODO: factor into a request/post library
@@ -83,7 +83,7 @@ const createKudo = (receiverEmail, messageBody, onSuccess = null, onFailure = nu
       // },
       data: {
         kudo: {
-          receiver_email: receiverEmail,
+          receiver_emails: receiverEmails,
           body: messageBody,
         }
       },
