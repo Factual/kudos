@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import _ from 'lodash';
+import _, { map } from 'lodash';
 import moment from 'moment';
 import { grey400, lightBlue400 } from 'material-ui/styles/colors';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -97,8 +97,9 @@ export default class Kudo extends React.Component {
         Save
       </button>
 
+    const recipientDisplay = map(this.props.kudo.receivers, 'name').join(', ')
     return <div className="kudo">
-      <h4 className="list-group-item-heading">Kudos, {this.props.kudo.receivers[0].name}!</h4>
+      <h4 className="list-group-item-heading">{`Kudos, ${recipientDisplay}!`}</h4>
       <div className="kudo__receiver">
         <img src={this.props.kudo.receivers[0].avatar} alt={this.props.kudo.receivers[0].name} className="kudo__avatar" />
       </div>
