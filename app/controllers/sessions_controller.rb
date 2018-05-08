@@ -27,8 +27,7 @@ class SessionsController < ApplicationController
     provisional_accounts =
       User.where(email: current_user.email).where.not(id: current_user.id)
     return if provisional_accounts.length.zero?
-    provisional_kudos =
-      Kudo.where(receiver_id: provisional_accounts)
+    provisional_kudos = KudoReceipt.where(receiver_id: provisional_accounts)
     provisional_kudos.update_all(receiver_id: current_user.id)
     provisional_accounts.destroy_all
   end
