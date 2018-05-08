@@ -38,13 +38,13 @@ ActiveRecord::Schema.define(version: 20180501104312) do
     t.string   "name"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
-    t.datetime "created_at",                         null: false
-    t.datetime "updated_at",                         null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.string   "email"
     t.string   "avatar"
     t.integer  "old_id"
-    t.boolean  "email_notifications", default: true, null: false
-    t.boolean  "slack_notifications", default: true, null: false
+    t.boolean  "allow_email_notifications", default: true, null: false
+    t.boolean  "allow_slack_notifications", default: true, null: false
   end
 
   add_foreign_key "kudos", "users", column: "giver_id"

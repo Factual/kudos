@@ -88,7 +88,6 @@ const createKudo = (receiverEmail, messageBody, onSuccess = null, onFailure = nu
         }
       },
     }).then(res => {
-      console.log(res)
       if (onSuccess) {
         onSuccess(res);
       }
@@ -132,13 +131,13 @@ const editKudo = ( id, message, onSuccess = null, onFailure = null ) => {
 }
 
 const initialize = (props) => {
-  const { id, name, email_notifications, slack_notifications } = props
+  const { id, name, allow_email_notifications, allow_slack_notifications } = props
   return {
     type: actionTypes.INITIALIZE,
     id,
     name,
-    email_notifications,
-    slack_notifications,
+    allow_email_notifications,
+    allow_slack_notifications,
   }
 }
 

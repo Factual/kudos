@@ -66,22 +66,7 @@ class KudosController < ApplicationController
 
     if kudo.save
       render json: { kudo: kudo }, status: :created
-
-      # Send email notification
-      if current_user.email_notifications
-        ReceivedKudosMailer.received_kudos_notification(kudo).deliver_later
-      end
-
-      # Send Slack notification
-      if current_user.slack_notifications
-        begin
-          receiver_slack_user = kudosbot.users_lookupByEmail(email: receiver_email).user
-          send_slack_notification(receiver_slack_user)
-        rescue Slack::Web::Api::Errors::SlackError => e
-          # not likely to happen, but how to handle 'users_not_found' error?
-          puts e
-        end
-      end
+      current_user.notify(kudo) # send requested notification(s) to User
     else
       render json: { error: kudo.errors.messages.values.flatten.to_sentence }, status: :unprocessable_entity
     end
@@ -112,20 +97,4 @@ class KudosController < ApplicationController
   def kudo_params
     params.require(:kudo).permit(:body)
   end
-
-  # Sends a direct message to Slack user to notify of new Kudos
-  def send_slack_notification(slack_user)
-    user_id = slack_user['id']
-    user_name = slack_user['name']
-
-    im = kudosbot.im_open({user: user_id, return_im: true})
-    kudosbot.chat_postMessage(
-      channel: im.channel.id,
-      text: "Hey @#{user_name}, you just received a kudos on #{ENV['SITE_BASE_URL']}",
-      as_user: true,
-      "link_names": 1
-    )
-    kudosbot.im_close(channel: im.channel.id)
-  end
-
 end

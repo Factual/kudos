@@ -15,6 +15,9 @@ services:
       # SITE_BASE_URL should be set to the domain Kudos is hosted on,
       # i.e. http://localhost:3000
       #
+      # SITE_SETTINGS_URL should be set to the path for the Notification Settings page,
+      # i.e. http://localhost:3000/settings
+      #
       - G_OAUTH_ID=<OAUTH_ID>
       - G_OAUTH_SECRET=<OAUTH_SECRET>
       - SMTP_SERVER=<EMAIL_SERVER>
@@ -27,3 +30,5 @@ services:
       - EMAIL_PASSWORD=<EMAIL_PASSWORD>
       - SLACK_API_TOKEN=<YOUR_SLACK_API_TOKEN>
       - SITE_BASE_URL=<SITE_BASE_URL>
+      - SITE_SETTINGS_URL=<SITE_SETTINGS_URL>
+      - GITHUB_REPO_URL=<GITHUB_REPO_URL>

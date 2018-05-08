@@ -4,15 +4,15 @@ import request from 'axios'
 
 export default class Settings extends React.Component {
   static propTypes = {
-    email_notifications: PropTypes.bool.isRequired,
-    slack_notifications: PropTypes.bool.isRequired,
+    allow_email_notifications: PropTypes.bool.isRequired,
+    allow_slack_notifications: PropTypes.bool.isRequired,
   }
 
   constructor(props) {
     super(props)
     this.state = {
-      email_notifications: this.props.email_notifications,
-      slack_notifications: this.props.slack_notifications,
+      allow_email_notifications: this.props.allow_email_notifications,
+      allow_slack_notifications: this.props.allow_slack_notifications,
     }
   }
 
@@ -21,13 +21,13 @@ export default class Settings extends React.Component {
   }
 
   updateSettings = () => {
-    const { email_notifications, slack_notifications } = this.state
+    const { allow_email_notifications, allow_slack_notifications } = this.state
     request({
       url: '/users/settings',
       method: 'POST',
       data: {
-        email_notifications,
-        slack_notifications,
+        allow_email_notifications,
+        allow_slack_notifications,
       }
     }).then( response => {
       alert(response.data.message)
@@ -42,16 +42,16 @@ export default class Settings extends React.Component {
         <h3 className="margin-below"> Notification Settings </h3>
         <Toggle
           label="Email notifications"
-          name="email_notifications"
+          name="allow_email_notifications"
           className="margin-below"
-          defaultToggled={ this.props.email_notifications }
+          defaultToggled={ this.props.allow_email_notifications }
           onToggle={ this.onToggle }
         />
         <Toggle
           label="Slack notifications"
-          name="slack_notifications"
+          name="allow_slack_notifications"
           className="margin-below"
-          defaultToggled={ this.props.slack_notifications }
+          defaultToggled={ this.props.allow_slack_notifications }
           onToggle={ this.onToggle }
         />
         <RaisedButton
@@ -60,8 +60,5 @@ export default class Settings extends React.Component {
         />
       </div>
     )
-
   }
-
-
 }

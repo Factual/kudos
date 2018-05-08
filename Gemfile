@@ -39,9 +39,8 @@ gem "annotate"
 gem 'bootstrap', '>= 4.0.0.alpha3', '<= 4.1'
 gem "font-awesome-rails"
 
-# Slackbot framework https://github.com/slack-ruby/slack-ruby-bot
+# Slackbot framework https://github.com/slack-ruby/slack-ruby-client
 gem 'slack-ruby-client'
-gem 'celluloid-io' # This is for the real time client, not using right now
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

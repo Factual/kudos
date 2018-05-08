@@ -11,7 +11,7 @@ const KudosApp = ({ kudos, error, createKudo, isFetchingKudos, totalKudos }) => 
   return (
     <div className="kudo-pane">
       <ErrorBanner error={ error } />
-      <GiveKudo {...{ createKudo }} />
+      <GiveKudo createKudo={ createKudo } />
       <KudosListContainer />
     </div>
   );

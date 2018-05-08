@@ -8,15 +8,15 @@ function mapStateToProps({ kudosAppStore }) {
     user: {
       id,
       name,
-      email_notifications,
-      slack_notifications
+      allow_email_notifications,
+      allow_slack_notifications
     }
   } = kudosAppStore
   return {
     id,
     name,
-    email_notifications,
-    slack_notifications
+    allow_email_notifications,
+    allow_slack_notifications
   }
 }
 

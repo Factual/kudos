@@ -4,8 +4,8 @@ class KudosAppController < ApplicationController
     @kudos_app_props = {
       id: current_user.id,
       name: current_user.name,
-      email_notifications: current_user.email_notifications,
-      slack_notifications: current_user.slack_notifications
+      allow_email_notifications: current_user.allow_email_notifications,
+      allow_slack_notifications: current_user.allow_slack_notifications
     }
   end
 end
