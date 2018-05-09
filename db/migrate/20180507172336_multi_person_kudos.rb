@@ -9,6 +9,7 @@ class MultiPersonKudos < ActiveRecord::Migration[5.0]
     add_foreign_key :kudos_to_receivers, :kudos, column: 'kudo_id'
     add_foreign_key :kudos_to_receivers, :users, column: 'receiver_id'
     add_index :kudos_to_receivers, [:kudo_id, :receiver_id], unique: true
+    add_index :kudos_to_receivers, :receiver_id
 
     reversible do |dir|
       dir.up do
