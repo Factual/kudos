@@ -36,7 +36,7 @@ const kudos = (state = [], action) => {
         return []
       }
     case actionTypes.SERVER_RECEIVED_KUDO:
-      return state.concat(createKudo(action));
+      return [createKudo(action)].concat(state);
     case actionTypes.FETCH_KUDOS_SUCCESS:
       if (action.append) {
         return state.concat(action.kudos); // append the next page
@@ -70,7 +70,7 @@ const kudos = (state = [], action) => {
 }
 
 const createKudo = (action) => {
-  return _.pick(action, ['receiverId', 'messageBody']);
+  return _.omit(action, 'type');
 }
 
 const error = (state = null, action) => {
