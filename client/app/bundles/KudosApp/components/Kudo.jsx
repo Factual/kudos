@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import _, { map } from 'lodash';
+import { map } from 'lodash';
 import moment from 'moment';
 import { grey400, lightBlue400 } from 'material-ui/styles/colors';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -7,10 +7,8 @@ import Textarea from 'react-textarea-autosize';
 import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
 
 export default class Kudo extends React.Component {
-
   constructor(props, context) {
     super(props, context);
-    _.bindAll(this, 'formatTimestamp', 'likedBySelf', 'formatLikeText', 'postedByActiveUser', 'makeEditable', 'setMessage', "update");
     this.state = {
       likeAction: this.props.likeKudo(this.props.id),
       timestamp: this.formatTimestamp(this.props.kudo.given_at),
@@ -26,46 +24,37 @@ export default class Kudo extends React.Component {
     }
   }
 
-  formatTimestamp(t) {
+  formatTimestamp = (t) => {
     let ts = moment(t);
     return `At ${ts.format('h:mm a')} on ${ts.format('MMM D, YYYY')}`;
   }
 
-  formatLikeText(numLikes) {
+  formatLikeText = (numLikes) => {
     if (numLikes === 0) {
       return "";
     }
     return `${numLikes} ${numLikes === 1 ? 'person likes': 'people like'} this`;
   }
 
-  likedBySelf(likes, giverId) {
-    let match = false
-
-    _.forEach(likes, val => {
-      if (val.giver_id === this.props.giverId) {
-        match = true
-        return
-      }
-    })
-
-    return match
+  likedBySelf = (likes, giverId) => {
+    return likes.some(like => like.giver_id === this.props.giverId)
   }
 
-  postedByActiveUser() {
+  postedByActiveUser = () => {
     let user = this.props.giverId;
     let poster = this.props.kudo.giver_id;
     return (user === poster);
   }
 
-  makeEditable(e) {
+  makeEditable = (e) => {
     this.setState({editing: true});
   }
 
-  setMessage(e) {
+  setMessage = (e) => {
     this.setState({body: e.target.value})
   }
 
-  update(e) {
+  update = (e) => {
     this.setState({editing: false});
     this.props.updateKudo(this.props.kudo.id, this.state.body);
   }
@@ -83,53 +72,58 @@ export default class Kudo extends React.Component {
 
   render() {
 
-    const Edit = () => <button
-      type='button'
-      className="kudo__edit-button"
-      onClick={this.makeEditable}>
+    const Edit = () => (
+      <button
+        type='button'
+        className="kudo__edit-button"
+        onClick={this.makeEditable}>
         Edit
       </button>
+    )
 
-    const Save = () => <button
-      type='button'
-      className='kudo__edit-button kudo__edit-button--save'
-      onClick={this.update}>
+    const Save = () => (
+      <button
+        type='button'
+        className='kudo__edit-button kudo__edit-button--save'
+        onClick={this.update}>
         Save
       </button>
+    )
 
     const recipientDisplay = map(this.props.kudo.receivers, 'name').join(', ')
-    return <div className="kudo">
-      <h4 className="list-group-item-heading">{`Kudos, ${recipientDisplay}!`}</h4>
-      <div className="kudo__receiver">
-        <img src={this.props.kudo.receivers[0].avatar} alt={this.props.kudo.receivers[0].name} className="kudo__avatar" />
-      </div>
-      <div className="kudo__message">
-        <blockquote className="blockquote">
-          {this.state.editing ? (
-            <Textarea
-              className="kudo__input"
-              value={this.state.body}
-              onChange={this.setMessage}
-            />
-          ) : (
-            this.state.body
-          )}
-          <footer className="blockquote-footer">{this.props.kudo.giver}</footer>
-        </blockquote>
-      </div>
-      <FloatingActionButton onClick={this.state.likeAction} mini={true} backgroundColor={this.state.thumbColor}>
-        <ThumbUp/>
-      </FloatingActionButton>
-      <div>{this.state.likeText}</div>
-      {this.postedByActiveUser() ? (
-        <div className="kudo__update">
-          {this.state.editing ? <Save /> : <Edit />}
+    return (
+      <div className="kudo">
+        <h4 className="list-group-item-heading">{`Kudos, ${recipientDisplay}!`}</h4>
+        <div className="kudo__receiver">
+          <img src={this.props.kudo.receivers[0].avatar} alt={this.props.kudo.receivers[0].name} className="kudo__avatar" />
         </div>
-      ) : (null)}
-      <div className="kudo__timestamp">
-        {this.state.timestamp}
+        <div className="kudo__message">
+          <blockquote className="blockquote">
+            {this.state.editing ? (
+              <Textarea
+                className="kudo__input"
+                value={this.state.body}
+                onChange={this.setMessage}
+              />
+            ) : (
+              this.state.body
+            )}
+            <footer className="blockquote-footer">{this.props.kudo.giver}</footer>
+          </blockquote>
+        </div>
+        <FloatingActionButton onClick={this.state.likeAction} mini={true} backgroundColor={this.state.thumbColor}>
+          <ThumbUp/>
+        </FloatingActionButton>
+        <div>{this.state.likeText}</div>
+        {this.postedByActiveUser() ? (
+          <div className="kudo__update">
+            {this.state.editing ? <Save /> : <Edit />}
+          </div>
+        ) : (null)}
+        <div className="kudo__timestamp">
+          {this.state.timestamp}
+        </div>
       </div>
-    </div>
+    )
   }
-
 }
