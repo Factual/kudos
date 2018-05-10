@@ -39,15 +39,15 @@ class User < ApplicationRecord
   end
 
   # Send notification(s) of received Kudos, if User has requested in Settings
-  def notify(kudo)
-    send_email_notification(kudo) if allow_email_notifications
+  def notify
+    send_email_notification if allow_email_notifications
     send_slack_notification if allow_slack_notifications
   end
 
   private
 
-  def send_email_notification(kudo)
-    ReceivedKudosMailer.received_kudos_notification(kudo).deliver_later
+  def send_email_notification
+    ReceivedKudosMailer.received_kudos_notification(self).deliver_later
   end
 
   # Sends a direct message to Slack user to notify of new Kudos

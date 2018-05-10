@@ -66,7 +66,7 @@ class KudosController < ApplicationController
 
     if kudo.save
       render json: { kudo: kudo }, status: :created
-      receiver.notify(kudo) # send requested notification(s) to Receiver
+      receiver.notify # send requested notification(s) to Receiver
     else
       render json: { error: kudo.errors.messages.values.flatten.to_sentence }, status: :unprocessable_entity
     end
