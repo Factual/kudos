@@ -25,11 +25,11 @@ class KudosController < ApplicationController
             end
 
             sleep 1 # demo infinite scroll
-    kudos = Kudo.includes(:receiver, :giver).order(order)
+    kudos = Kudo.includes(:receivers, :giver).order(order)
     kudos =
       case params[:tab]
       when 'My Kudos'
-        kudos.where(receiver_id: current_user.id)
+        kudos.joins(:receipts).merge(KudoReceipt.where(receiver_id: current_user.id))
       when 'Awarded Kudos'
         kudos.where(giver_id: current_user.id)
       else
@@ -48,7 +48,7 @@ class KudosController < ApplicationController
   #   :body           [body of kudo]
   def create
     giver_id = current_user.id
-    receiver_email = params[:kudo][:receiver_email]
+    receiver_email = params[:kudo][:receiver_email].split(',').first.strip
 
     unless (receiver = User.find_by(email: receiver_email))
       if !(/@factual.com$/ =~ receiver_email)
@@ -60,7 +60,7 @@ class KudosController < ApplicationController
 
     kudo = Kudo.new(
       giver_id: giver_id,
-      receiver_id: receiver.id,
+      receiver_ids: [receiver.id],
       body: kudo_params[:body]
     )
 

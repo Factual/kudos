@@ -24,15 +24,18 @@ users = User.create([
 kenobi = users[0]
 rex = users[1]
 
-Kudo.create([
+kudos = Kudo.create([
   {
     body: "Great job fighting off the droids on Kamino, Captain Rex.",
-    giver_id: kenobi.id,
-    receiver_id: rex.id
+    giver_id: kenobi.id
   },
   {
     body: "Thanks for having my back Commander.",
     giver_id: rex.id,
-    receiver_id: kenobi.id
   }
+])
+
+KudoReceipt.create([
+  { kudo_id: kudos[0].id, receiver_id: rex.id },
+  { kudo_id: kudos[1].id, receiver_id: kenobi.id }
 ])
