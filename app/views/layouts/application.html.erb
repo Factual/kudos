@@ -16,8 +16,13 @@
       <% end -%>
       <% if current_user %>
         <nav class="navbar navbar-default">
-          Signed in as <strong><%= current_user.name %></strong>!
-          <%= link_to "Sign out", logout_path, id: "sign_out", class: "btn login btn-primary" %>
+          <div id="temp-header">
+            Signed in as <strong><%= current_user.name %></strong>! <br/>
+            <a href="/" style="margin-right:10px"> Home </a>      <a href="/settings"> Settings </a>
+          </div>
+          <button class="btn login btn-primary">
+            <%= link_to "Sign out", logout_path, id: "sign_out" %>
+          </button>
           <% if current_user.avatar %>
             <img width='60' src="<%= current_user.avatar %>" alt="avatar" />
           <% end %>

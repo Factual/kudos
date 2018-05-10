@@ -12,20 +12,28 @@
 #  updated_at       :datetime         not null
 #  email            :string
 #  avatar           :string
-#
+#  email_notifications  :boolean      not null, default=true
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  provider: MyString
-  uid: MyString
-  name: MyString
-  oauth_token: MyString
+unsubscribed:
+  provider: "provider"
+  uid: "12345"
+  name: "William Chang"
+  oauth_token: "wills_oauth_token"
   oauth_expires_at: 2016-06-07 14:19:20
+  created_at: 2016-06-07 14:19:20
+  updated_at: 2016-06-07 14:19:20
+  email: "william@factual.com"
+  email_notifications: false
 
-two:
-  provider: MyString
-  uid: MyString
-  name: MyString
-  oauth_token: MyString
+subscribed:
+  provider: "MyString"
+  uid: "98765"
+  name: "Joe Cox"
+  oauth_token: "joes_oauth_token"
   oauth_expires_at: 2016-06-07 14:19:20
+  created_at: 2016-06-07 14:19:20
+  updated_at: 2016-06-07 14:19:20
+  email: "joe@factual.com"
+  email_notifications: true

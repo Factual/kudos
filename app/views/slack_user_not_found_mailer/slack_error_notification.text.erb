@@ -1,0 +1,14 @@
+Hey <%= @receiver.name %>!
+
+We've turned off Slack notifications for Kudos because we couldn't find
+a Factual Slack account with the email <%= @receiver.email %>!
+
+If you'd like to keep Slack notifications going, please double-check that the
+email on your Slack account matches <%= @receiver.email %> and turn your Slack
+notifications back on at: <%= @kudos_settings_url %>
+
+If your Slack account exists but you keep seeing this message,
+please open a ticket at: <%= @github_repo_url %>
+
+Thanks,
+Kudos Team

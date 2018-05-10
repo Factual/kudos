@@ -12,9 +12,11 @@
   // align-items: center;
 }
 
+$avatar_width: 50px;
+
 .kudo__avatar {
   @extend .img-rounded;
-  width: 50px;
+  width: $avatar_width;
   height: 50px;
   position: absolute;
   right: 1em;
@@ -33,7 +35,7 @@
   height: 25px;
   padding: 0;
   text-align: center;
-  width: 50px;
+  width: $avatar_width;
 }
 
 .kudo__edit-button--save {
@@ -41,16 +43,16 @@
 }
 
 .kudo__input {
+  @extend .form-control;
   border: 1px solid $dark-border-color;
   border-radius: 0 0 4px 4px;
 }
 
 .kudo__receiver {
-  // text-align: center;
 }
 
 .kudo__message {
-
+  padding-right: $avatar_width;
 }
 
 .kudo__timestamp {

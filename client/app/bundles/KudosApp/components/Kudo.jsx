@@ -3,7 +3,6 @@ import _ from 'lodash';
 import moment from 'moment';
 import { grey400, lightBlue400 } from 'material-ui/styles/colors';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import Textarea from 'react-textarea-autosize';
 import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
 
 export default class Kudo extends React.Component {
@@ -105,8 +104,9 @@ export default class Kudo extends React.Component {
       <div className="kudo__message">
         <blockquote className="blockquote">
           {this.state.editing ? (
-            <Textarea
+            <textarea
               className="kudo__input"
+              rows={3}
               value={this.state.body}
               onChange={this.setMessage}
             />

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 class KudosController < ApplicationController
+
   ORDER_OPTIONS = {
     'newest' => { created_at: :desc },
     'oldest' => { created_at: :asc }
@@ -53,7 +54,6 @@ class KudosController < ApplicationController
       if !(/@factual.com$/ =~ receiver_email)
         return render(json: { errors: "recipient with email #{receiver_email.inspect} is not part of this organization"}, status: :not_found)
       end
-      #return render json: { errors: "recipient with email #{receiver_email.inspect} could not be found" }, status: :not_found
       receiver = User.new(name: receiver_email, email: receiver_email)
       receiver.save
     end
@@ -66,6 +66,7 @@ class KudosController < ApplicationController
 
     if kudo.save
       render json: { kudo: kudo }, status: :created
+      receiver.notify # send requested notification(s) to Receiver
     else
       render json: { error: kudo.errors.messages.values.flatten.to_sentence }, status: :unprocessable_entity
     end
