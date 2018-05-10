@@ -22,6 +22,10 @@ class User < ApplicationRecord
     message: "must be a factual.com address"
   }
 
+  before_validation(on: :create) do
+    self.name = email unless attribute_present?(:name)
+  end
+
   def self.from_omniauth(auth)
     where(auth.slice(:provider, :uid).to_hash).first_or_initialize.tap do |user|
       user.provider = auth.provider

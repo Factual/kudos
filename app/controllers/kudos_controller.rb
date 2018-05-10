@@ -49,9 +49,7 @@ class KudosController < ApplicationController
     emails = params[:kudo][:receiver_emails]
     begin
       receivers = emails.map do |email|
-        User.find_or_create_by!(email: email) do |new_user|
-          new_user.name = new_user.email
-        end
+        User.find_or_create_by!(email: email)
       end
     rescue ActiveRecord::RecordInvalid => e
       return render(
