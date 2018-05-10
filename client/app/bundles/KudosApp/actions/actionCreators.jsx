@@ -20,13 +20,9 @@ const updatedKudo = ( kudoId, newMessage ) => {
 }
 
 const serverReceivedKudo = (res) => {
-  const receiverId = res.data.kudo.receiver_id
-  const messageBody = res.data.kudo.body
-
   return {
     type: actionTypes.SERVER_RECEIVED_KUDO,
-    receiverId,
-    messageBody
+    ...res.data.kudo
   }
 }
 
@@ -88,7 +84,6 @@ const createKudo = (receiverEmails, messageBody, onSuccess = null, onFailure = n
         }
       },
     }).then(res => {
-      console.log(res)
       if (onSuccess) {
         onSuccess(res);
       }
@@ -131,11 +126,14 @@ const editKudo = ( id, message, onSuccess = null, onFailure = null ) => {
   }
 }
 
-const initialize = ({ id, name }) => {
+const initialize = (props) => {
+  const { id, name, allow_email_notifications, allow_slack_notifications } = props
   return {
     type: actionTypes.INITIALIZE,
     id,
-    name
+    name,
+    allow_email_notifications,
+    allow_slack_notifications,
   }
 }
 

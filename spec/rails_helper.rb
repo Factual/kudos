@@ -25,6 +25,15 @@ require 'rspec/rails'
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 
+# Turn on 'test mode' for OmniAuth for tests to simulate successfully
+# logged in user
+OmniAuth.config.test_mode = true
+
+# Use the shortcut #add_mock method to quickly add information that
+# will automatically be merged with the default info so it
+# will be a valid response.
+OmniAuth.config.add_mock(:google, {:uid => '12345'})
+
 RSpec.configure do |config|
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -34,6 +43,15 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
 
+  # Named routes are not available in specs by default, so add this for 'root_path':
+  config.include Rails.application.routes.url_helpers
+
+  # Need visit method:
+  config.include Capybara::DSL
+
+
+#  config.include SessionTestHelper, type: :controller
+  config.include OmniAuthTestHelper, type: :controller
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
   # `post` in specs under `spec/controllers`.
@@ -48,4 +66,5 @@ RSpec.configure do |config|
   # The different available types are documented in the features, such as in
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
+
 end

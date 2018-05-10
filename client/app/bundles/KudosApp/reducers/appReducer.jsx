@@ -36,7 +36,7 @@ const kudos = (state = [], action) => {
         return []
       }
     case actionTypes.SERVER_RECEIVED_KUDO:
-      return state.concat(createKudo(action));
+      return [createKudo(action)].concat(state);
     case actionTypes.FETCH_KUDOS_SUCCESS:
       if (action.append) {
         return state.concat(action.kudos); // append the next page
@@ -70,7 +70,7 @@ const kudos = (state = [], action) => {
 }
 
 const createKudo = (action) => {
-  return _.pick(action, ['receiverId', 'messageBody']);
+  return _.omit(action, 'type');
 }
 
 const error = (state = null, action) => {
@@ -117,11 +117,14 @@ const totalKudos = (state = 0, action) => {
   }
 }
 
-const initialize = (state = { name: '', id: '' }, action) => {
+const initialize = (state = { name: '', id: '', allow_email_notifications: true, allow_slack_notifications: true }, action) => {
   if (action.type === actionTypes.INITIALIZE) {
+    const { id, name, allow_email_notifications, allow_slack_notifications } = action
     return {
-      id: action.id,
-      name: action.name
+      id,
+      name,
+      allow_email_notifications,
+      allow_slack_notifications,
     }
   }
   return state

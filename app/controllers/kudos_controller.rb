@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 class KudosController < ApplicationController
+
   ORDER_OPTIONS = {
     'newest' => { created_at: :desc },
     'oldest' => { created_at: :asc }
@@ -66,6 +67,7 @@ class KudosController < ApplicationController
 
     if kudo.save
       render json: { kudo: kudo }, status: :created
+      receivers.each(&:notify)
     else
       render json: { error: kudo.errors.messages.values.flatten.to_sentence }, status: :unprocessable_entity
     end
