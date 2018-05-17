@@ -26,7 +26,7 @@ const List = ({ giverId, kudos, likeKudo, unlikeKudo, updateKudo }) => {
 }
 
 const Spinner = () => <div className="kudos-list__fetching-container">
-  <i className="fa fa-spin fa-spinner fa-5x" aria-hidden="true"></i>
+  <i className="fas fa-spin fa-spinner fa-5x" aria-hidden="true"></i>
 </div>
 
 export default class KudosList extends React.Component {
