@@ -1,27 +1,33 @@
-import React, { PropTypes } from 'react';
-import TabBarContainer from '../containers/TabBarContainer';
-import Kudo from './Kudo';
-import _ from 'lodash';
-import moment from 'moment';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+import React, { PropTypes } from 'react'
+import TabBarContainer from '../containers/TabBarContainer'
+import Kudo from './Kudo'
+import _ from 'lodash'
+import moment from 'moment'
+import injectTapEventPlugin from 'react-tap-event-plugin'
+import { COLOR_CLASSES } from '../constants/appConstants'
+
+const { TEAL, GREEN, ORANGE } = COLOR_CLASSES
+const color_classes = [TEAL, GREEN, ORANGE]
 
 injectTapEventPlugin();
 
-const List = ({ giverId, kudos, likeKudo, unlikeKudo, updateKudo }) => {
+const List = ({ userId, kudos, likeKudo, unlikeKudo, updateKudo }) => {
   return <div className="kudos-list">
     { kudos.length > 0 ? (
-      kudos.map(kudo => <
-        Kudo id={kudo.id}
-        giverId={giverId}
-        key={kudo.id}
-        kudo={kudo}
-        likeKudo={likeKudo}
-        unlikeKudo={unlikeKudo}
-        updateKudo={updateKudo}
-        />)
-    ) : (
-      'No kudos'
-    )}
+      kudos.map((kudo, index) => (
+        <Kudo
+          id={ kudo.id }
+          color_class={ color_classes[index%color_classes.length] }
+          userId={ userId }
+          key={ kudo.id }
+          kudo={ kudo }
+          likeKudo={ likeKudo }
+          unlikeKudo={ unlikeKudo }
+          updateKudo={ updateKudo }
+        />
+      ))
+    ) : 'No kudos'
+  }
   </div>
 }
 
@@ -69,7 +75,7 @@ export default class KudosList extends React.Component {
   render() {
     return <div className="kudos-list__container">
       <TabBarContainer />
-      <List giverId={this.props.id} kudos={this.props.kudos} likeKudo={this.props.likeKudo} unlikeKudo={this.props.unlikeKudo} updateKudo={this.props.updateKudo} />
+      <List userId={this.props.id} kudos={this.props.kudos} likeKudo={this.props.likeKudo} unlikeKudo={this.props.unlikeKudo} updateKudo={this.props.updateKudo} />
       {this.props.isFetchingKudos ? <Spinner /> : null}
     </div>
   }

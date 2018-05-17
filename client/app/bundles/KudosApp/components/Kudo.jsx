@@ -1,127 +1,175 @@
-import React, { PropTypes } from 'react';
-import { map } from 'lodash';
-import moment from 'moment';
-import { grey400, lightBlue400 } from 'material-ui/styles/colors';
-import FloatingActionButton from 'material-ui/FloatingActionButton';
-import ThumbUp from 'material-ui/svg-icons/action/thumb-up';
+import React, { PropTypes } from 'react'
+import { map, chunk, isEmpty } from 'lodash'
+import moment from 'moment'
+import { Tooltip } from 'material-ui'
+
+const UserAvatar = ({ user }) => (
+  <Tooltip
+    placement="top"
+    className="kudo__tooltip"
+    title={ <div className="kudo__tooltip-text">{ user.name }</div> }>
+    <img src={ user.avatar } alt={ user.name } className="avatar" />
+  </Tooltip>
+)
 
 export default class Kudo extends React.Component {
-  constructor(props, context) {
-    super(props, context);
+  constructor(props) {
+    super(props);
     this.state = {
-      likeAction: this.props.likeKudo(this.props.id),
-      timestamp: this.formatTimestamp(this.props.kudo.given_at),
-      thumbColor: grey400,
-      likeText: this.formatLikeText((this.props.kudo.likes ? this.props.kudo.likes.length : 0)),
       body: this.props.kudo.body,
-      editing: false
+      editing: false,
     };
-
-    if (this.likedBySelf(this.props.kudo.likes, this.props.giverId)) {
-      this.state.thumbColor = lightBlue400;
-      this.state.likeAction = this.props.unlikeKudo(this.props.id);
-    }
   }
 
-  formatTimestamp = (t) => {
-    let ts = moment(t);
-    return `At ${ts.format('h:mm a')} on ${ts.format('MMM D, YYYY')}`;
-  }
-
-  formatLikeText = (numLikes) => {
-    if (numLikes === 0) {
-      return "";
-    }
-    return `${numLikes} ${numLikes === 1 ? 'person likes': 'people like'} this`;
-  }
-
-  likedBySelf = (likes, giverId) => {
-    return likes.some(like => like.giver_id === this.props.giverId)
-  }
-
-  postedByActiveUser = () => {
-    let user = this.props.giverId;
-    let poster = this.props.kudo.giver_id;
-    return (user === poster);
-  }
-
-  makeEditable = (e) => {
-    this.setState({editing: true});
+  makeEditable = () => {
+    this.setState({ editing: true })
   }
 
   setMessage = (e) => {
-    this.setState({body: e.target.value})
+    this.setState({ body: e.target.value })
   }
 
-  update = (e) => {
-    this.setState({editing: false});
-    this.props.updateKudo(this.props.kudo.id, this.state.body);
+  update = () => {
+    this.setState({ editing: false })
+    this.props.updateKudo(this.props.kudo.id, this.state.body)
   }
 
-  componentWillReceiveProps(props) {
-    if (this.props.kudo.likes != props.kudo.likes) {
-      this.setState({ likeText: this.formatLikeText(props.kudo.likes.length) });
-      if (this.likedBySelf(props.kudo.likes, this.props.giverId)) {
-        this.setState({ thumbColor: lightBlue400, likeAction: this.props.unlikeKudo(this.props.id) });
-      } else {
-        this.setState({ thumbColor: grey400, likeAction: this.props.likeKudo(this.props.id) });
-      }
+  formattedHeaderText() {
+    const recipients = map(this.props.kudo.receivers, 'name').join(', ')
+    return `Kudos, ${recipients}!`
+  }
+
+  formattedTimestamp() {
+    const ts = moment(this.props.kudo.given_at)
+    return `At ${ts.format('h:mm a')} on ${ts.format('MMM D, YYYY')}`
+  }
+
+  formattedLikeText() {
+    const { likes } = this.props.kudo
+    const numLikes = isEmpty(likes) ? 0 : likes.length
+
+    if (numLikes === 0) {
+      return ""
+    }
+    else {
+      return `${numLikes} ${numLikes === 1 ? 'person likes': 'people like'} this`
     }
   }
 
-  render() {
+  likedBySelf() {
+    const { kudo, userId } = this.props
+    return kudo.likes.some(like => like.giver_id === userId)
+  }
 
+  postedByActiveUser() {
+    const user = this.props.userId
+    const poster = this.props.kudo.giver.id
+    return (user === poster)
+  }
+
+  // Render avatars in rows of at most 3
+  renderRecipientAvatars() {
+    const { kudo } = this.props
+    const rowsOfReceivers = chunk(kudo.receivers, 3)
+
+    return (
+      <div className="flex-col">
+      {rowsOfReceivers.map((rowOfReceiver, rowIndex) => (
+        <div key={ kudo.id.concat("-avatar-row-", rowIndex) } className="avatar-row">
+        {rowOfReceiver.map(receiver => (
+          <UserAvatar
+            key={ kudo.id.concat("-recipient-avatar-", receiver.id) }
+            user={ receiver }
+          />
+        ))}
+        </div>
+      ))}
+      </div>
+    )
+  }
+
+  renderBody() {
+    const { body, editing } = this.state
+
+    return (
+      editing ?
+        <textarea
+          id="kudo-input"
+          className="edit-box"
+          value={ body }
+          onChange={ this.setMessage }
+        /> : body
+    )
+  }
+
+  renderLikeIcon() {
+    const { unlikeKudo, likeKudo, id } = this.props
+    const likedBySelf = this.likedBySelf()
+
+    return (
+      <i
+        className={ likedBySelf ? "fas fa-heart" : "far fa-heart" }
+        onClick={ likedBySelf ? unlikeKudo(id) : likeKudo(id) }
+      />
+    )
+  }
+
+  renderEditOptions() {
     const Edit = () => (
-      <button
-        type='button'
-        className="kudo__edit-button"
-        onClick={this.makeEditable}>
-        Edit
-      </button>
+      <i
+        className="far fa-edit"
+        onClick={ this.makeEditable }
+      />
     )
 
     const Save = () => (
-      <button
-        type='button'
-        className='kudo__edit-button kudo__edit-button--save'
-        onClick={this.update}>
-        Save
-      </button>
+      <i
+        className="far fa-save"
+        onClick={ this.update }
+      />
     )
 
-    const recipientDisplay = map(this.props.kudo.receivers, 'name').join(', ')
+    const Delete = () => (
+      <i className="far fa-trash-alt" onClick={ ()=> alert("delete")}></i>
+    )
+
+    // TODO: enable Delete button when implemented in backend
+    return (
+      this.postedByActiveUser() ? (
+        <div>
+          { this.state.editing ? <Save /> : <Edit /> }
+          {/* <Delete /> */}
+        </div>
+      ) : null
+    )
+  }
+
+  render() {
     return (
       <div className="kudo">
-        <h4 className="list-group-item-heading">{`Kudos, ${recipientDisplay}!`}</h4>
-        <div className="kudo__receiver">
-          <img src={this.props.kudo.receivers[0].avatar} alt={this.props.kudo.receivers[0].name} className="kudo__avatar" />
-        </div>
-        <div className="kudo__message">
-          <blockquote className="blockquote">
-            {this.state.editing ? (
-              <textarea
-                className="kudo__input"
-                rows={3}
-                value={this.state.body}
-                onChange={this.setMessage}
-              />
-            ) : (
-              this.state.body
-            )}
-            <footer className="blockquote-footer">{this.props.kudo.giver}</footer>
-          </blockquote>
-        </div>
-        <FloatingActionButton onClick={this.state.likeAction} mini={true} backgroundColor={this.state.thumbColor}>
-          <ThumbUp/>
-        </FloatingActionButton>
-        <div>{this.state.likeText}</div>
-        {this.postedByActiveUser() ? (
-          <div className="kudo__update">
-            {this.state.editing ? <Save /> : <Edit />}
+        <div className="content">
+          <div className="sender">
+            <UserAvatar user={ this.props.kudo.giver } />
           </div>
-        ) : (null)}
-        <div className="kudo__timestamp">
-          {this.state.timestamp}
+          <div className={ "receiver " + this.props.color_class }>
+            <div className="header">
+              { this.formattedHeaderText() }
+              { this.renderRecipientAvatars() }
+            </div>
+            <div className="message">
+              { this.renderBody() }
+            </div>
+          </div>
+        </div>
+        <div className="meta">
+          <div>
+            { this.renderLikeIcon() }
+            { this.formattedLikeText() }
+          </div>
+          <div className="flex-center">
+            { this.formattedTimestamp() }
+            { this.renderEditOptions() }
+          </div>
         </div>
       </div>
     )

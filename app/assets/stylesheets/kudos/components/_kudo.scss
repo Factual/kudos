@@ -1,64 +1,170 @@
+.bg-teal {
+  background-color: #4bbcd3;
+  border-color: #4bbcd3;
+}
+
+.bg-green {
+  background-color: #99ca3c;
+  border-color: #99ca3c;
+}
+
+.bg-orange {
+  background-color: #f68a1e;
+  border-color: #f68a1e;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .kudo {
-  @extend .list-group-item;
-  // display: flex;
-  // position: relative;
-  // // border-left: 1px solid;
-  // // border-right: 1px solid;
-  // border-color: $pgm-dark-grey;
-  // margin: auto;
-  // background-color: $pgm-light-grey;
-  // padding: 0.5rem 1rem 0.5rem 1rem;
-  // display: flex;
-  // align-items: center;
-}
-
-$avatar_width: 50px;
-
-.kudo__avatar {
-  @extend .img-rounded;
-  width: $avatar_width;
-  height: 50px;
-  position: absolute;
-  right: 1em;
-  top: 1em;
-}
-
-.kudo__update {
-  position: absolute;
-  right: 1em;
-  text-align: right;
-  top: 4.25rem;
-}
-
-.kudo__edit-button {
-  @extend .btn;
-  height: 25px;
-  padding: 0;
-  text-align: center;
-  width: $avatar_width;
-}
-
-.kudo__edit-button--save {
-  @extend .btn-primary;
-}
-
-.kudo__input {
-  @extend .form-control;
-  border: 1px solid $dark-border-color;
-  border-radius: 0 0 4px 4px;
-}
-
-.kudo__receiver {
-}
-
-.kudo__message {
-  padding-right: $avatar_width;
-}
-
-.kudo__timestamp {
-  position: absolute;
-  right: 0.5rem;
-  bottom: 0;
   width: 100%;
-  text-align: right;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.kudo .content {
+  display: flex;
+}
+
+.kudo .sender {
+  margin-top: .25rem;
+  margin-right: .75rem;
+  width: 50px;
+}
+
+.kudo .receiver {
+  position: relative;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  border-radius: .25rem;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
+  width: 100%;
+}
+
+.kudo .receiver:before {
+  content: '';
+	position: absolute;
+	width: 0;
+	height: 0;
+	border: 0.625em solid transparent;
+	border-right-color: inherit;
+	border-left: 0;
+  margin-left: -2rem;
+}
+
+
+.kudo .receiver .header {
+  margin-top: -0.5rem;
+  margin-bottom: .5rem;
+  padding-right: .5rem;
+  display: flex;
+  justify-content: space-between;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  font-size: 1.125rem;
+  font-family: Gotham SSm A, Gotham SSm B, Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-weight: 600;
+}
+
+
+.kudo .receiver .message {
+  color: #fff;
+  line-height: 1.5;
+}
+
+.kudo .meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: .875rem;
+  color: #a09e9d;
+  text-transform: uppercase;
+  margin-top: .5rem;
+  padding-left: .5rem;
+  padding-right: .5rem;
+  font-family: Gotham SSm A, Gotham SSm B, Helvetica Neue, Helvetica, Arial, sans-serif;
+  margin-left: 50px;
+}
+
+.kudo .meta .fa-heart {
+  margin-right: 0.25rem;
+}
+
+.kudo .meta .fas.fa-heart {
+  color: red;
+}
+
+.kudo .meta .fa-heart:hover {
+  cursor: pointer;
+  color: red;
+}
+
+.kudo .meta .fa-edit, .fa-save, .fa-trash-alt {
+  margin-left: 0.5rem;
+}
+
+.kudo .meta .fa-edit:hover {
+  cursor: pointer;
+  color: gray;
+}
+
+.kudo .meta .fa-save:hover {
+  cursor: pointer;
+  color: green;
+}
+
+.kudo .meta .fa-trash-alt:hover {
+  cursor: pointer;
+  color: red;
+}
+
+.kudo__tooltip:hover {
+  z-index: 9999;
+}
+
+.kudo__tooltip-text {
+  text-align: center;
+  justify-content: center;
+  align-content: center;
+  font-size: 1rem;
+  line-height: 1.25;
+}
+
+.kudo .avatar {
+  @extend .img-circle;
+  width: 50px;
+  height: 50px;
+}
+
+.kudo .avatar-row {
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.kudo .avatar-row:not(:first-child) {
+  margin-top: -0.75rem;
+}
+
+.kudo .avatar-row > * {
+  margin-right: -1rem;
+}
+
+.kudo .edit-box {
+  @extend .form-control;
+  width: 100%;
+  color: black;
 }
