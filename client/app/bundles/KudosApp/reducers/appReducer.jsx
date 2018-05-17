@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import _ from 'lodash';
 
-import actionTypes from '../constants/appConstants';
+import { actionTypes } from '../constants/appConstants';
 
 export const initialState = {
   kudos: [], // this is the default state that would be used if one were not passed into the store
