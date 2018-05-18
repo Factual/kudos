@@ -1,6 +1,6 @@
 .kudos-list {
   @extend .list-group;
-  width: $kudo-list-width;
+  max-width: $kudo-list-max-width;
   margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
@@ -10,10 +10,9 @@
 .kudos-list__nav {
   @extend .nav;
   @extend .nav-tabs;
+  max-width: $kudo-list-max-width;
   margin-bottom: $spacer;
-  width: $kudo-list-width;
   margin: 0 auto;
-  padding-left: ($give-kudo-width/2);
 }
 
 .kudos-list__tab {

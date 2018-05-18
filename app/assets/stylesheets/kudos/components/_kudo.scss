@@ -20,11 +20,19 @@
 }
 
 .kudo {
-  width: ($kudo-list-width/2);
+  width: 50%;
+  margin: 0 auto;
+  max-width: ($kudo-list-max-width/2);
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   padding-top: 1rem;
   padding-bottom: 1rem;
+}
+
+@media screen and (max-width: 1000px) {
+  .kudo {
+    width: 100%;
+  }
 }
 
 .kudo .content {
@@ -60,7 +68,6 @@
   margin-left: -2rem;
 }
 
-
 .kudo .receiver .header {
   margin-top: -0.5rem;
   margin-bottom: .5rem;
@@ -74,7 +81,6 @@
   font-family: Gotham SSm A, Gotham SSm B, Helvetica Neue, Helvetica, Arial, sans-serif;
   font-weight: 600;
 }
-
 
 .kudo .receiver .message {
   color: #fff;
