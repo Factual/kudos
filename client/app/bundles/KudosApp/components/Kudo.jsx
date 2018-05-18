@@ -73,7 +73,7 @@ export default class Kudo extends React.Component {
     const rowsOfReceivers = chunk(kudo.receivers, 3)
 
     return (
-      <div className="flex-col">
+      <div className="avatars">
       {rowsOfReceivers.map((rowOfReceiver, rowIndex) => (
         <div key={ kudo.id.concat("-avatar-row-", rowIndex) } className="avatar-row">
         {rowOfReceiver.map(receiver => (
