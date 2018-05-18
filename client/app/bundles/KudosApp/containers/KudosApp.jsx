@@ -9,7 +9,7 @@ import * as actionCreators from '../actions/actionCreators';
 // Simple example of a React "smart" component
 const KudosApp = ({ kudos, error, createKudo, isFetchingKudos, totalKudos }) => {
   return (
-    <div className="kudo-pane">
+    <div>
       <ErrorBanner error={ error } />
       <GiveKudo createKudo={ createKudo } />
       <KudosListContainer />

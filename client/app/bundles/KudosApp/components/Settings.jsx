@@ -38,7 +38,7 @@ export default class Settings extends React.Component {
 
   render() {
     return (
-      <div className="kudo-pane">
+      <div className="settings__container">
         <h3 className="margin-below"> Notification Settings </h3>
         <div className="settings__input-row margin-below">
         Email notifications

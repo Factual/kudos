@@ -1,11 +1,19 @@
 .kudos-list {
   @extend .list-group;
+  width: $kudo-list-width;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .kudos-list__nav {
   @extend .nav;
   @extend .nav-tabs;
   margin-bottom: $spacer;
+  width: $kudo-list-width;
+  margin: 0 auto;
+  padding-left: ($give-kudo-width/2);
 }
 
 .kudos-list__tab {
