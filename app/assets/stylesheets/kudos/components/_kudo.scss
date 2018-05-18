@@ -46,6 +46,7 @@
   border-radius: .25rem;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
   width: 100%;
+  min-width: 0;
 }
 
 .kudo .receiver:before {
@@ -78,6 +79,7 @@
 .kudo .receiver .message {
   color: #fff;
   line-height: 1.5;
+  word-wrap: break-word;
 }
 
 .kudo .meta {
