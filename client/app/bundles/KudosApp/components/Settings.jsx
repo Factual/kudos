@@ -39,8 +39,8 @@ export default class Settings extends React.Component {
   render() {
     return (
       <div className="kudo-pane">
-        <h3 className="settings__margin-below"> Notification Settings </h3>
-        <div className="settings__input-row settings__margin-below">
+        <h3 className="margin-below"> Notification Settings </h3>
+        <div className="settings__input-row margin-below">
         Email notifications
         <Switch
           name="allow_email_notifications"
@@ -49,7 +49,7 @@ export default class Settings extends React.Component {
           color="primary"
         />
         </div>
-        <div className="settings__input-row settings__margin-below">
+        <div className="settings__input-row margin-below">
         Slack notifications
         <Switch
           name="allow_slack_notifications"
