@@ -12,12 +12,15 @@ const color_classes = [TEAL, GREEN, ORANGE]
 injectTapEventPlugin();
 
 const List = ({ userId, kudos, likeKudo, unlikeKudo, updateKudo }) => {
+  const numKudos = kudos.length
+  const numColors = color_classes.length
+
   return <div className="kudos-list">
-    { kudos.length > 0 ? (
+    { numKudos > 0 ? (
       kudos.map((kudo, index) => (
         <Kudo
           id={ kudo.id }
-          color_class={ color_classes[index%color_classes.length] }
+          color_class={ color_classes[(numKudos-index)%numColors] }
           userId={ userId }
           key={ kudo.id }
           kudo={ kudo }
