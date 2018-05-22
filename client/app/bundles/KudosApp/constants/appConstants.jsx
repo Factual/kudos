@@ -23,9 +23,9 @@ export const actionTypes = mirrorCreator([
 // thanks to mirror-creator.
 
 export const COLOR_CLASSES = Object.freeze({
-  TEAL: 'bg-teal',
-  GREEN: 'bg-green',
-  ORANGE: 'bg-orange',
+  TEAL: 'kudo-teal',
+  GREEN: 'kudo-lime',
+  ORANGE: 'kudo-orange',
 })
 
 export default {

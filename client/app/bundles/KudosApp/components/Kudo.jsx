@@ -150,11 +150,11 @@ export default class Kudo extends React.Component {
           </div>
         </div>
         <div className="meta">
-          <div>
+          <div className="meta-item">
             { this.renderLikeIcon() }
             { this.props.kudo.likes.length }
           </div>
-          <div className="flex-center">
+          <div className="meta-item">
             { this.formattedTimestamp() }
             { this.renderEditOptions() }
           </div>
