@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { map, chunk, isEmpty } from 'lodash'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { Tooltip } from 'material-ui'
 
 const UserAvatar = ({ user }) => (
@@ -40,7 +40,7 @@ export default class Kudo extends React.Component {
   }
 
   formattedTimestamp() {
-    const ts = moment(this.props.kudo.given_at)
+    const ts = dayjs(this.props.kudo.given_at)
     return `At ${ts.format('h:mm a')} on ${ts.format('MMM D, YYYY')}`
   }
 

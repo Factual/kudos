@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react'
 import TabBarContainer from '../containers/TabBarContainer'
 import Kudo from './Kudo'
 import _ from 'lodash'
-import moment from 'moment'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import { COLOR_CLASSES } from '../constants/appConstants'
 
