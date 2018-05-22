@@ -44,18 +44,6 @@ export default class Kudo extends React.Component {
     return `At ${ts.format('h:mm a')} on ${ts.format('MMM D, YYYY')}`
   }
 
-  formattedLikeText() {
-    const { likes } = this.props.kudo
-    const numLikes = isEmpty(likes) ? 0 : likes.length
-
-    if (numLikes === 0) {
-      return ""
-    }
-    else {
-      return `${numLikes} ${numLikes === 1 ? 'person likes': 'people like'} this`
-    }
-  }
-
   likedBySelf() {
     const { kudo, userId } = this.props
     return kudo.likes.some(like => like.giver_id === userId)
@@ -164,7 +152,7 @@ export default class Kudo extends React.Component {
         <div className="meta">
           <div>
             { this.renderLikeIcon() }
-            { this.formattedLikeText() }
+            { this.props.kudo.likes.length }
           </div>
           <div className="flex-center">
             { this.formattedTimestamp() }
