@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= render 'head' %>
+  </head>
+
+  <body>
+    <div>
+      <div class='container'>
+        <div class='col-md-4 col-md-offset-4 homepage-block'>
+          <div class='logo'>
+            <%= image_tag 'factual_logo_small.png' %>
+          </div>
+          <h1>Kudos</h1>
+          <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in", class: "btn login btn-primary btn-homepage" %>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

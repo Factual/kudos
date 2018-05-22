@@ -9,19 +9,41 @@
       <% flash.each do |name, msg| -%>
         <%= content_tag :div, msg, class: name %>
       <% end -%>
-      <nav class="navbar navbar-default">
-        <div id="temp-header">
-          Signed in as <strong><%= current_user.name %></strong>! <br/>
-          <a href="/" style="margin-right:10px"> Home </a>      <a href="/settings"> Settings </a>
+
+      <nav class="header">
+        <div class="header-stripes">
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
-        <button class="btn login btn-primary">
-          <%= link_to "Sign out", logout_path, id: "sign_out" %>
-        </button>
-        <% if current_user.avatar %>
-          <img width='60' src="<%= current_user.avatar %>" alt="avatar" />
-        <% end %>
+
+        <a href="/">
+          <%= image_tag(asset_path("kudos_logo.png"), class: "header-logo") %>
+        </a>
+
+        <div class="user-menu">
+          <div class="header-dropdown-container">
+            <div class="header-dropdown">
+              <div class="header-dropdown-header">
+                <% if current_user.avatar %>
+                  <img class="user-menu-avatar" src="<%= current_user.avatar %>" alt="avatar" />
+                <% end %>
+                <div class="user-menu-email">
+                  <%= current_user.email %>
+                </div>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+
+              <div class="header-dropdown-content">
+                <a href="/settings"><i class="fas fa-cogs header-dropdown-content-icon"></i> Settings</a>
+                <a href="<%= logout_path %>"><i class="fas fa-sign-out-alt header-dropdown-content-icon"></i> Sign Out</a>
+              </div>
+            </div>
+          </div>
+        </div>
       </nav>
     </div>
+
     <%= yield %>
   </body>
 </html>

@@ -1,0 +1,132 @@
+$stripe-width: 60px;
+$color-white: #ffffff;
+$color-orange: #f68a1e;
+$color-sorbet: #fecf8c;
+$color-cream: #fffacb;
+$font-primary: Gotham SSm A, Gotham SSm B, Helvetica Neue, Helvetica, Arial, sans-serif;
+
+.header {
+  display: block;
+  position: relative;
+}
+
+.header-stripes {
+  display: grid;
+  grid: repeat(3, $stripe-width) / repeat(5, 1fr);
+}
+
+.header-stripes :nth-child(1) {
+  background-color: $color-orange;
+  grid-row: 1;
+  grid-column: span 5;
+}
+
+.header-stripes :nth-child(2) {
+  background-color: $color-sorbet;
+  grid-row: 2;
+  grid-column: span 5;
+}
+
+.header-stripes :nth-child(3) {
+  background-color: $color-cream;
+  grid-row: 3;
+  grid-column: span 5;
+}
+
+.header-stripes {
+  transform: skewY(-10deg);
+  transform-origin: 0;
+}
+
+.header-logo {
+  position: absolute;
+  top: 0;
+  left: 0.25em;
+  width: 200px;
+}
+
+.user-menu {
+  color: $color-orange;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 1em 2em;
+}
+
+.user-menu-avatar {
+  width: 40px;
+  border-radius: 9999px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .1);
+}
+
+.user-menu-email {
+  margin-left: 1em;
+  margin-right: 0.5em;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  font-family: $font-primary;
+}
+
+.header-dropdown-container {
+  position: relative;
+}
+
+.header-dropdown {
+  cursor: pointer;
+  color: #f68a1e;
+  transition: all .15s ease;
+}
+
+.header-dropdown:hover {
+  color: #ffbb52;
+}
+
+.header-dropdown:hover img {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, .12), 0 2px 4px 0 rgba(0, 0, 0, .08);
+}
+
+.header-dropdown:hover .header-dropdown-content {
+  display: block;
+}
+
+.header-dropdown-header {
+  cursor: default;
+  display: flex;
+  align-items: center;
+  font-size: 0.875em;
+}
+
+.header-dropdown-content {
+  position: absolute;
+  display: none;
+  transition: all .15s ease;
+  width: 80%;
+  right: 0;
+}
+
+.header-dropdown-content a {
+  transition: all .15s ease;
+  display: flex;
+  align-items: center;
+  padding: .25rem .5rem;
+  text-decoration: none;
+  font-size: .875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: $color-orange;
+  background-color: $color-white;
+  text-align: left;
+}
+
+.header-dropdown-content a:hover {
+  background-color: #ffbb52;
+  color: $color-white;
+}
+
+.header-dropdown-content-icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 0.75em;
+}
