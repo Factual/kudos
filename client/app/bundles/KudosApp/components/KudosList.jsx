@@ -4,27 +4,26 @@ import Kudo from './Kudo'
 import _ from 'lodash'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 
-injectTapEventPlugin();
+injectTapEventPlugin()
 
-const List = ({ userId, kudos, likeKudo, unlikeKudo, updateKudo }) => {
-  return <div className="kudos-list">
-    { kudos.length > 0 ? (
-      kudos.map((kudo, index) => (
-        <Kudo
-          id={ kudo.id }
-          colorClass={ kudo.colorClass }
-          userId={ userId }
-          key={ kudo.id }
-          kudo={ kudo }
-          likeKudo={ likeKudo }
-          unlikeKudo={ unlikeKudo }
-          updateKudo={ updateKudo }
-        />
-      ))
-    ) : 'No kudos'
+const List = ({ userId, kudos, likeKudo, unlikeKudo, updateKudo, isFetchingKudos }) => (
+  <div className="kudos-list">
+  { kudos.length === 0 && !isFetchingKudos ? 'No kudos' :
+    kudos.map((kudo) => (
+      <Kudo
+        id={ kudo.id }
+        colorClass={ kudo.colorClass }
+        userId={ userId }
+        key={ kudo.id }
+        kudo={ kudo }
+        likeKudo={ likeKudo }
+        unlikeKudo={ unlikeKudo }
+        updateKudo={ updateKudo }
+      />
+    ))
   }
   </div>
-}
+)
 
 const Spinner = () => <div className="kudos-list__fetching-container">
   <i className="fas fa-spin fa-spinner fa-5x" aria-hidden="true"></i>
@@ -43,8 +42,8 @@ export default class KudosList extends React.Component {
   }
 
   constructor(props, context) {
-    super(props, context);
-    _.bindAll(this, 'areMoreKudos', 'handleScroll');
+    super(props, context)
+    _.bindAll(this, 'areMoreKudos', 'handleScroll')
   }
 
   areMoreKudos() {
@@ -52,11 +51,11 @@ export default class KudosList extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll);
+    window.addEventListener('scroll', this.handleScroll)
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll);
+    window.removeEventListener('scroll', this.handleScroll)
   }
 
   handleScroll(event) {
@@ -68,10 +67,20 @@ export default class KudosList extends React.Component {
   }
 
   render() {
-    return <div className="kudos-list__container">
-      <TabBarContainer />
-      <List userId={this.props.id} kudos={this.props.kudos} likeKudo={this.props.likeKudo} unlikeKudo={this.props.unlikeKudo} updateKudo={this.props.updateKudo} />
-      {this.props.isFetchingKudos ? <Spinner /> : null}
-    </div>
+    const { id, kudos, likeKudo, unlikeKudo, updateKudo, isFetchingKudos } = this.props
+    return (
+      <div className="kudos-list__container">
+        <TabBarContainer />
+        <List
+          userId={ id }
+          kudos={ kudos }
+          likeKudo={ likeKudo }
+          unlikeKudo={ unlikeKudo }
+          updateKudo={ updateKudo }
+          isFetchingKudos={ isFetchingKudos }
+        />
+        { isFetchingKudos ? <Spinner /> : null }
+      </div>
+    )
   }
 }
