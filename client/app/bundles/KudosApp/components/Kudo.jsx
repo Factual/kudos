@@ -139,7 +139,7 @@ export default class Kudo extends React.Component {
           <div className="sender">
             <UserAvatar user={ this.props.kudo.giver } />
           </div>
-          <div className={ "receiver " + this.props.color_class }>
+          <div className={ "receiver " + this.props.colorClass }>
             <div className="header">
               { this.formattedHeaderText() }
               { this.renderRecipientAvatars() }

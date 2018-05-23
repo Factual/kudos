@@ -3,23 +3,16 @@ import TabBarContainer from '../containers/TabBarContainer'
 import Kudo from './Kudo'
 import _ from 'lodash'
 import injectTapEventPlugin from 'react-tap-event-plugin'
-import { COLOR_CLASSES } from '../constants/appConstants'
-
-const { TEAL, GREEN, ORANGE } = COLOR_CLASSES
-const color_classes = [TEAL, GREEN, ORANGE]
 
 injectTapEventPlugin();
 
 const List = ({ userId, kudos, likeKudo, unlikeKudo, updateKudo }) => {
-  const numKudos = kudos.length
-  const numColors = color_classes.length
-
   return <div className="kudos-list">
-    { numKudos > 0 ? (
+    { kudos.length > 0 ? (
       kudos.map((kudo, index) => (
         <Kudo
           id={ kudo.id }
-          color_class={ color_classes[(numKudos-index)%numColors] }
+          colorClass={ kudo.colorClass }
           userId={ userId }
           key={ kudo.id }
           kudo={ kudo }
