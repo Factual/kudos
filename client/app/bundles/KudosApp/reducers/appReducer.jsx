@@ -1,7 +1,7 @@
-import { combineReducers } from 'redux';
-import _ from 'lodash';
-
-import { actionTypes } from '../constants/appConstants';
+import { combineReducers } from 'redux'
+import { remove, forEach, omit } from 'lodash'
+import ColorGenerator from '../utils/colorGenerator'
+import { actionTypes } from '../constants/appConstants'
 
 export const initialState = {
   kudos: [], // this is the default state that would be used if one were not passed into the store
@@ -14,7 +14,7 @@ export const initialState = {
 
 function getKudo(kudos, kudoId) {
   let matchingKudo = null
-  _.forEach(kudos, (kudo, index) => {
+  forEach(kudos, (kudo, index) => {
     if (kudo.id === kudoId) {
       matchingKudo = { ...kudo }
       kudos[index] = matchingKudo
@@ -25,8 +25,15 @@ function getKudo(kudos, kudoId) {
   return matchingKudo
 }
 
+function assignKudoColor(kudo, appendBack) {
+  return {
+    ...kudo,
+    colorClass: appendBack ? ColorGenerator.appendBack() : ColorGenerator.appendFront()
+  }
+}
+
 const kudos = (state = [], action) => {
-  const { type } = action;
+  const { type } = action
 
   switch (type) {
     case actionTypes.FETCH_KUDOS_REQUEST:
@@ -36,12 +43,15 @@ const kudos = (state = [], action) => {
         return []
       }
     case actionTypes.SERVER_RECEIVED_KUDO:
-      return [createKudo(action)].concat(state);
+      const newKudo = createKudo(action)
+      return [assignKudoColor(newKudo, false)].concat(state)
     case actionTypes.FETCH_KUDOS_SUCCESS:
+      const kudos = action.kudos.map((kudo) => assignKudoColor(kudo, true))
       if (action.append) {
-        return state.concat(action.kudos); // append the next page
-      } else {
-        return action.kudos // clobber anything in the existing store
+        return state.concat(kudos) // append the next page
+      }
+      else {
+        return kudos // clobber anything in the existing store
       }
     case actionTypes.SERVER_ACCEPTED_LIKE:
     case actionTypes.SERVER_ACCEPTED_UNLIKE:
@@ -58,19 +68,19 @@ const kudos = (state = [], action) => {
       } else {
         matchingKudo.likes = [...matchingKudo.likes]
 
-        _.remove(matchingKudo.likes, like => {
+        remove(matchingKudo.likes, like => {
           return like.giver_id === giverId
         })
       }
 
       return newKudos
     default:
-      return state;
+      return state
   }
 }
 
 const createKudo = (action) => {
-  return _.omit(action, 'type');
+  return omit(action, 'type')
 }
 
 const error = (state = null, action) => {
@@ -81,8 +91,8 @@ const error = (state = null, action) => {
   } else if (error) {
     return error
   } else {
-    return state;
-  };
+    return state
+  }
 }
 
 const currentTab = (state = 'Recent', action) => {
@@ -137,6 +147,6 @@ const appReducer = combineReducers({
   isFetchingKudos,
   totalKudos,
   user: initialize
-});
+})
 
-export default appReducer;
+export default appReducer

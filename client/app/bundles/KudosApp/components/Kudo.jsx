@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { map, chunk, isEmpty } from 'lodash'
-import moment from 'moment'
+import dayjs from 'dayjs'
 import { Tooltip } from 'material-ui'
 
 const UserAvatar = ({ user }) => (
@@ -40,20 +40,8 @@ export default class Kudo extends React.Component {
   }
 
   formattedTimestamp() {
-    const ts = moment(this.props.kudo.given_at)
+    const ts = dayjs(this.props.kudo.given_at)
     return `At ${ts.format('h:mm a')} on ${ts.format('MMM D, YYYY')}`
-  }
-
-  formattedLikeText() {
-    const { likes } = this.props.kudo
-    const numLikes = isEmpty(likes) ? 0 : likes.length
-
-    if (numLikes === 0) {
-      return ""
-    }
-    else {
-      return `${numLikes} ${numLikes === 1 ? 'person likes': 'people like'} this`
-    }
   }
 
   likedBySelf() {
@@ -151,7 +139,7 @@ export default class Kudo extends React.Component {
           <div className="sender">
             <UserAvatar user={ this.props.kudo.giver } />
           </div>
-          <div className={ "receiver " + this.props.color_class }>
+          <div className={ "receiver " + this.props.colorClass }>
             <div className="header">
               { this.formattedHeaderText() }
               { this.renderRecipientAvatars() }
@@ -162,11 +150,11 @@ export default class Kudo extends React.Component {
           </div>
         </div>
         <div className="meta">
-          <div>
+          <div className="meta-item">
             { this.renderLikeIcon() }
-            { this.formattedLikeText() }
+            { this.props.kudo.likes.length }
           </div>
-          <div className="flex-center">
+          <div className="meta-item">
             { this.formattedTimestamp() }
             { this.renderEditOptions() }
           </div>

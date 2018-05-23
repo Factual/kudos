@@ -2,9 +2,9 @@
   @extend .list-group;
   max-width: $kudo-list-max-width;
   margin: 0 auto;
+  padding: 1em 0;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
 }
 
 .kudos-list__nav {
