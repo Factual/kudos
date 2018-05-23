@@ -1,8 +1,4 @@
 $stripe-width: 60px;
-$color-white: #ffffff;
-$color-orange: #f68a1e;
-$color-sorbet: #fecf8c;
-$color-cream: #fffacb;
 $font-primary: Gotham SSm A, Gotham SSm B, Helvetica Neue, Helvetica, Arial, sans-serif;
 
 .header {
@@ -16,19 +12,19 @@ $font-primary: Gotham SSm A, Gotham SSm B, Helvetica Neue, Helvetica, Arial, san
 }
 
 .header-stripes :nth-child(1) {
-  background-color: $color-orange;
+  background-color: $color-factual-orange;
   grid-row: 1;
   grid-column: span 5;
 }
 
 .header-stripes :nth-child(2) {
-  background-color: $color-sorbet;
+  background-color: $color-factual-sorbet;
   grid-row: 2;
   grid-column: span 5;
 }
 
 .header-stripes :nth-child(3) {
-  background-color: $color-cream;
+  background-color: $color-factual-cream;
   grid-row: 3;
   grid-column: span 5;
 }
@@ -46,7 +42,7 @@ $font-primary: Gotham SSm A, Gotham SSm B, Helvetica Neue, Helvetica, Arial, san
 }
 
 .user-menu {
-  color: $color-orange;
+  color: $color-factual-orange;
   position: absolute;
   top: 0;
   right: 0;
@@ -115,8 +111,8 @@ $font-primary: Gotham SSm A, Gotham SSm B, Helvetica Neue, Helvetica, Arial, san
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: .05em;
-  color: $color-orange;
-  background-color: $color-white;
+  color: $color-factual-orange;
+  background-color: transparent;
   text-align: left;
 }
 

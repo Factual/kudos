@@ -7,22 +7,22 @@ const postedKudo = (receiverEmails, messageBody) => {
   return {
     type: actionTypes.POSTED_KUDO,
     receiverEmails,
-    messageBody
+    messageBody,
   }
 }
 
-const updatedKudo = ( kudoId, newMessage ) => {
+const updatedKudo = (kudoId, newMessage) => {
   return {
     type: actionTypes.UPDATED_KUDO,
     kudoId,
-    newMessage
+    newMessage,
   }
 }
 
-const serverReceivedKudo = (res) => {
+const serverReceivedKudo = res => {
   return {
     type: actionTypes.SERVER_RECEIVED_KUDO,
-    ...res.data.kudo
+    ...res.data.kudo,
   }
 }
 
@@ -31,7 +31,7 @@ const addLike = (kudoId, giverId, giverName) => {
     type: actionTypes.SERVER_ACCEPTED_LIKE,
     giverId,
     giverName,
-    kudoId
+    kudoId,
   }
 }
 
@@ -40,18 +40,18 @@ const removeLike = (kudoId, giverId, giverName) => {
     type: actionTypes.SERVER_ACCEPTED_UNLIKE,
     giverId,
     giverName,
-    kudoId
+    kudoId,
   }
 }
 
-const failedLike = (error) => {
+const failedLike = error => {
   return {
     type: actionTypes.SERVER_REJECTED_LIKE,
-    error: error.data.error
+    error: error.data.error,
   }
 }
 
-const serverRejectedKudo = (err) => {
+const serverRejectedKudo = err => {
   return {
     type: actionTypes.SERVER_REJECTED_KUDO,
     error: err.data.error,
@@ -67,7 +67,7 @@ const resetErrorMessage = () => {
 const createKudo = (receiverEmails, messageBody, onSuccess = null, onFailure = null) => {
   return dispatch => {
     dispatch(postedKudo(receiverEmails, messageBody))
-    dispatch(resetErrorMessage());
+    dispatch(resetErrorMessage())
 
     // TODO: factor into a request/post library
     return request({
@@ -81,67 +81,63 @@ const createKudo = (receiverEmails, messageBody, onSuccess = null, onFailure = n
         kudo: {
           receiver_emails: receiverEmails,
           body: messageBody,
-        }
+        },
       },
-    }).then(res => {
-      if (onSuccess) {
-        onSuccess(res);
-      }
-      dispatch(serverReceivedKudo(res));
-    }).catch(err => {
-      console.log(err)
-      if (onFailure) {
-        onFailure(err);
-      }
-      dispatch(serverRejectedKudo(err))
     })
+      .then(res => {
+        if (onSuccess) {
+          onSuccess(res)
+        }
+        dispatch(serverReceivedKudo(res))
+      })
+      .catch(err => {
+        console.log(err)
+        if (onFailure) {
+          onFailure(err)
+        }
+        dispatch(serverRejectedKudo(err))
+      })
   }
 }
 
-const editKudo = ( id, message, onSuccess = null, onFailure = null ) => {
+const editKudo = (id, message, onSuccess = null, onFailure = null) => {
   return dispatch => {
-    dispatch(updatedKudo( id, message ))
-    dispatch(resetErrorMessage());
+    dispatch(updatedKudo(id, message))
+    dispatch(resetErrorMessage())
 
     return request({
       method: 'PATCH',
-      url: '/kudos/'+id,
+      url: '/kudos/' + id,
       responseType: 'json',
       data: {
         kudo: {
           id: id,
           body: message,
-        }
+        },
       },
-    }).then(res => {
-      if (onSuccess) {
-        onSuccess(res);
-      }
-    }).catch(err => {
-      if (onFailure) {
-        onFailure(err);
-      }
-      dispatch(serverRejectedKudo(err))
     })
+      .then(res => {
+        if (onSuccess) {
+          onSuccess(res)
+        }
+      })
+      .catch(err => {
+        if (onFailure) {
+          onFailure(err)
+        }
+        dispatch(serverRejectedKudo(err))
+      })
   }
 }
 
-const initialize = (props) => {
-  const { id, name, allow_email_notifications, allow_slack_notifications } = props
+const initialize = props => {
+  const { user, allow_email_notifications, allow_slack_notifications } = props
   return {
     type: actionTypes.INITIALIZE,
-    id,
-    name,
+    user,
     allow_email_notifications,
     allow_slack_notifications,
   }
 }
 
-export {
-  initialize,
-  createKudo,
-  editKudo,
-  addLike,
-  removeLike,
-  failedLike
-}
+export { initialize, createKudo, editKudo, addLike, removeLike, failedLike }
