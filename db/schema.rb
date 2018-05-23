@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 20180509175615) do
     t.uuid     "kudo_id",     null: false
     t.uuid     "receiver_id", null: false
     t.index ["kudo_id", "receiver_id"], name: "index_kudos_to_receivers_on_kudo_id_and_receiver_id", unique: true, using: :btree
+    t.index ["receiver_id"], name: "index_kudos_to_receivers_on_receiver_id", using: :btree
   end
 
   create_table "likes", force: :cascade do |t|
