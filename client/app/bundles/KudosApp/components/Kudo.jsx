@@ -3,14 +3,35 @@ import { map, chunk, isEmpty } from 'lodash'
 import dayjs from 'dayjs'
 import { Tooltip } from 'material-ui'
 
-const UserAvatar = ({ user }) => (
-  <Tooltip
-    placement="top"
-    className="kudo__tooltip"
-    title={ <div className="kudo__tooltip-text">{ user.name }</div> }>
-    <img src={ user.avatar } alt={ user.name } className="avatar" />
-  </Tooltip>
-)
+class UserAvatar extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      imageSrc: props.user.avatar || ''
+    }
+  }
+
+  handleImageError = () => {
+    this.setState({ imageSrc: 'default-avatar.jpeg' })
+  }
+
+  render() {
+    const { name } = this.props.user
+    return (
+      <Tooltip
+        placement="top"
+        className="kudo__tooltip"
+        title={ <div className="kudo__tooltip-text">{ name }</div> }>
+        <img
+          src={ this.state.imageSrc }
+          alt={ name }
+          className="avatar"
+          onError={ this.handleImageError }
+        />
+      </Tooltip>
+    )
+  }
+}
 
 export default class Kudo extends React.Component {
   constructor(props) {
