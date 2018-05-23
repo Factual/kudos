@@ -1,3 +1,4 @@
+# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -10,50 +11,50 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_05_09_175615) do
+ActiveRecord::Schema.define(version: 20180509175615) do
 
   # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
   enable_extension "fuzzystrmatch"
   enable_extension "pg_trgm"
-  enable_extension "plpgsql"
   enable_extension "uuid-ossp"
 
   create_table "kudos", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
-    t.text "body", null: false
+    t.text     "body",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.uuid "giver_id", null: false
-    t.index ["created_at"], name: "index_kudos_on_created_at"
-    t.index ["giver_id"], name: "index_kudos_on_giver_id"
+    t.uuid     "giver_id",   null: false
+    t.index ["created_at"], name: "index_kudos_on_created_at", using: :btree
+    t.index ["giver_id"], name: "index_kudos_on_giver_id", using: :btree
   end
 
   create_table "kudos_to_receivers", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.uuid "kudo_id", null: false
-    t.uuid "receiver_id", null: false
-    t.index ["kudo_id", "receiver_id"], name: "index_kudos_to_receivers_on_kudo_id_and_receiver_id", unique: true
-    t.index ["receiver_id"], name: "index_kudos_to_receivers_on_receiver_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.uuid     "kudo_id",     null: false
+    t.uuid     "receiver_id", null: false
+    t.index ["kudo_id", "receiver_id"], name: "index_kudos_to_receivers_on_kudo_id_and_receiver_id", unique: true, using: :btree
+    t.index ["receiver_id"], name: "index_kudos_to_receivers_on_receiver_id", using: :btree
   end
 
-  create_table "likes", id: :serial, force: :cascade do |t|
+  create_table "likes", force: :cascade do |t|
     t.uuid "giver_id", null: false
-    t.uuid "kudo_id", null: false
+    t.uuid "kudo_id",  null: false
   end
 
   create_table "users", id: :uuid, default: -> { "uuid_generate_v4()" }, force: :cascade do |t|
-    t.string "provider"
-    t.string "uid"
-    t.string "name"
-    t.string "oauth_token"
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "name"
+    t.string   "oauth_token"
     t.datetime "oauth_expires_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "email"
-    t.string "avatar"
-    t.integer "old_id"
-    t.boolean "allow_email_notifications", default: true, null: false
-    t.boolean "allow_slack_notifications", default: true, null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
+    t.string   "email"
+    t.string   "avatar"
+    t.integer  "old_id"
+    t.boolean  "allow_email_notifications", default: true, null: false
+    t.boolean  "allow_slack_notifications", default: true, null: false
   end
 
   add_foreign_key "kudos", "users", column: "giver_id"
