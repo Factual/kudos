@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href=<%= "https://cloud.typography.com/6243112/#{ENV['TYPOGRAPHY_CSS_KEY']}/css/fonts.css" %> />
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= render "analytics" %>
   </head>
 
   <body>
