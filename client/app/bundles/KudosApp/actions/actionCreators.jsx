@@ -107,7 +107,7 @@ const editKudo = (id, message, onSuccess = null, onFailure = null) => {
 
     return request({
       method: 'PATCH',
-      url: '/kudos/' + id,
+      url: `/kudos/${id}`,
       responseType: 'json',
       data: {
         kudo: {

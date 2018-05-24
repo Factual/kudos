@@ -3,15 +3,35 @@ import { map, chunk, isEmpty } from 'lodash'
 import dayjs from 'dayjs'
 import { Tooltip } from 'material-ui'
 
-const UserAvatar = ({ user }) => (
-  <Tooltip
-    placement="top"
-    className="kudo__tooltip"
-    title={<div className="kudo__tooltip-text">{user.name}</div>}
-  >
-    <img src={user.avatar} alt={user.name} className="avatar" />
-  </Tooltip>
-)
+class UserAvatar extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      imageSrc: props.user.avatar || ''
+    }
+  }
+
+  handleImageError = () => {
+    this.setState({ imageSrc: 'default-avatar.jpeg' })
+  }
+
+  render() {
+    const { name } = this.props.user
+    return (
+      <Tooltip
+        placement="top"
+        className="kudo__tooltip"
+        title={ <div className="kudo__tooltip-text">{ name }</div> }>
+        <img
+          src={ this.state.imageSrc }
+          alt={ name }
+          className="avatar"
+          onError={ this.handleImageError }
+        />
+      </Tooltip>
+    )
+  }
+}
 
 export default class Kudo extends React.Component {
   constructor(props) {
@@ -101,13 +121,9 @@ export default class Kudo extends React.Component {
 
     const Save = () => <i className="far fa-save" onClick={this.update} />
 
-    const Delete = () => <i className="far fa-trash-alt" onClick={() => alert('delete')} />
-
-    // TODO: enable Delete button when implemented in backend
     return this.postedByActiveUser() ? (
       <div>
         {this.state.editing ? <Save /> : <Edit />}
-        {/* <Delete /> */}
       </div>
     ) : null
   }
@@ -119,7 +135,7 @@ export default class Kudo extends React.Component {
           <div className="sender">
             <UserAvatar user={this.props.kudo.giver} />
           </div>
-          <div className={'receiver ' + this.props.colorClass}>
+          <div className={`receiver ${this.props.colorClass}`}>
             <div className="header">
               {this.formattedHeaderText()}
               {this.renderRecipientAvatars()}

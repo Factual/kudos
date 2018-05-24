@@ -1,5 +1,4 @@
 $stripe-width: 60px;
-$font-primary: Gotham SSm A, Gotham SSm B, Helvetica Neue, Helvetica, Arial, sans-serif;
 
 .header {
   display: block;
@@ -61,7 +60,7 @@ $font-primary: Gotham SSm A, Gotham SSm B, Helvetica Neue, Helvetica, Arial, san
   text-transform: uppercase;
   font-weight: 500;
   letter-spacing: 0.05em;
-  font-family: $font-primary;
+  font-family: $font-gotham;
 }
 
 .header-dropdown-container {
