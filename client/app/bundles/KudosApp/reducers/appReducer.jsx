@@ -9,7 +9,7 @@ export const initialState = {
   currentTab: 'Recent',
   isFetchingKudos: false,
   totalKudos: 0,
-  user: { name: '', id: '' }
+  user: { name: '', id: '', email: '', avatar: '' },
 }
 
 function getKudo(kudos, kudoId) {
@@ -28,7 +28,7 @@ function getKudo(kudos, kudoId) {
 function assignKudoColor(kudo, appendBack) {
   return {
     ...kudo,
-    colorClass: appendBack ? ColorGenerator.appendBack() : ColorGenerator.appendFront()
+    colorClass: appendBack ? ColorGenerator.appendBack() : ColorGenerator.appendFront(),
   }
 }
 
@@ -46,11 +46,10 @@ const kudos = (state = [], action) => {
       const newKudo = createKudo(action)
       return [assignKudoColor(newKudo, false)].concat(state)
     case actionTypes.FETCH_KUDOS_SUCCESS:
-      const kudos = action.kudos.map((kudo) => assignKudoColor(kudo, true))
+      const kudos = action.kudos.map(kudo => assignKudoColor(kudo, true))
       if (action.append) {
         return state.concat(kudos) // append the next page
-      }
-      else {
+      } else {
         return kudos // clobber anything in the existing store
       }
     case actionTypes.SERVER_ACCEPTED_LIKE:
@@ -63,7 +62,7 @@ const kudos = (state = [], action) => {
       if (type === actionTypes.SERVER_ACCEPTED_LIKE) {
         matchingKudo.likes = matchingKudo.likes.concat({
           giver: giverName,
-          giver_id: giverId
+          giver_id: giverId,
         })
       } else {
         matchingKudo.likes = [...matchingKudo.likes]
@@ -79,7 +78,7 @@ const kudos = (state = [], action) => {
   }
 }
 
-const createKudo = (action) => {
+const createKudo = action => {
   return omit(action, 'type')
 }
 
@@ -127,12 +126,18 @@ const totalKudos = (state = 0, action) => {
   }
 }
 
-const initialize = (state = { name: '', id: '', allow_email_notifications: true, allow_slack_notifications: true }, action) => {
+const initialize = (
+  state = {
+    user: { name: '', id: '', email: '', avatar: '' },
+    allow_email_notifications: true,
+    allow_slack_notifications: true,
+  },
+  action
+) => {
   if (action.type === actionTypes.INITIALIZE) {
-    const { id, name, allow_email_notifications, allow_slack_notifications } = action
+    const { user, allow_email_notifications, allow_slack_notifications } = action
     return {
-      id,
-      name,
+      ...user,
       allow_email_notifications,
       allow_slack_notifications,
     }
@@ -146,7 +151,7 @@ const appReducer = combineReducers({
   currentTab,
   isFetchingKudos,
   totalKudos,
-  user: initialize
+  user: initialize,
 })
 
 export default appReducer

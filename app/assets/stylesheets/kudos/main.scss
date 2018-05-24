@@ -4,6 +4,19 @@
 
 @import 'components/error-banner';
 @import 'components/give-kudo';
+@import 'components/header';
 @import 'components/kudos-list';
 @import 'components/kudo';
 @import 'components/settings';
+
+body {
+  font-family: Whitney SSm A, Whitney SSm B, Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 1rem;
+  color: #464342;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "pnum";
+  font-variant-numeric: proportional-nums;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, .004);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

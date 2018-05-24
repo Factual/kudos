@@ -5,7 +5,7 @@ import { initialize } from '../actions/actionCreators';
 import createStore from '../store/kudosAppStore';
 import KudosApp from '../containers/KudosApp';
 import Settings from '../containers/Settings';
-
+import Header from '../components/Header';
 
 // See documentation for https://github.com/reactjs/react-redux.
 // This is how you get props from the Rails view into the redux store.
@@ -17,12 +17,13 @@ export default (props) => {
 
   const reactComponent = (
     <Provider store={store}>
-        <Router>
-          <div>
-            <Route exact path="/" component={ KudosApp } />
-            <Route exact path="/settings" component={ Settings } />
-          </div>
-        </Router>
+      <Router>
+        <div>
+          <Header user={props.user} />
+          <Route exact path="/" component={ KudosApp } />
+          <Route exact path="/settings" component={ Settings } />
+        </div>
+      </Router>
     </Provider>
   );
   return reactComponent;

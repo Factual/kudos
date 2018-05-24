@@ -4,23 +4,6 @@
 // app-specific styles
 @import "kudos/main";
 
-
-nav {
-  border-bottom: 1px solid lightgray;
-  margin-bottom: 1em;
-  height: 80px;
-  position: relative;
-}
-
-#temp-header {
-  display:inline-block;
-  vertical-align: middle;
-}
-
-#sign_out {
-  float: right;
-}
-
 .btn.login {
   display: inline-block;
   float: right;
