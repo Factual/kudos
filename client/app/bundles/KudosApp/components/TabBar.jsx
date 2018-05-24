@@ -24,7 +24,7 @@ export class TabBar extends React.Component {
     )
   }
 }
-  return <option className={classNameForItem + " kudos-list__tab"} value={itemName}>
+  return <option className={`${classNameForItem} +  kudos-list__tab`} value={itemName}>
     {itemName}
   </option>
 }
