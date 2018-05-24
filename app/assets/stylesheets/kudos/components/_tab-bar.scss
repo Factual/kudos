@@ -1,16 +1,23 @@
+@import '../utils/variables';
 
-.drop_down_menu {
-  position:relative;
+select.drop_down_menu {
   border:0;
-  outline:0;
   background-color:white;
-  box-shadow: none;
   -webkit-appearance: none;
-  text-indent: 0;
-  text-overflow: '';
+  font-size: 1.5rem;
+  font-weight: 600;
+  font-family: $font-gotham;
+
 }
 
-p {
+.drop_down_menu select:after {
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid #000000;
+}
+
+
+.dotted_line {
   border-bottom:3px dotted #7d7d7d;
   color:#7d7d7d;
   background-color: white;
