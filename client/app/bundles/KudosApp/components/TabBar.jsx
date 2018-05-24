@@ -2,6 +2,27 @@ import React, { PropTypes } from 'react'
 import { observer } from 'mobx-react'
 import AppStore from '../stores/AppStore'
 
+const DropdownItem = ({ itemName, currentTab}) => {
+  const classNameForItem = 'nav-link' + (currentTab == itemName ? ' active' : '');
+
+  return <option className={classNameForItem + " kudos-list__tab"} value={itemName}>
+    {itemName}
+  </option>
+}
+
+const TabBar = ({ currentTab, setActiveTab }) => {
+  const drop_down = ['Recent', 'My Kudos', 'Awarded Kudos']
+  function itemChanger(event) {
+    setActiveTab(event.target.value)
+  }
+  return (
+    <select onChange={itemChanger}>
+      {drop_down.map(drop_down => <DropdownItem key={drop_down}
+                                                itemName={drop_down}
+                                                currentTab={currentTab}/>)}</select>
+
+  );
+};
 @observer
 export class TabBar extends React.Component {
   render() {
