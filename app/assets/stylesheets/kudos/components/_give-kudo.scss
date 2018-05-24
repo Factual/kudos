@@ -2,6 +2,7 @@
 .give-kudo {
   @extend .container;
   margin-bottom: $spacer;
+  width: $give-kudo-width;
 }
 
 .give-kudo__form {

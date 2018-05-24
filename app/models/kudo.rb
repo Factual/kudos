@@ -11,8 +11,7 @@ class Kudo < ApplicationRecord
     {
       id: id,
       body: body,
-      giver: giver.name,
-      giver_id: giver.id,
+      giver: giver.slice(:id, :name, :avatar),
       receivers: receivers.map { |r| r.slice(:id, :name, :avatar) },
       given_at: created_at,
       likes: likes

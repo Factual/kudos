@@ -18,6 +18,9 @@ services:
       # SITE_SETTINGS_URL should be set to the path for the Notification Settings page,
       # i.e. http://localhost:3000/settings
       #
+      # TYPOGRAPHY_CSS_KEY should be set so that the following link is correct:
+      # https://cloud.typography.com/6243112/<TYPOGRAPHY_CSS_KEY>/css/fonts.css
+      #
       - G_OAUTH_ID=<OAUTH_ID>
       - G_OAUTH_SECRET=<OAUTH_SECRET>
       - SMTP_SERVER=<EMAIL_SERVER>
@@ -33,3 +36,4 @@ services:
       - SITE_SETTINGS_URL=<SITE_SETTINGS_URL>
       - GITHUB_REPO_URL=<GITHUB_REPO_URL>
       - GOOGLE_ANALYTICS_TAG=<GOOGLE_ANALYTICS_TAG>
+      - TYPOGRAPHY_CSS_KEY=<TYPOGRAPHY_CSS_KEY>

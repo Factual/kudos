@@ -92,7 +92,7 @@ export default class GiveKudo extends React.Component {
   }
 
   render() {
-    const buttonInnerHTML = this.state.inFlight ? '<i class="fa fa-spinner fa-spin"></i>' : 'Give Kudo'
+    const buttonInnerHTML = this.state.inFlight ? '<i class="fas fa-spinner fa-spin"></i>' : 'Give Kudo'
     const buttonDisabled = isEmpty(this.state.emails) || isEmpty(this.state.message) || this.state.inFlight
     const autoSuggestProps = {
       placeholder: 'Type an email or search a factualite',
