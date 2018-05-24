@@ -1,23 +1,24 @@
 import React, { PropTypes } from 'react';
 
-const Tab = ({ tabName, currentTab, clickHandler }) => {
-  const classNameForTab = 'nav-link' + (currentTab == tabName ? ' active' : '');
+const DropdownItem = ({ itemName, currentTab}) => {
+  const classNameForItem = 'nav-link' + (currentTab == itemName ? ' active' : '');
 
-  return <li className="kudos-list__tab" onClick={clickHandler}>
-    <span className={classNameForTab}>
-      {tabName}
-    </span>
-  </li>
+  return <option className={classNameForItem + " kudos-list__tab"} value={itemName}>
+    {itemName}
+  </option>
 }
 
 const TabBar = ({ currentTab, setActiveTab }) => {
-  const tabs = ['Recent', 'My Kudos', 'Awarded Kudos']
-  const makeClickHandler = tabName => () => setActiveTab(tabName)
-
+  const drop_down = ['Recent', 'My Kudos', 'Awarded Kudos']
+  function itemChanger(event) {
+    setActiveTab(event.target.value)
+  }
   return (
-    <ul className="kudos-list__nav">
-      { tabs.map(tab => <Tab key={tab} tabName={tab} currentTab={currentTab} clickHandler={makeClickHandler(tab)}/>) }
-    </ul>
+    <select onChange={itemChanger}>
+      {drop_down.map(drop_down => <DropdownItem key={drop_down}
+                                                itemName={drop_down}
+                                                currentTab={currentTab}/>)}</select>
+
   );
 };
 
