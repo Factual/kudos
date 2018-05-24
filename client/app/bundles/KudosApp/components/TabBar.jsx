@@ -19,7 +19,7 @@ const TabBar = ({ currentTab, setActiveTab }) => {
       {drop_down.map(drop_down => <DropdownItem key={drop_down}
                                                 itemName={drop_down}
                                                 currentTab={currentTab}/>)}</select>
-      <p></p>
+      <p className="dotted_line"/>
     </div>
 
   );
