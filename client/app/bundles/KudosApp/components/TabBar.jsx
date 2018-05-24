@@ -30,15 +30,18 @@ export class TabBar extends React.Component {
 }
 
 const TabBar = ({ currentTab, setActiveTab }) => {
-  const drop_down = ['Recent', 'My Kudos', 'Awarded Kudos']
+  const drop_down = ['All Kudos', 'My Kudos', 'Awarded Kudos']
   function itemChanger(event) {
     setActiveTab(event.target.value)
   }
   return (
-    <select onChange={itemChanger}>
+    <div>
+    <select onChange={itemChanger} className={"drop_down_menu"}>
       {drop_down.map(drop_down => <DropdownItem key={drop_down}
                                                 itemName={drop_down}
                                                 currentTab={currentTab}/>)}</select>
+      <p></p>
+    </div>
 
   );
 };
