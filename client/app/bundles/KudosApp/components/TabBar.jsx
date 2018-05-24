@@ -5,7 +5,7 @@ import AppStore from '../stores/AppStore'
 const DropdownItem = ({ itemName, currentTab}) => {
   const classNameForItem = 'nav-link' + (currentTab == itemName ? ' active' : '');
 
-  return <option className={classNameForItem + " kudos-list__tab"} value={itemName}>
+  return <option className={`${classNameForItem} +  kudos-list__tab`} value={itemName}>
     {itemName}
   </option>
 }
