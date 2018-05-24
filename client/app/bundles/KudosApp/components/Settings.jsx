@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Toggle, RaisedButton } from 'material-ui';
+import { Switch, Button } from 'material-ui';
 import request from 'axios'
 
 export default class Settings extends React.Component {
@@ -16,8 +16,8 @@ export default class Settings extends React.Component {
     }
   }
 
-  onToggle = (e, checked) => {
-    this.setState({[ e.target.name ]: checked})
+  onSwitch = (e) => {
+    this.setState({[ e.target.name ]: e.target.checked})
   }
 
   updateSettings = () => {
@@ -38,26 +38,32 @@ export default class Settings extends React.Component {
 
   render() {
     return (
-      <div className="kudo-pane">
+      <div className="settings__container">
         <h3 className="margin-below"> Notification Settings </h3>
-        <Toggle
-          label="Email notifications"
+        <div className="settings__input-row margin-below">
+        Email notifications
+        <Switch
           name="allow_email_notifications"
-          className="margin-below"
-          defaultToggled={ this.props.allow_email_notifications }
-          onToggle={ this.onToggle }
+          checked={ this.state.allow_email_notifications }
+          onChange={ this.onSwitch }
+          color="primary"
         />
-        <Toggle
-          label="Slack notifications"
+        </div>
+        <div className="settings__input-row margin-below">
+        Slack notifications
+        <Switch
           name="allow_slack_notifications"
-          className="margin-below"
-          defaultToggled={ this.props.allow_slack_notifications }
-          onToggle={ this.onToggle }
+          checked={ this.state.allow_slack_notifications }
+          onChange={ this.onSwitch }
+          color="primary"
         />
-        <RaisedButton
-          label="Save"
+        </div>
+        <Button
+          variant="raised"
           onClick={ this.updateSettings }
-        />
+          color="primary">
+          Save
+        </Button>
       </div>
     )
   }

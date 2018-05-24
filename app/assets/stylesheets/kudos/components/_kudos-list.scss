@@ -1,11 +1,17 @@
 .kudos-list {
   @extend .list-group;
+  max-width: $kudo-list-max-width;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .kudos-list__nav {
   @extend .nav;
   @extend .nav-tabs;
+  max-width: $kudo-list-max-width;
   margin-bottom: $spacer;
+  margin: 0 auto;
 }
 
 .kudos-list__tab {

@@ -1,4 +1,4 @@
-import actionTypes from '../constants/appConstants';
+import { actionTypes } from '../constants/appConstants';
 import request from 'axios';
 request.defaults.headers.post['Content-Type'] = 'application/json';
 

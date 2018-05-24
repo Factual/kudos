@@ -37,7 +37,6 @@ gem "react_on_rails", "~> 6"
 gem "annotate"
 
 gem 'bootstrap', '>= 4.0.0.alpha3', '<= 4.1'
-gem "font-awesome-rails"
 
 # Slackbot framework https://github.com/slack-ruby/slack-ruby-client
 gem 'slack-ruby-client'
