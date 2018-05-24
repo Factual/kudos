@@ -1,15 +1,6 @@
 @import '../utils/variables';
 
-.kudo_list-changer {
-  display: block;
-  flex-direction: column;
-  justify-content: center;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
 select.drop_down_menu {
-  display: flex;
   border:0;
   -webkit-appearance: none;
   font-size: $heading-font-size;
@@ -30,14 +21,3 @@ select.drop_down_menu {
   points='0,2.5 15,2.5 7.5,10'/>
   </svg>") no-repeat right;
 }
-
-select.drop_down_menu:focus {
-  outline:0;
-}
-
-//.dotted_line {
-//  border-bottom:3px dotted $kudo-meta-text-color;
-//  background-color: transparent;
-//  height: 3px;
-//  width:100%;
-//}
