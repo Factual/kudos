@@ -39,7 +39,8 @@ export default class GiveKudo extends React.Component {
       emails: [],
       message: '',
       userSuggestions: [],
-      inFlight: false
+      inFlight: false,
+      activateModal: this.props.activateModal,
     }
   }
 
