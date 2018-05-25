@@ -1,14 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Kudos</title>
-    <%= csrf_meta_tags %>
-
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href=<%= "https://cloud.typography.com/6243112/#{ENV['TYPOGRAPHY_CSS_KEY']}/css/fonts.css" %> />
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= render 'head' %>
     <%= render "analytics" %>
   </head>
 
@@ -17,31 +10,8 @@
       <% flash.each do |name, msg| -%>
         <%= content_tag :div, msg, class: name %>
       <% end -%>
-      <% if current_user %>
-        <nav class="navbar navbar-default">
-          <div id="temp-header">
-            Signed in as <strong><%= current_user.name %></strong>! <br/>
-            <a href="/" style="margin-right:10px"> Home </a>      <a href="/settings"> Settings </a>
-          </div>
-          <button class="btn login btn-primary">
-            <%= link_to "Sign out", logout_path, id: "sign_out" %>
-          </button>
-          <% if current_user.avatar %>
-            <img width='60' src="<%= current_user.avatar %>" alt="avatar" />
-          <% end %>
-        </nav>
-      <% else %>
-        <div class='container'>
-          <div class='col-md-4 col-md-offset-4 homepage-block'>
-            <div class='logo'>
-              <%= image_tag 'factual_logo_small.png' %>
-            </div>
-            <h1>Kudos</h1>
-            <%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in", class: "btn login btn-primary btn-homepage" %>
-          </div>
-        </div>
-      <% end %>
     </div>
+
     <%= yield %>
   </body>
 </html>

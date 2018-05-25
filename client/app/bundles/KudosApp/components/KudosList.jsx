@@ -8,26 +8,28 @@ injectTapEventPlugin()
 
 const List = ({ userId, kudos, likeKudo, unlikeKudo, updateKudo, isFetchingKudos }) => (
   <div className="kudos-list">
-  { kudos.length === 0 && !isFetchingKudos ? 'No kudos' :
-    kudos.map((kudo) => (
-      <Kudo
-        id={ kudo.id }
-        colorClass={ kudo.colorClass }
-        userId={ userId }
-        key={ kudo.id }
-        kudo={ kudo }
-        likeKudo={ likeKudo }
-        unlikeKudo={ unlikeKudo }
-        updateKudo={ updateKudo }
-      />
-    ))
-  }
+    {kudos.length === 0 && !isFetchingKudos
+      ? 'No kudos'
+      : kudos.map(kudo => (
+          <Kudo
+            id={kudo.id}
+            colorClass={kudo.colorClass}
+            userId={userId}
+            key={kudo.id}
+            kudo={kudo}
+            likeKudo={likeKudo}
+            unlikeKudo={unlikeKudo}
+            updateKudo={updateKudo}
+          />
+        ))}
   </div>
 )
 
-const Spinner = () => <div className="kudos-list__fetching-container">
-  <i className="fas fa-spin fa-spinner fa-5x" aria-hidden="true"></i>
-</div>
+const Spinner = () => (
+  <div className="kudos-list__fetching-container">
+    <i className="fas fa-spin fa-spinner fa-5x" aria-hidden="true" />
+  </div>
+)
 
 export default class KudosList extends React.Component {
   static propTypes = {
@@ -38,7 +40,7 @@ export default class KudosList extends React.Component {
     fetchPage: PropTypes.func.isRequired,
     likeKudo: PropTypes.func.isRequired,
     unlikeKudo: PropTypes.func.isRequired,
-    updateKudo: PropTypes.func.isRequired
+    updateKudo: PropTypes.func.isRequired,
   }
 
   constructor(props, context) {
@@ -59,7 +61,8 @@ export default class KudosList extends React.Component {
   }
 
   handleScroll(event) {
-    const isAtBottom = event.srcElement.body.scrollTop + window.innerHeight == document.body.offsetHeight
+    const isAtBottom =
+      event.srcElement.body.scrollTop + window.innerHeight == document.body.offsetHeight
 
     if (isAtBottom && this.areMoreKudos() && !this.props.isFetchingKudos) {
       this.props.fetchPage()
@@ -72,14 +75,14 @@ export default class KudosList extends React.Component {
       <div className="kudos-list__container">
         <TabBarContainer />
         <List
-          userId={ id }
-          kudos={ kudos }
-          likeKudo={ likeKudo }
-          unlikeKudo={ unlikeKudo }
-          updateKudo={ updateKudo }
-          isFetchingKudos={ isFetchingKudos }
+          userId={id}
+          kudos={kudos}
+          likeKudo={likeKudo}
+          unlikeKudo={unlikeKudo}
+          updateKudo={updateKudo}
+          isFetchingKudos={isFetchingKudos}
         />
-        { isFetchingKudos ? <Spinner /> : null }
+        {isFetchingKudos ? <Spinner /> : null}
       </div>
     )
   }

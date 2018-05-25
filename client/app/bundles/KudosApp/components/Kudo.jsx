@@ -35,18 +35,18 @@ class UserAvatar extends React.Component {
 
 export default class Kudo extends React.Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       body: this.props.kudo.body,
       editing: false,
-    };
+    }
   }
 
   makeEditable = () => {
     this.setState({ editing: true })
   }
 
-  setMessage = (e) => {
+  setMessage = e => {
     this.setState({ body: e.target.value })
   }
 
@@ -73,7 +73,7 @@ export default class Kudo extends React.Component {
   postedByActiveUser() {
     const user = this.props.userId
     const poster = this.props.kudo.giver.id
-    return (user === poster)
+    return user === poster
   }
 
   // Render avatars in rows of at most 3
@@ -83,16 +83,13 @@ export default class Kudo extends React.Component {
 
     return (
       <div className="avatars">
-      {rowsOfReceivers.map((rowOfReceiver, rowIndex) => (
-        <div key={ kudo.id.concat("-avatar-row-", rowIndex) } className="avatar-row">
-        {rowOfReceiver.map(receiver => (
-          <UserAvatar
-            key={ kudo.id.concat("-recipient-avatar-", receiver.id) }
-            user={ receiver }
-          />
+        {rowsOfReceivers.map((rowOfReceiver, rowIndex) => (
+          <div key={kudo.id.concat('-avatar-row-', rowIndex)} className="avatar-row">
+            {rowOfReceiver.map(receiver => (
+              <UserAvatar key={kudo.id.concat('-recipient-avatar-', receiver.id)} user={receiver} />
+            ))}
+          </div>
         ))}
-        </div>
-      ))}
       </div>
     )
   }
@@ -100,14 +97,10 @@ export default class Kudo extends React.Component {
   renderBody() {
     const { body, editing } = this.state
 
-    return (
-      editing ?
-        <textarea
-          id="kudo-input"
-          className="edit-box"
-          value={ body }
-          onChange={ this.setMessage }
-        /> : body
+    return editing ? (
+      <textarea id="kudo-input" className="edit-box" value={body} onChange={this.setMessage} />
+    ) : (
+      body
     )
   }
 
@@ -117,40 +110,22 @@ export default class Kudo extends React.Component {
 
     return (
       <i
-        className={ likedBySelf ? "fas fa-heart" : "far fa-heart" }
-        onClick={ likedBySelf ? unlikeKudo(id) : likeKudo(id) }
+        className={likedBySelf ? 'fas fa-heart' : 'far fa-heart'}
+        onClick={likedBySelf ? unlikeKudo(id) : likeKudo(id)}
       />
     )
   }
 
   renderEditOptions() {
-    const Edit = () => (
-      <i
-        className="far fa-edit"
-        onClick={ this.makeEditable }
-      />
-    )
+    const Edit = () => <i className="far fa-edit" onClick={this.makeEditable} />
 
-    const Save = () => (
-      <i
-        className="far fa-save"
-        onClick={ this.update }
-      />
-    )
+    const Save = () => <i className="far fa-save" onClick={this.update} />
 
-    const Delete = () => (
-      <i className="far fa-trash-alt" onClick={ ()=> alert("delete")}></i>
-    )
-
-    // TODO: enable Delete button when implemented in backend
-    return (
-      this.postedByActiveUser() ? (
-        <div>
-          { this.state.editing ? <Save /> : <Edit /> }
-          {/* <Delete /> */}
-        </div>
-      ) : null
-    )
+    return this.postedByActiveUser() ? (
+      <div>
+        {this.state.editing ? <Save /> : <Edit />}
+      </div>
+    ) : null
   }
 
   render() {
@@ -158,26 +133,24 @@ export default class Kudo extends React.Component {
       <div className="kudo">
         <div className="content">
           <div className="sender">
-            <UserAvatar user={ this.props.kudo.giver } />
+            <UserAvatar user={this.props.kudo.giver} />
           </div>
-          <div className={ "receiver " + this.props.colorClass }>
+          <div className={`receiver ${this.props.colorClass}`}>
             <div className="header">
-              { this.formattedHeaderText() }
-              { this.renderRecipientAvatars() }
+              {this.formattedHeaderText()}
+              {this.renderRecipientAvatars()}
             </div>
-            <div className="message">
-              { this.renderBody() }
-            </div>
+            <div className="message">{this.renderBody()}</div>
           </div>
         </div>
         <div className="meta">
           <div className="meta-item">
-            { this.renderLikeIcon() }
-            { this.props.kudo.likes.length }
+            {this.renderLikeIcon()}
+            {this.props.kudo.likes.length}
           </div>
           <div className="meta-item">
-            { this.formattedTimestamp() }
-            { this.renderEditOptions() }
+            {this.formattedTimestamp()}
+            {this.renderEditOptions()}
           </div>
         </div>
       </div>
