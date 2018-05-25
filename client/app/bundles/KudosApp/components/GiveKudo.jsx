@@ -1,5 +1,5 @@
-import React, { PropTypes } from 'react'
-import { isEmpty, trim } from 'lodash'
+import React, {PropTypes} from 'react'
+import {isEmpty, trim} from 'lodash'
 import Autosuggest from 'react-autosuggest'
 import _ from 'lodash'
 import request from 'axios'
@@ -14,7 +14,7 @@ const fuzzySearchUsers = (query) => {
       q: query
     }
   }).then((res) => {
-    return res.data.map(obj => _.pick(obj, [ 'name', 'email' ]))
+    return res.data.map(obj => _.pick(obj, ['name', 'email']))
   })
 }
 
@@ -68,13 +68,13 @@ export default class GiveKudo extends React.Component {
     this.setState({inFlight: false})
   }
 
-  onChangeSearchInput = (event, { newValue }) => {
+  onChangeSearchInput = (event, {newValue}) => {
     this.setState({
       emails: newValue.split(',').map(trim)
     })
   }
 
-  onSuggestionsFetchRequested = ({ value }) => {
+  onSuggestionsFetchRequested = ({value}) => {
     fuzzySearchUsers(value).then(suggestions => {
       this.setState({
         userSuggestions: suggestions
@@ -87,6 +87,7 @@ export default class GiveKudo extends React.Component {
       userSuggestions: []
     })
   }
+
   setMessage(e) {
     this.setState({message: e.target.value})
   }
@@ -107,12 +108,16 @@ export default class GiveKudo extends React.Component {
     return (
       <div className="give-kudo">
         <h3>
-          Give Kudo
+          GIVE A KUDO!
         </h3>
+        <svg width="575px" height="10px" viewBox="0 0 575 10">
+          <line x1="0" x2="575" y1="4" y2="4" stroke="#ff9047" strokeWidth="4" strokeLinecap="round"
+                strokeDasharray="0.25, 8"/>
+        </svg>
         <form className="give-kudo__form">
           <fieldset className="give-kudo__inputs">
             <label htmlFor="give-kudo__input-email">
-              To:
+              TO:
             </label>
             <Autosuggest
               suggestions={this.state.userSuggestions}
@@ -125,7 +130,7 @@ export default class GiveKudo extends React.Component {
               inputProps={autoSuggestProps}
             />
             <label htmlFor="give-kudo__input-message">
-              Say:
+              MESSAGE:
             </label>
             <textarea
               placeholder="Message"
