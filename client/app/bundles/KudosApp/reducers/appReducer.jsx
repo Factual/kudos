@@ -9,7 +9,8 @@ export const initialState = {
   currentTab: 'Recent',
   isFetchingKudos: false,
   totalKudos: 0,
-  user: { name: '', id: '' }
+  user: { name: '', id: '' },
+  activateModal: false,
 }
 
 function getKudo(kudos, kudoId) {
@@ -140,13 +141,16 @@ const initialize = (state = { name: '', id: '', allow_email_notifications: true,
   return state
 }
 
+const activateModal = (state = false, action) => {return state}
+
 const appReducer = combineReducers({
   kudos,
   error,
   currentTab,
   isFetchingKudos,
   totalKudos,
-  user: initialize
+  user: initialize,
+  activateModal,
 })
 
 export default appReducer
