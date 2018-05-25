@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import GiveKudo from '../components/GiveKudo';
+import GiveKudo from '../components/GiveKudo'
 import KudosListContainer from './KudosListContainer';
 import ErrorBanner from '../components/ErrorBanner';
 import { connect } from 'react-redux';

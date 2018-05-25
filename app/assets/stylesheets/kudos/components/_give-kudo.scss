@@ -3,6 +3,8 @@
   @extend .container;
   margin-bottom: $spacer;
   width: $give-kudo-width;
+  font-family: $font-gotham;
+  font-weight: 500;
 }
 
 .give-kudo__form {
