@@ -5,13 +5,15 @@ import ErrorBanner from '../components/ErrorBanner'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actionCreators from '../actions/actionCreators'
+import KudoModalRenderer from '../components/KudoModalRenderer'
+
 
 // Simple example of a React "smart" component
-const KudosApp = ({ kudos, error, createKudo, isFetchingKudos, totalKudos }) => {
+const KudosApp = ({ kudos, error, createKudo, isFetchingKudos, totalKudos, activateModal }) => {
   return (
     <div>
       <ErrorBanner error={error} />
-      <GiveKudo createKudo={createKudo} />
+      <KudoModalRenderer createKudo={ createKudo } activateModal={ activateModal }/>
       <KudosListContainer />
     </div>
   )
@@ -25,8 +27,8 @@ KudosApp.propTypes = {
 function mapStateToProps(state) {
   // Which part of the Redux global state does our component want to receive as props?
   const { kudosAppStore } = state
-  const { kudos, error, isFetchingKudos, totalKudos } = kudosAppStore
-  return { kudos, error, isFetchingKudos, totalKudos }
+  const { kudos, error, isFetchingKudos, totalKudos, activateModal } = kudosAppStore
+  return { kudos, error, isFetchingKudos, totalKudos, activateModal }
 }
 
 function mapDispatchToProps(dispatch) {
