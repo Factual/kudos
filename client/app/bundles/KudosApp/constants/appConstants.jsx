@@ -17,6 +17,7 @@ export const actionTypes = mirrorCreator([
   'FETCH_KUDOS_REQUEST',
   'FETCH_KUDOS_FAILURE',
   'FETCH_KUDOS_SUCCESS',
+  'MODAL_SWITCH'
 ])
 // actionTypes = {HELLO_WORLD_NAME_UPDATE: "HELLO_WORLD_NAME_UPDATE"}
 // Notice how we don't have to duplicate HELLO_WORLD_NAME_UPDATE twice

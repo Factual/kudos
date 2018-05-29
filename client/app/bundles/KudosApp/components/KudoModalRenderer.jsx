@@ -8,25 +8,25 @@ export default class KudoModalRenderer extends React.Component {
     // passing two properties: "data" and "actions".
     createKudo: PropTypes.func.isRequired,
     activateModal: PropTypes.bool.isRequired,
+    modalSwitch: PropTypes.func.isRequired,
   }
 
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      activateModal : this.props.activateModal,
-    }
-  }
 
-  handleClick(e) {
-    this.setState({activateModal : !this.state.activateModal})
+  modalClick(e) {
+    this.props.modalSwitch(this.props.activateModal);
   }
 
   render() {
     return(
       <div className="give-kudo">
-        <button onClick={this.handleClick.bind(this)}>GIVE A KUDO!</button>
-
-        <GiveKudo createKudo={this.props.createKudo} activateModal = {this.state.activateModal} />
+        <button onClick={this.modalClick.bind(this)}>GIVE A KUDO!</button>
+        {this.props.activateModal ?
+          <GiveKudo createKudo={this.props.createKudo}
+                    activateModal={this.props.activateModal}
+                    modalSwitch={this.props.modalSwitch}
+                    modalClick={this.modalClick}
+          /> : null
+        }
       </div>
     )
   }

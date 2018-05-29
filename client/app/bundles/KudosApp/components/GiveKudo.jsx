@@ -32,6 +32,9 @@ export default class GiveKudo extends React.Component {
     // If you have lots of data or action properties, you should consider grouping them by
     // passing two properties: "data" and "actions".
     createKudo: PropTypes.func.isRequired,
+    activateModal: PropTypes.bool.isRequired,
+    modalSwitch: PropTypes.func.isRequired,
+    modalClick: PropTypes.func.isRequired,
   }
 
   _initialState() {
@@ -40,7 +43,6 @@ export default class GiveKudo extends React.Component {
       message: '',
       userSuggestions: [],
       inFlight: false,
-      activateModal: this.props.activateModal,
     }
   }
 
@@ -147,6 +149,7 @@ export default class GiveKudo extends React.Component {
               dangerouslySetInnerHTML={{__html: buttonInnerHTML}}
             >
             </button>
+            <button onClick={this.props.modalClick.bind(this)}>JK, CANCEL!</button>
           </div>
         </form>
       </div>
