@@ -5,13 +5,14 @@ import KudoModalRenderer from '../components/KudoModalRenderer'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../actions/actionCreators';
+import modalSwitch from '../actions/modalActions'
 
 // Simple example of a React "smart" component
-const KudosApp = ({ kudos, error, createKudo, isFetchingKudos, totalKudos, activateModal }) => {
+const KudosApp = ({ kudos, error, createKudo, modalSwitch, isFetchingKudos, totalKudos, activateModal }) => {
   return (
     <div>
       <ErrorBanner error={ error } />
-      <KudoModalRenderer createKudo={ createKudo } activateModal={ activateModal }/>
+      <KudoModalRenderer createKudo={ createKudo } modalSwitch={ modalSwitch } activateModal={ activateModal }/>
       <KudosListContainer />
     </div>
   );
@@ -30,9 +31,13 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  const actions = bindActionCreators(actionCreators, dispatch)
-  const { createKudo } = actions
-  return { createKudo }
+  const actions = bindActionCreators(actionCreators, dispatch);
+  const { createKudo } = actions;
+  const boundModalSwitch = activateModal => dispatch(modalSwitch(activateModal))
+  return {
+    createKudo: createKudo,
+    modalSwitch: boundModalSwitch,
+  }
 }
 
 // Don't forget to actually use connect!

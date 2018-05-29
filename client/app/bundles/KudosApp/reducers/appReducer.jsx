@@ -146,7 +146,12 @@ const initialize = (
   return state
 }
 
-const activateModal = (state = false, action) => {return state}
+const activateModal = (state = false, action) => {
+  if (action.type === actionTypes.MODAL_SWITCH) {
+    return !state
+  }
+  return state
+}
 
 const appReducer = combineReducers({
   kudos,
