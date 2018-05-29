@@ -6,10 +6,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actionCreators from '../actions/actionCreators'
 import KudoModalRenderer from '../components/KudoModalRenderer'
-
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as actionCreators from '../actions/actionCreators';
 import modalSwitch from '../actions/modalActions'
 
 // Simple example of a React "smart" component
