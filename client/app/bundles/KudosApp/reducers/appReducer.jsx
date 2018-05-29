@@ -141,7 +141,12 @@ const initialize = (state = { name: '', id: '', allow_email_notifications: true,
   return state
 }
 
-const activateModal = (state = false, action) => {return state}
+const activateModal = (state = false, action) => {
+  if (action.type === actionTypes.MODAL_SWITCH) {
+    return !state
+  }
+  return state
+}
 
 const appReducer = combineReducers({
   kudos,
