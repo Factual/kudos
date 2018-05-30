@@ -11,6 +11,9 @@ sleep 15
 docker-compose run web rails db:create
 docker-compose run web rails db:migrate
 
+# Attempt to restore from S3 backup
+docker-compose run web rails db:restore
+
 # Install NPM modules
 # Because modules are stored in the local `node_modules` folder and that folder
 # is shadowed by our mounted volume, we need to run this again.

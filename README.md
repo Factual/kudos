@@ -27,6 +27,7 @@ Since we're using docker-compose, you can run `docker-compose run [SERVICE] [COM
 * To get an interactive rails console, run `docker-compose run web rails c`
 * To drop into a shell, run `docker-compose run [SERVICE] /bin/bash`
 * To migrate the database, run `docker-compose run web rails db:migrate`
+* To restore the database using an S3 backup, run `docker-compose run web rails db:restore`
 * To install node packages, run `docker-compose run web npm install` (this will run the outer *and* inner `npm install`)
 * To install new gems, run `docker-compose run web bundle install`
 * To install a new gem, run `docker-compose run bundle install [GEM_NAME]` then commit the updated `Gemfile.lock` file
