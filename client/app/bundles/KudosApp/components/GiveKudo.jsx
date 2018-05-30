@@ -109,17 +109,18 @@ export default class GiveKudo extends React.Component {
       },
     }
     return (
-      <div className="give-kudo">
+      <div className="give-kudo__modal">
+        <div>
         <h3>
           GIVE A KUDO!
         </h3>
-        <svg width="575px" height="10px" viewBox="0 0 575 10">
-          <line x1="0" x2="575" y1="4" y2="4" stroke="#ff9047" strokeWidth="4" strokeLinecap="round"
+        <svg style={{display:'block'}} width="100%" height="4px">
+          <line x1="0" x2="100%" y1="2" y2="2" stroke="#FFC165" strokeWidth="4" strokeLinecap="round"
                 strokeDasharray="0.25, 8"/>
         </svg>
         <form className="give-kudo__form">
           <fieldset className="give-kudo__inputs">
-            <label htmlFor="give-kudo__input-email">
+            <label htmlFor="give-kudo__input-email" >
               TO:
             </label>
             <Autosuggest
@@ -146,17 +147,28 @@ export default class GiveKudo extends React.Component {
             />
           </fieldset>
           <div className="give-kudo__actions">
-            <button
-              type="button"
-              className="give-kudo__button"
-              onClick={this.handleClick}
-              disabled={buttonDisabled}
-              dangerouslySetInnerHTML={{__html: buttonInnerHTML}}
-            >
-            </button>
-            <button onClick={this.props.modalClick.bind(this)}>JK, CANCEL!</button>
+            <div className="modal-button">
+              <button
+                type="button"
+                className="styled-kudo-button send-kudo-button"
+                onClick={this.handleClick}
+                disabled={buttonDisabled}
+              >
+                <span className="fist-left">🤜</span>
+                <span className="fist-right">🤛</span>
+                <span className="title">KUDOS!</span>
+              </button>
+            </div>
+            <div className="modal-button">
+              <button className="close-modal"
+                      onClick={this.props.modalClick.bind(this)}
+              >
+                JK, CANCEL
+              </button>
+            </div>
           </div>
         </form>
+        </div>
       </div>
     )
   }

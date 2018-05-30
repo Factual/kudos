@@ -19,7 +19,11 @@ export default class KudoModalRenderer extends React.Component {
   render() {
     return(
       <div className="give-kudo">
-        <button onClick={this.modalClick.bind(this)}>GIVE A KUDO!</button>
+        <button className="styled-kudo-button open-modal" onClick={this.modalClick.bind(this)}>
+          <span className="fist-left">🤜</span>
+          <span className="fist-right">🤛</span>
+          <span className="title">GIVE A KUDO!</span>
+        </button>
         {this.props.activateModal ?
           <GiveKudo createKudo={this.props.createKudo}
                     activateModal={this.props.activateModal}
