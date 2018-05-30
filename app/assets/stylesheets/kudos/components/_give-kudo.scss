@@ -30,7 +30,6 @@
   border: none;
   padding-right: 20px;
   padding-left: 20px;
-  transition: top .1s linear 0s;
 
   .fist-left {
     padding-right: 5px;
@@ -78,7 +77,6 @@
   background: $color-factual-orange;
   color: white;
   border: none;
-  transition: top .1s linear 0s;
 }
 
 .close-modal:hover {
@@ -184,4 +182,16 @@ label {
 
 .react-autosuggest__suggestion--focused {
     background-color: #ddd;
+}
+
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0,0,0,0.5);
+  z-index: 2;
 }

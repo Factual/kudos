@@ -7,11 +7,13 @@ import { bindActionCreators } from 'redux'
 import * as actionCreators from '../actions/actionCreators'
 import KudoModalRenderer from '../components/KudoModalRenderer'
 import modalSwitch from '../actions/modalActions'
+import ModalCover from "../components/ModalCover";
 
 // Simple example of a React "smart" component
 const KudosApp = ({ kudos, error, createKudo, modalSwitch, isFetchingKudos, totalKudos, activateModal }) => {
   return (
     <div>
+      <ModalCover activateModal={ activateModal }/>
       <ErrorBanner error={ error } />
       <KudoModalRenderer createKudo={ createKudo } modalSwitch={ modalSwitch } activateModal={ activateModal }/>
       <KudosListContainer />
