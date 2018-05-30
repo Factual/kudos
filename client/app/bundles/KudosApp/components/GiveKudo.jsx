@@ -95,9 +95,28 @@ export default class GiveKudo extends React.Component {
     this.setState({message: e.target.value})
   }
 
+  resizeMessageBox() {
+    let message = document.querySelector('textarea');
+    message ? message.addEventListener('keydown', resize) : null;
+
+    function resize() {
+      // setTimeout needed so that top also resizes dynamically to reveal top row of words
+      setTimeout(function () {
+        message.style.height = 'auto';
+        message.style.height = message.scrollHeight + 'px';
+      }, 0);
+    }
+  }
+
   render() {
-    const buttonInnerHTML = this.state.inFlight ? '<i class="fas fa-spinner fa-spin"></i>' : 'Give Kudo'
-    const buttonDisabled = isEmpty(this.state.emails) || isEmpty(this.state.message) || this.state.inFlight
+    const buttonInnerHTML = this.state.inFlight ?
+      <i className="fas fa-spinner fa-spin"> </i> :
+      <span>
+        <span className="fist-left">🤜</span>
+        <span className="fist-right">🤛</span>
+        <span className="title">KUDOS!</span>
+      </span>;
+    const buttonDisabled = isEmpty(this.state.emails) || isEmpty(this.state.message) || this.state.inFlight;
     const autoSuggestProps = {
       placeholder: 'Type an email or search a factualite',
       value: this.state.emails.join(', '),
@@ -108,66 +127,65 @@ export default class GiveKudo extends React.Component {
         }
       },
     }
+    this.resizeMessageBox();
     return (
       <div className="give-kudo__modal">
         <div>
-        <h3>
-          GIVE A KUDO!
-        </h3>
-        <svg style={{display:'block'}} width="100%" height="4px">
-          <line x1="0" x2="100%" y1="2" y2="2" stroke="#FFC165" strokeWidth="4" strokeLinecap="round"
-                strokeDasharray="0.25, 8"/>
-        </svg>
-        <form className="give-kudo__form">
-          <fieldset className="give-kudo__inputs">
-            <label htmlFor="give-kudo__input-email" >
-              TO:
-            </label>
-            <Autosuggest
-              suggestions={this.state.userSuggestions}
-              id="give-kudo__input-email"
-              disabled={this.state.inFlight}
-              onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-              onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-              getSuggestionValue={getSuggestionValue}
-              renderSuggestion={renderSuggestion}
-              inputProps={autoSuggestProps}
-            />
-            <label htmlFor="give-kudo__input-message">
-              MESSAGE:
-            </label>
-            <textarea
-              placeholder="Message"
-              id="give-kudo__input-message"
-              className="give-kudo__input"
-              rows={3}
-              value={this.state.message}
-              onChange={this.setMessage}
-              disabled={this.state.inFlight}
-            />
-          </fieldset>
-          <div className="give-kudo__actions">
-            <div className="modal-button">
-              <button
-                type="button"
-                className="styled-kudo-button send-kudo-button"
-                onClick={this.handleClick}
-                disabled={buttonDisabled}
-              >
-                <span className="fist-left">🤜</span>
-                <span className="fist-right">🤛</span>
-                <span className="title">KUDOS!</span>
-              </button>
+          <h3>
+            GIVE A KUDO!
+          </h3>
+          <svg style={{display: 'block'}} width="100%" height="4px">
+            <line x1="0" x2="100%" y1="2" y2="2" stroke="#FFC165" strokeWidth="4" strokeLinecap="round"
+                  strokeDasharray="0.25, 8"/>
+          </svg>
+          <form className="give-kudo__form">
+            <fieldset className="give-kudo__inputs">
+              <label htmlFor="give-kudo__input-email">
+                TO:
+              </label>
+              <Autosuggest
+                suggestions={this.state.userSuggestions}
+                id="give-kudo__input-email"
+                disabled={this.state.inFlight}
+                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+                getSuggestionValue={getSuggestionValue}
+                renderSuggestion={renderSuggestion}
+                inputProps={autoSuggestProps}
+              />
+              <label htmlFor="give-kudo__input-message">
+                MESSAGE:
+              </label>
+              <textarea
+                placeholder="Message"
+                id="give-kudo__input-message"
+                className="give-kudo__input"
+                rows={3}
+                value={this.state.message}
+                onChange={this.setMessage}
+                disabled={this.state.inFlight}
+              />
+            </fieldset>
+            <div className="give-kudo__actions">
+              <div className="modal-button">
+                <button
+                  type="button"
+                  className="styled-kudo-button send-kudo-button"
+                  onClick={this.handleClick}
+                  disabled={buttonDisabled}
+                >
+                  {buttonInnerHTML}
+                </button>
+              </div>
+              <div className="modal-button">
+                <button className="close-modal"
+                        onClick={this.props.modalClick.bind(this)}
+                >
+                  JK, CANCEL
+                </button>
+              </div>
             </div>
-            <div className="modal-button">
-              <button className="close-modal"
-                      onClick={this.props.modalClick.bind(this)}
-              >
-                JK, CANCEL
-              </button>
-            </div>
-          </div>
-        </form>
+          </form>
         </div>
       </div>
     )
