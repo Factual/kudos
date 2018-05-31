@@ -54,7 +54,7 @@ namespace :db do
     # File cleanup
     system("rm #{filename}")
 
-    if Rails.env == 'development'
+    if Rails.env.development?
       turn_off_user_notifications(db_config['host'], db_config['username'], db_config['database'], db_config['port'])
     end
 
