@@ -3,7 +3,7 @@
 select.drop_down_menu {
   border:0;
   -webkit-appearance: none;
-  font-size: 1.5rem;
+  font-size: $heading-font-size;
   font-weight: 600;
   font-family: $font-gotham;
   width: 250px;
@@ -13,8 +13,8 @@ select.drop_down_menu {
 }
 
 .dotted_line {
-  border-bottom:3px dotted #a09e9d;
-  background-color: white;
+  border-bottom:3px dotted $kudo-meta-text-color;
+  background-color: transparent;
   height: 3px;
   width:100%;
 }
