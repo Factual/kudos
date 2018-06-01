@@ -10,6 +10,7 @@ export const initialState = {
   isFetchingKudos: false,
   totalKudos: 0,
   user: { name: '', id: '', email: '', avatar: '' },
+  showModal: false,
 }
 
 function getKudo(kudos, kudoId) {
@@ -145,6 +146,10 @@ const initialize = (
   return state
 }
 
+const showModal = (state = false, action) => {
+  return action.type === actionTypes.MODAL_SWITCH ? !state : state;
+}
+
 const appReducer = combineReducers({
   kudos,
   error,
@@ -152,6 +157,7 @@ const appReducer = combineReducers({
   isFetchingKudos,
   totalKudos,
   user: initialize,
+  showModal,
 })
 
 export default appReducer
