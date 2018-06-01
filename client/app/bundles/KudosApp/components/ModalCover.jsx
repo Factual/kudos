@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 
-const ModalCover = ({ activateModal }) => {return activateModal ? <div className="overlay"> </div> : null};
+const ModalCover = ({ showModal }) => {return showModal ? <div className="overlay"> </div> : null};
 
 ModalCover.propTypes = {
-  activateModal: PropTypes.bool,
+  showModal: PropTypes.bool,
 };
 
 export default ModalCover;

@@ -3,6 +3,7 @@ import {isEmpty, trim} from 'lodash'
 import Autosuggest from 'react-autosuggest'
 import _ from 'lodash'
 import request from 'axios'
+import KudoButtonText from './KudoButtonText'
 
 // Functions for Autosuggest component
 const fuzzySearchUsers = (query) => {
@@ -32,7 +33,7 @@ export default class GiveKudo extends React.Component {
     // If you have lots of data or action properties, you should consider grouping them by
     // passing two properties: "data" and "actions".
     createKudo: PropTypes.func.isRequired,
-    activateModal: PropTypes.bool.isRequired,
+    showModal: PropTypes.bool.isRequired,
     modalSwitch: PropTypes.func.isRequired,
     modalClick: PropTypes.func.isRequired,
   }
@@ -61,6 +62,7 @@ export default class GiveKudo extends React.Component {
   handleClick(e) {
     this.setState({inFlight: true})
     this.props.createKudo(this.state.emails, this.state.message, this.onSuccess, this.onFailure)
+    this.props.modalSwitch(this.props.showModal);
   }
 
   onSuccess(_res) {
@@ -111,11 +113,7 @@ export default class GiveKudo extends React.Component {
   render() {
     const buttonInnerHTML = this.state.inFlight ?
       <i className="fas fa-spinner fa-spin"> </i> :
-      <span>
-        <span className="fist-left">🤜</span>
-        <span className="fist-right">🤛</span>
-        <span className="title">KUDOS!</span>
-      </span>;
+      <KudoButtonText text={"KUDOS!"}/>;
     const buttonDisabled = isEmpty(this.state.emails) || isEmpty(this.state.message) || this.state.inFlight;
     const autoSuggestProps = {
       placeholder: 'Type an email or search a factualite',

@@ -1,9 +1,9 @@
 import { actionTypes } from "../constants/appConstants";
 
-function modalSwitch(activateModal) {
+function modalSwitch(showModal) {
   return {
     type: actionTypes.MODAL_SWITCH,
-    activateModal
+    showModal
   }
 }
 
