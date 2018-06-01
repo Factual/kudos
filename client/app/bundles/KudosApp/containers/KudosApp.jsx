@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react'
-import GiveKudo from '../components/GiveKudo'
 import KudosListContainer from './KudosListContainer'
 import ErrorBanner from '../components/ErrorBanner'
 import { connect } from 'react-redux'
@@ -10,12 +9,12 @@ import modalSwitch from '../actions/modalActions'
 import ModalCover from "../components/ModalCover";
 
 // Simple example of a React "smart" component
-const KudosApp = ({ kudos, error, createKudo, modalSwitch, isFetchingKudos, totalKudos, activateModal }) => {
+const KudosApp = ({ kudos, error, createKudo, modalSwitch, isFetchingKudos, totalKudos, showModal }) => {
   return (
     <div>
-      <ModalCover activateModal={ activateModal }/>
+      <ModalCover showModal={ showModal }/>
       <ErrorBanner error={ error } />
-      <KudoModalRenderer createKudo={ createKudo } modalSwitch={ modalSwitch } activateModal={ activateModal }/>
+      <KudoModalRenderer createKudo={ createKudo } modalSwitch={ modalSwitch } showModal={ showModal }/>
       <KudosListContainer />
     </div>
   )
@@ -29,14 +28,14 @@ KudosApp.propTypes = {
 function mapStateToProps(state) {
   // Which part of the Redux global state does our component want to receive as props?
   const { kudosAppStore } = state
-  const { kudos, error, isFetchingKudos, totalKudos, activateModal } = kudosAppStore
-  return { kudos, error, isFetchingKudos, totalKudos, activateModal }
+  const { kudos, error, isFetchingKudos, totalKudos, showModal } = kudosAppStore
+  return { kudos, error, isFetchingKudos, totalKudos, showModal }
 }
 
 function mapDispatchToProps(dispatch) {
   const actions = bindActionCreators(actionCreators, dispatch);
   const { createKudo } = actions;
-  const boundModalSwitch = activateModal => dispatch(modalSwitch(activateModal))
+  const boundModalSwitch = showModal => dispatch(modalSwitch(showModal))
   return {
     createKudo: createKudo,
     modalSwitch: boundModalSwitch,
