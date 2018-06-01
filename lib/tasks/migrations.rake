@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-BACKUP_S3_PATH = "s3://factual-data/front/kudos/backups/production"
-ARCHIVE_S3_PATH = "s3://factual-data/front/kudos/backups/archive"
 S3CMD = "s3cmd --access_key=#{ENV['AWS_ACCESS_KEY']} --secret_key=#{ENV['AWS_SECRET_KEY']}"
+
+S3_BACKUP_PATH = "s3://factual-data/front/kudos/backups/#{Rails.env}"
+S3_ARCHIVE_PATH = "s3://factual-data/front/kudos/backups/#{Rails.env}/archive"
+S3_RESTORE_PATH = "s3://factual-data/front/kudos/backups/production"
 
 VERSION = ENV['KUDOS_VERSION'] || 'unknown'
 
@@ -14,22 +16,23 @@ namespace :db do
     puts "Dumping database..."
 
     ENV['PGPASSWORD'] = db_config['password']
-    # Dump db using pg_dump to temp local file db.sql
-    system(%(pg_dump --exclude-table=ar_internal_metadata --no-owner -h #{db_config['host']} -p #{db_config['port']} -U #{db_config['username']} #{db_config['database']} -f db.sql))
+    # Dump db using pg_dump to temp local file db.sql.gz
+    system(%(pg_dump --verbose --compress=1 --exclude-table=ar_internal_metadata --no-owner -h #{db_config['host']} -p #{db_config['port']} -U #{db_config['username']} #{db_config['database']} -f db.sql.gz))
 
-    # Move old db.sql on S3 to archive folder
-    system("#{S3CMD} mv #{BACKUP_S3_PATH}/#{VERSION}-db.sql #{ARCHIVE_S3_PATH}/#{VERSION}/#{Time.now.to_i}-db.sql")
+    # Put new db.sql.gz on S3 and S3 archive
+    system("#{S3CMD} put db.sql.gz #{S3_BACKUP_PATH}/#{VERSION}-current.sql.gz")
+    system("#{S3CMD} put db.sql.gz #{S3_ARCHIVE_PATH}/#{VERSION}/#{Time.now.utc.iso8601}-db.sql.gz")
 
-    # Put new db.sql on S3
-    system("#{S3CMD} put db.sql #{BACKUP_S3_PATH}/#{VERSION}-db.sql")
+    # File cleanup
+    system("rm db.sql.gz")
   end
 
   desc "Restore from backup"
   task restore: :environment do
     puts "Restoring from S3 backup..."
 
-    # Get S3 object key for most recent database backup
-    s3_object_key = `#{S3CMD} ls #{BACKUP_S3_PATH}/ | sort | tail -n 1 | awk '{printf "%s", $4}'`
+    # Get S3 object key for most recent production database backup
+    s3_object_key = `#{S3CMD} ls #{S3_RESTORE_PATH}/ | sort | tail -n 1 | awk '{printf "%s", $4}'`
 
     puts "Downloading #{s3_object_key}..."
     system("#{S3CMD} get #{s3_object_key}")
