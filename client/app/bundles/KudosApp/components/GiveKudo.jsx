@@ -98,6 +98,11 @@ export default class GiveKudo extends React.Component {
       placeholder: 'Type an email or search a factualite',
       value: this.state.emails.join(', '),
       onChange: this.onChangeSearchInput,
+      onKeyPress: e => {
+        if (e.key === 'Enter') {
+          e.preventDefault()
+        }
+      },
     }
     return (
       <div className="give-kudo">
