@@ -10,6 +10,7 @@ export const initialState = {
   isFetchingKudos: false,
   totalKudos: 0,
   user: { name: '', id: '', email: '', avatar: '' },
+  emails: [],
   showModal: false,
 }
 
@@ -136,7 +137,7 @@ const initialize = (
   action
 ) => {
   if (action.type === actionTypes.INITIALIZE) {
-    const { user, allow_email_notifications, allow_slack_notifications } = action
+    const { user, allow_email_notifications, allow_slack_notifications, emails } = action
     return {
       ...user,
       allow_email_notifications,
@@ -144,6 +145,14 @@ const initialize = (
     }
   }
   return state
+}
+
+const fetchEmails = (state = [], action) => {
+  if (action.type === actionTypes.FETCH_EMAILS) {
+    const {emails} = action;
+    return emails;
+  }
+  return state;
 }
 
 const showModal = (state = false, action) => {
@@ -158,6 +167,7 @@ const appReducer = combineReducers({
   totalKudos,
   user: initialize,
   showModal,
+  fetchEmails
 })
 
 export default appReducer

@@ -4,6 +4,7 @@ import ErrorBanner from '../components/ErrorBanner'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actionCreators from '../actions/actionCreators'
+import fetchEmail from '../actions/emailActions'
 import KudoModalRenderer from '../components/KudoModalRenderer'
 import modalSwitch from '../actions/modalActions'
 import ModalCover from "../components/ModalCover";
