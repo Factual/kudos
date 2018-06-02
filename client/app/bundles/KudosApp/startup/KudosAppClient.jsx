@@ -6,6 +6,7 @@ import createStore from '../store/kudosAppStore';
 import KudosApp from '../containers/KudosApp';
 import Settings from '../containers/Settings';
 import Header from '../components/Header';
+import fetchEmail from '../actions/emailActions'
 
 // See documentation for https://github.com/reactjs/react-redux.
 // This is how you get props from the Rails view into the redux store.
@@ -14,6 +15,7 @@ import Header from '../components/Header';
 export default (props) => {
   const store = createStore(props)
   store.dispatch(initialize(props))
+  store.dispatch(fetchEmail(props))
 
   const reactComponent = (
     <Provider store={store}>

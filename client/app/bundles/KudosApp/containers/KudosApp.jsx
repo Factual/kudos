@@ -5,6 +5,7 @@ import ErrorBanner from '../components/ErrorBanner'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import * as actionCreators from '../actions/actionCreators'
+import fetchEmail from '../actions/emailActions'
 
 // Simple example of a React "smart" component
 const KudosApp = ({ kudos, error, createKudo, isFetchingKudos, totalKudos }) => {
@@ -32,7 +33,9 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   const actions = bindActionCreators(actionCreators, dispatch)
   const { createKudo } = actions
-  return { createKudo }
+  return {
+    createKudo,
+  }
 }
 
 // Don't forget to actually use connect!

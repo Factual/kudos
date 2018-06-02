@@ -10,6 +10,7 @@ export const initialState = {
   isFetchingKudos: false,
   totalKudos: 0,
   user: { name: '', id: '', email: '', avatar: '' },
+  emails: [],
 }
 
 function getKudo(kudos, kudoId) {
@@ -135,7 +136,7 @@ const initialize = (
   action
 ) => {
   if (action.type === actionTypes.INITIALIZE) {
-    const { user, allow_email_notifications, allow_slack_notifications } = action
+    const { user, allow_email_notifications, allow_slack_notifications, emails } = action
     return {
       ...user,
       allow_email_notifications,
@@ -145,6 +146,14 @@ const initialize = (
   return state
 }
 
+const fetchEmails = (state = [], action) => {
+  if (action.type === actionTypes.FETCH_EMAILS) {
+    const {emails} = action;
+    return emails;
+  }
+  return state;
+}
+
 const appReducer = combineReducers({
   kudos,
   error,
@@ -152,6 +161,7 @@ const appReducer = combineReducers({
   isFetchingKudos,
   totalKudos,
   user: initialize,
+  fetchEmails
 })
 
 export default appReducer

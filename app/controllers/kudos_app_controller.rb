@@ -4,7 +4,8 @@ class KudosAppController < ApplicationController
     @kudos_app_props = {
       user: current_user.slice(:id, :email, :name, :avatar),
       allow_email_notifications: current_user.allow_email_notifications,
-      allow_slack_notifications: current_user.allow_slack_notifications
+      allow_slack_notifications: current_user.allow_slack_notifications,
+      emails: User.fetchAllEmails,
     }
   end
 end
