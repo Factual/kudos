@@ -47,6 +47,7 @@ class User < ApplicationRecord
   end
 
   def self.fetch_all_emails
+    # User.select(:email).map(&:email)
     User.connection.select_values(User.select("email").to_sql)
   end
 

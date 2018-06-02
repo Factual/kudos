@@ -10,7 +10,7 @@ import modalSwitch from '../actions/modalActions'
 import ModalCover from "../components/ModalCover";
 
 // Simple example of a React "smart" component
-const KudosApp = ({ kudos, error, createKudo, modalSwitch, isFetchingKudos, totalKudos, showModal }) => {
+const KudosApp = ({ kudos, error, createKudo, modalSwitch, isFetchingKudos, totalKudos, showModal, emails }) => {
   return (
     <div>
       <ModalCover showModal={ showModal }/>
@@ -29,8 +29,8 @@ KudosApp.propTypes = {
 function mapStateToProps(state) {
   // Which part of the Redux global state does our component want to receive as props?
   const { kudosAppStore } = state
-  const { kudos, error, isFetchingKudos, totalKudos, showModal } = kudosAppStore
-  return { kudos, error, isFetchingKudos, totalKudos, showModal }
+  const { kudos, error, isFetchingKudos, totalKudos, showModal, emails } = kudosAppStore
+  return { kudos, error, isFetchingKudos, totalKudos, showModal, emails }
 }
 
 function mapDispatchToProps(dispatch) {

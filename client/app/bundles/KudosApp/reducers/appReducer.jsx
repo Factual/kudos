@@ -147,7 +147,7 @@ const initialize = (
   return state
 }
 
-const fetchEmails = (state = [], action) => {
+const emails = (state = [], action) => {
   if (action.type === actionTypes.FETCH_EMAILS) {
     const {emails} = action;
     return emails;
@@ -166,8 +166,8 @@ const appReducer = combineReducers({
   isFetchingKudos,
   totalKudos,
   user: initialize,
+  emails,
   showModal,
-  fetchEmails
 })
 
 export default appReducer
