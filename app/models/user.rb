@@ -46,6 +46,10 @@ class User < ApplicationRecord
       .order("similarity(name || email, #{ActiveRecord::Base.connection.quote(query)}) DESC")
   end
 
+  def self.fetch_all_emails
+    User.connection.select_values(User.select("email").to_sql)
+  end
+
   # Send notification(s) of received Kudos, if User has requested in Settings
   def notify
     send_email_notification if allow_email_notifications
