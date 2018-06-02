@@ -10,6 +10,7 @@ export const initialState = {
   isFetchingKudos: false,
   totalKudos: 0,
   user: { name: '', id: '', email: '', avatar: '' },
+  emails: [],
   showModal: false,
 }
 
@@ -167,6 +168,7 @@ const appReducer = combineReducers({
   user: initialize,
   fetchEmails
   showModal,
+  fetchEmails
 })
 
 export default appReducer
