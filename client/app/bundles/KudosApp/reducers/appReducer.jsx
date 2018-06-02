@@ -168,7 +168,6 @@ const appReducer = combineReducers({
   user: initialize,
   fetchEmails
   showModal,
-  fetchEmails
 })
 
 export default appReducer

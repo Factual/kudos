@@ -4,6 +4,9 @@ import Autosuggest from 'react-autosuggest'
 import _ from 'lodash'
 import request from 'axios'
 import KudoButtonText from './KudoButtonText'
+// import { Select } from 'antd';
+//
+// const Option = Select.Option;
 
 // Functions for Autosuggest component
 const fuzzySearchUsers = (query) => {
