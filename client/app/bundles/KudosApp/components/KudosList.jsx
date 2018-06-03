@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react'
 import TabBarContainer from '../containers/TabBarContainer'
 import Kudo from './Kudo'
-import _ from 'lodash'
 import injectTapEventPlugin from 'react-tap-event-plugin'
+import BottomScrollListener from 'react-bottom-scroll-listener'
 
 injectTapEventPlugin()
 
@@ -45,26 +45,14 @@ export default class KudosList extends React.Component {
 
   constructor(props, context) {
     super(props, context)
-    _.bindAll(this, 'areMoreKudos', 'handleScroll')
   }
 
-  areMoreKudos() {
+  areMoreKudos = () => {
     return this.props.totalKudos > this.props.kudos.length
   }
 
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll)
-  }
-
-  handleScroll(event) {
-    const isAtBottom =
-      event.srcElement.body.scrollTop + window.innerHeight == document.body.offsetHeight
-
-    if (isAtBottom && this.areMoreKudos() && !this.props.isFetchingKudos) {
+  loadMoreKudos = () => {
+    if (this.areMoreKudos() && !this.props.isFetchingKudos) {
       this.props.fetchPage()
     }
   }
@@ -83,6 +71,7 @@ export default class KudosList extends React.Component {
           isFetchingKudos={isFetchingKudos}
         />
         {isFetchingKudos ? <Spinner /> : null}
+        <BottomScrollListener offset={200} onBottom={this.loadMoreKudos} />
       </div>
     )
   }

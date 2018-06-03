@@ -1,31 +1,21 @@
 # frozen_string_literal: true
 class KudosController < ApplicationController
 
-  ORDER_OPTIONS = {
-    'newest' => { created_at: :desc },
-    'oldest' => { created_at: :asc }
+  SORTING = {
+    created_at: :desc,
+    id: :desc
   }.freeze
 
   def index
     unless (0..100).cover?(params[:limit].to_i)
       return render_client_error 'limit is invalid'
     end
-    if params[:order] && !(ORDER_OPTIONS.key? params[:order].to_sym)
-      return render_client_error 'invalid sort order'
-    end
-    if params[:tab]
-    end
 
-    offset = params[:offset] || 0
     limit = params[:limit] || 10
-    order = if params[:order]
-              ORDER_OPTIONS[params[:order].to_sym]
-            else
-              ORDER_OPTIONS['newest']
-            end
+    cursor_time = params[:cursor_time]
+    cursor_id = params[:cursor_id]
 
-            sleep 1 # demo infinite scroll
-    kudos = Kudo.includes(:receivers, :giver).order(order)
+    kudos = Kudo.includes(:receivers, :giver).order(SORTING)
     kudos =
       case params[:tab]
       when 'My Kudos'
@@ -36,9 +26,18 @@ class KudosController < ApplicationController
         kudos
       end
 
-    paginated_kudos = kudos.offset(offset).limit(limit)
+    kudos_count = kudos.count
 
-    render json: { kudos: paginated_kudos, total: kudos.count }
+    # offset using cursor and paginate
+    if cursor_time.present? && cursor_id.present?
+      kudos = kudos.where(
+        "created_at < :cursor_time OR (created_at = :cursor_time AND id < :cursor_id)",
+        { cursor_time: cursor_time, cursor_id: cursor_id }
+      )
+    end
+    kudos = kudos.limit(limit)
+
+    render json: { kudos: kudos, total: kudos_count }
   end
 
   # Creates a new Kudo based on current user and specified receiver & body

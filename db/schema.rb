@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180509175615) do
+ActiveRecord::Schema.define(version: 20180603005710) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,7 @@ ActiveRecord::Schema.define(version: 20180509175615) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.uuid     "giver_id",   null: false
+    t.index ["created_at", "id"], name: "index_kudos_on_created_at_and_id", using: :btree
     t.index ["created_at"], name: "index_kudos_on_created_at", using: :btree
     t.index ["giver_id"], name: "index_kudos_on_giver_id", using: :btree
   end

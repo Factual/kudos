@@ -36,6 +36,7 @@
     "mirror-creator": "1.1.0",
     "react": "^0.14.8 || ^15.0.0",
     "react-autosuggest": "^7.0.2",
+    "react-bottom-scroll-listener": "^1.2.0",
     "react-dom": "^0.14.8 || ^15.0.0",
     "react-on-rails": "5.2.0",
     "react-redux": "^4.4.1",

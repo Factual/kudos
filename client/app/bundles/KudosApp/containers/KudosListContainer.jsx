@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux'
 import { addLike, failedLike, removeLike, editKudo } from '../actions/actionCreators'
 import { fetchPage } from '../actions/tabActions'
 import KudosList from '../components/KudosList'
-import _ from 'lodash'
+import { omit, last, get } from 'lodash'
 
 const thumbKudo = (dispatch, up = true, giverId, giverName) => kudoId => () => {
   request({
@@ -44,15 +44,19 @@ function mapStateToProps({ kudosAppStore }) {
 
 function mergeProps(stateProps, { dispatch }, ownProps) {
   const { currentTab, kudos, name, id } = stateProps
+  const cursor = last(kudos)
+  const cursor_time = get(cursor, 'created_at')
+  const cursor_id = get(cursor, 'id')
+
   return Object.assign(
     {
       likeKudo: thumbKudo(dispatch, true, id, name),
       unlikeKudo: thumbKudo(dispatch, false, id, name),
       updateKudo: bindActionCreators(editKudo, dispatch),
-      fetchPage: () => dispatch(fetchPage(currentTab, kudos.length)),
+      fetchPage: () => dispatch(fetchPage(currentTab, cursor_time, cursor_id)),
     },
     ownProps,
-    _.omit(stateProps, ['currentTab'])
+    omit(stateProps, ['currentTab'])
   )
 }
 
