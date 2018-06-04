@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import { observer } from 'mobx-react'
 import { map, chunk, isEmpty } from 'lodash'
 import { Tooltip } from 'material-ui'
+import Draggable from 'react-draggable'
 
 class UserAvatar extends React.Component {
   constructor(props) {
@@ -41,6 +42,23 @@ export default class Kudo extends React.Component {
     this.state = {
       body: this.props.kudo.body,
       editing: false,
+      clicks: 0,
+      shakeClass: "",
+    }
+  }
+
+  componentDidMount() {
+    if (this.props.superKudoMode) {
+      this.startShake()
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (!this.props.superKudoMode && nextProps.superKudoMode) {
+      this.startShake()
+    }
+    if (!nextProps.superKudoMode) {
+      this.stopShake()
     }
   }
 
@@ -55,6 +73,25 @@ export default class Kudo extends React.Component {
   update = () => {
     this.setState({ editing: false })
     this.props.updateKudo(this.state.body)
+  }
+
+  handleClick = () => {
+    this.setState({ clicks: this.state.clicks + 1}, () => {
+      if (this.state.clicks % 3 === 0) {
+        this.props.toggleSuperKudoMode()
+      }
+    })
+  }
+
+  // EASTER EGG: random delay so Kudos don't shake in sync
+  startShake = () => {
+    setTimeout(() => {
+      this.setState({ shakeClass: 'shake-constant shake-slow' })
+    }, Math.floor(Math.random() * 2000))
+  }
+
+  stopShake = () => {
+    this.setState({ shakeClass: '' })
   }
 
   formattedHeaderText() {
@@ -114,30 +151,34 @@ export default class Kudo extends React.Component {
 
   render() {
     return (
-      <div className="kudo">
-        <div className="content">
-          <div className="sender">
-            <UserAvatar user={this.props.kudo.giver} />
-          </div>
-          <div className={`receiver ${this.props.colorClass}`}>
-            <div className="header">
-              {this.formattedHeaderText()}
-              {this.renderRecipientAvatars()}
+      <Draggable disabled={!this.props.superKudoMode}>
+        <div className="kudo" onClick={this.handleClick}>
+          <div className={ this.state.shakeClass }>
+            <div className="content">
+              <div className="sender">
+                <UserAvatar user={this.props.kudo.giver} />
+              </div>
+              <div className={`receiver ${this.props.colorClass}`}>
+                <div className="header">
+                  {this.formattedHeaderText()}
+                  {this.renderRecipientAvatars()}
+                </div>
+                <div className="message">{this.renderBody()}</div>
+              </div>
             </div>
-            <div className="message">{this.renderBody()}</div>
+            <div className="meta">
+              <div className="meta-item">
+                {this.renderLikeIcon()}
+                {this.props.kudo.numLikes}
+              </div>
+              <div className="meta-item">
+                {this.props.kudo.timestamp}
+                {this.renderEditOptions()}
+              </div>
+            </div>
           </div>
         </div>
-        <div className="meta">
-          <div className="meta-item">
-            {this.renderLikeIcon()}
-            {this.props.kudo.numLikes}
-          </div>
-          <div className="meta-item">
-            {this.props.kudo.timestamp}
-            {this.renderEditOptions()}
-          </div>
-        </div>
-      </div>
+      </Draggable>
     )
   }
 }
