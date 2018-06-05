@@ -1,12 +1,10 @@
 import React, { PropTypes } from 'react';
-import { Select } from 'antd'
+import Select from 'react-select';
 
 function constructOptions(key, index, returnArray, map) {
-  const Option = Select.Option;
   const filterValue = `${key} ${map[key]}`;
   const displayValue = `${key} (${map[key]})`;
-  returnArray.push(<Option key={filterValue}
-                           value={map[key]}>{displayValue}</Option>)
+  returnArray.push({value: filterValue, label: displayValue})
 }
 // display={displayValue}
 export default class KudoSelectMenu extends React.Component {
@@ -22,11 +20,15 @@ export default class KudoSelectMenu extends React.Component {
     Object.keys(users).forEach(function callback(key, index, array) {
       return constructOptions(key, index, children, users);
     });
-    return (<Select style={{zIndex:"999999999999"}}
-                    mode='tags'
-                    onChange={this.props.onChange}>
-      {children}
-      </Select>)
+    return (<Select closeOnSelect={false}
+                    disabled={false}
+                    placeholder="Select a person!"
+                    multi
+                    options={children}
+                    removeSelected={true}
+                    rtl={false}
+                    simpleValue
+                    onChange={this.props.onChange}/>)
   }
 }
 
