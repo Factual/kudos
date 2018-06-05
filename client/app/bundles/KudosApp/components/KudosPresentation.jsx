@@ -54,12 +54,13 @@ class Slideshow extends React.Component {
     super()
     this.state = {
       currentKudo: 0,
+      duration: 10000,
     }
-    setTimeout(this.changeSlide, 10000)
+    setTimeout(this.changeSlide, this.state.duration)
   }
 
   componentDidUpdate() {
-    setTimeout(this.changeSlide, 10000)
+    setTimeout(this.changeSlide, this.state.duration)
   }
 
   changeSlide = () => {
@@ -77,7 +78,10 @@ class Slideshow extends React.Component {
         <HeaderStripes />
         <img src="assets/kudos_logo.png" className="header-logo" />
         <SlideshowContainer>
-          <Kudo kudo={AppStore.kudosStore.kudos[this.state.currentKudo]} />
+          <Kudo
+            kudo={AppStore.kudosStore.kudos[this.state.currentKudo]}
+            duration={this.state.duration}
+          />
         </SlideshowContainer>
         <BottomStripes>
           <FirstStripe />
@@ -90,8 +94,8 @@ class Slideshow extends React.Component {
 }
 
 const KudoWrapper = styled.div`
+  transition: all 2s ease;
   width: 75%;
-  margin: 0 auto;
   display: flex;
   align-items: center;
 `
@@ -117,11 +121,44 @@ const Receiver = styled.div`
 const ReceiverAvatar = styled.img`
   height: 33vh;
   border-radius: 9999px;
-  border: 2px solid ${props => props.color};
+  border: 5px solid ${props => props.color};
 `
 
 @observer
 class Kudo extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      transform: 'translateX(-150%)',
+      forward: true,
+    }
+  }
+
+  componentDidMount() {
+    this.setTransitions()
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.kudo.id !== prevProps.kudo.id) {
+      this.setTransitions()
+    }
+  }
+
+  setTransitions = () => {
+    setTimeout(() => this.setState({ transform: 'translateX(20%)' }, 0))
+    if (this.state.forward) {
+      setTimeout(
+        () => this.setState({ transform: 'translateX(150%)', forward: false }),
+        this.props.duration - 2000
+      )
+    } else {
+      setTimeout(
+        () => this.setState({ transform: 'translateX(-150%)', forward: true }),
+        this.props.duration - 2000
+      )
+    }
+  }
+
   render() {
     const { kudo } = this.props
     const recipients = map(kudo.receivers, 'name').join(', ')
@@ -137,7 +174,7 @@ class Kudo extends React.Component {
     })(kudo.colorClass)
 
     return (
-      <KudoWrapper>
+      <KudoWrapper style={{ transform: this.state.transform }}>
         <ReceiverAvatar color={color} src={kudo.receivers[0].avatar || 'default-avatar.jpeg'} />
         <KudoContainer color={color}>
           <Receiver>{`Kudos, ${recipients}!`}</Receiver>
