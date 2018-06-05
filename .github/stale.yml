@@ -17,7 +17,7 @@ markComment: >
 closeComment: false
 
 issues:
-  markComment: >
+  markComment: |-
     This issue has been automatically marked stale because of inactivity.
     It will be automatically closed in 14 days if no further activity occurs.
 
@@ -26,7 +26,7 @@ issues:
     If you believe this issue should stay open, please add a comment explaining why it should stay open (e.g. you can still reproduce the issue or you still believe the feature is important).
 
 pulls:
-  markComment: >
+  markComment: |-
     This PR has been automatically marked stale because of inactivity.
     It will be automatically closed in 14 days if no further activity occurs.
 
