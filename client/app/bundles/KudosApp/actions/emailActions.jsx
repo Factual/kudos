@@ -1,14 +1,13 @@
 import {actionTypes} from "../constants/appConstants";
-import request from 'axios';
 
-const fetchEmails = (emails, onSuccess = null, onFailure = null) => {
-  return dispatch => {dispatch(getEmails(emails)) }
+const fetchEmails = (allEmails) => {
+  return dispatch => {dispatch(getEmails(allEmails)) }
 }
 
-const getEmails = (emails) => {
+const getEmails = (allEmails) => {
   return {
-    type: actionTypes.FETCH_EMAILS,
-    emails
+    type: actionTypes.FETCH_ALL_EMAILS,
+    allEmails
   }
 }
 

@@ -5,7 +5,8 @@ class KudosAppController < ApplicationController
       user: current_user.slice(:id, :email, :name, :avatar),
       allow_email_notifications: current_user.allow_email_notifications,
       allow_slack_notifications: current_user.allow_slack_notifications,
-      emails: User.fetch_all_emails,
+      allEmails: User.fetch_all_emails,
+      allUsers: User.fetch_all_users,
     }
   end
 end

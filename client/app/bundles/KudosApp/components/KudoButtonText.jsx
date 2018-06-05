@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 
-
 const KudoButtonText = ({ text }) => {
   return <span>
     <span className="fist-left">🤜</span>

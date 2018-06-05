@@ -7,5 +7,16 @@ function modalSwitch(showModal) {
   }
 }
 
-export default modalSwitch;
+const fetchUsers = (users) => {
+  return dispatch => {dispatch(getUsers(users))}
+}
+
+const getUsers = (allUsers) => {
+  return {
+    type: actionTypes.FETCH_ALL_USERS,
+    allUsers,
+  }
+}
+
+export { modalSwitch, fetchUsers };
 
