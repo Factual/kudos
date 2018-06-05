@@ -4,11 +4,11 @@ import { computed, observable } from 'mobx'
 import { User } from '.'
 
 export class Kudo {
-  @observable id = ''
+  id = ''
   @observable body = ''
-  @observable receivers = []
-  @observable giver = ''
-  @observable givenAt = ''
+  receivers = []
+  giver = ''
+  givenAt = ''
   @observable likes = []
   @observable colorClass = ''
 

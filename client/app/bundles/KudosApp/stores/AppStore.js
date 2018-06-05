@@ -1,5 +1,6 @@
 import { action, observable } from 'mobx'
 import { User } from '../models'
+import { updateNotificationPreferences } from '../services/UserService'
 import KudosStore from './KudosStore'
 
 class AppStore {
@@ -15,6 +16,12 @@ class AppStore {
   @action
   loadClientData(props) {
     this.user = new User(props.user)
+  }
+
+  @action
+  toggleNotificationPreference(notifType) {
+    this.user.notificationPreferences[notifType] = !this.user.notificationPreferences[notifType]
+    updateNotificationPreferences(this.user.notificationPreferences)
   }
 }
 

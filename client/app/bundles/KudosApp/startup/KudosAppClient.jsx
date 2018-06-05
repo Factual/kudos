@@ -1,7 +1,7 @@
 import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
 import KudosApp from '../containers/KudosApp'
-import Settings from '../containers/Settings'
+import Settings from '../components/Settings'
 import Header from '../components/Header'
 import AppStore from '../stores/AppStore'
 

@@ -1,3 +1,4 @@
+import { observable } from 'mobx'
 import { get, merge } from 'lodash'
 
 const DEFAULT_USER = {
@@ -13,7 +14,7 @@ export class User {
   email
   name
   avatar
-  notificationPreferences
+  @observable notificationPreferences
 
   constructor(user = DEFAULT_USER) {
     this.id = user.id
