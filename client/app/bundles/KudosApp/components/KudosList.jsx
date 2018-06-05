@@ -27,7 +27,7 @@ export class KudosList extends React.Component {
     const isAtBottom =
       event.srcElement.body.scrollTop + window.innerHeight == document.body.offsetHeight
 
-    if (isAtBottom && AppStore.kudosStore.canLoadMore() && !AppStore.kudosStore.isFetchingKudos) {
+    if (isAtBottom && AppStore.kudosStore.canLoadMore && !AppStore.kudosStore.isFetchingKudos) {
       AppStore.kudosStore.fetchKudos()
     }
   }
