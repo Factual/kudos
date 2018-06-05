@@ -4,9 +4,7 @@ import Autosuggest from 'react-autosuggest'
 import _ from 'lodash'
 import request from 'axios'
 import KudoButtonText from './KudoButtonText'
-// import { Select } from 'antd';
-//
-// const Option = Select.Option;
+import KudoSelectMenu from './KudoSelectMenu'
 
 // Functions for Autosuggest component
 const fuzzySearchUsers = (query) => {
@@ -32,13 +30,15 @@ const renderSuggestion = suggestion => (
 
 // Simple example of a React "dumb" component
 export default class GiveKudo extends React.Component {
+
   static propTypes = {
     // If you have lots of data or action properties, you should consider grouping them by
     // passing two properties: "data" and "actions".
     createKudo: PropTypes.func.isRequired,
     showModal: PropTypes.bool.isRequired,
-    modalSwitch: PropTypes.func.isRequired,
     modalClick: PropTypes.func.isRequired,
+    allEmails: PropTypes.array.isRequired,
+    allUsers: PropTypes.object.isRequired,
   }
 
   _initialState() {
@@ -58,14 +58,20 @@ export default class GiveKudo extends React.Component {
     // Uses lodash to bind all methods to the context of the object instance, otherwise
     // the methods defined here would not refer to the component's class, not the component
     // instance itself.
-    _.bindAll(this, 'handleClick', 'onChangeSearchInput', 'setMessage', 'onSuccess', 'onFailure')
+    _.bindAll(this, 'handleClick', 'onSelectChange' , 'onChangeSearchInput', 'setMessage', 'onSuccess', 'onFailure')
   }
 
   // React will automatically provide us with the event `e`
   handleClick(e) {
     this.setState({inFlight: true})
     this.props.createKudo(this.state.emails, this.state.message, this.onSuccess, this.onFailure)
-    this.props.modalSwitch(this.props.showModal);
+    this.props.modalClick(e);
+  }
+
+  onSelectChange = (value, options) => {
+    this.setState({
+      emails: value.split(',').map(trim)
+    })
   }
 
   onSuccess(_res) {
@@ -144,16 +150,17 @@ export default class GiveKudo extends React.Component {
               <label htmlFor="give-kudo__input-email">
                 TO:
               </label>
-              <Autosuggest
-                suggestions={this.state.userSuggestions}
-                id="give-kudo__input-email"
-                disabled={this.state.inFlight}
-                onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-                onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-                getSuggestionValue={getSuggestionValue}
-                renderSuggestion={renderSuggestion}
-                inputProps={autoSuggestProps}
-              />
+              {/*<Autosuggest*/}
+                {/*suggestions={this.state.userSuggestions}*/}
+                {/*id="give-kudo__input-email"*/}
+                {/*disabled={this.state.inFlight}*/}
+                {/*onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}*/}
+                {/*onSuggestionsClearRequested={this.onSuggestionsClearRequested}*/}
+                {/*getSuggestionValue={getSuggestionValue}*/}
+                {/*renderSuggestion={renderSuggestion}*/}
+                {/*inputProps={autoSuggestProps}*/}
+              {/*/>*/}
+              <KudoSelectMenu allUsers={this.props.allUsers} onChange={this.onSelectChange}/>
               <label htmlFor="give-kudo__input-message">
                 MESSAGE:
               </label>
@@ -180,7 +187,7 @@ export default class GiveKudo extends React.Component {
               </div>
               <div className="modal-button">
                 <button className="close-modal"
-                        onClick={this.props.modalClick.bind(this)}
+                        onClick={this.props.modalClick}
                 >
                   JK, CANCEL
                 </button>

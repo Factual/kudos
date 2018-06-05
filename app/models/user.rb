@@ -47,8 +47,13 @@ class User < ApplicationRecord
   end
 
   def self.fetch_all_emails
-    # User.select(:email).map(&:email)
     User.connection.select_values(User.select("email").to_sql)
+  end
+
+  def self.fetch_all_users
+    User.all.each_with_object({}) do |u, hsh|
+      hsh[u.name] = u.email
+    end
   end
 
   # Send notification(s) of received Kudos, if User has requested in Settings
