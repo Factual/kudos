@@ -1,15 +1,16 @@
 import dayjs from 'dayjs'
 import { has, keys } from 'lodash'
+import { computed, observable } from 'mobx'
 import { User } from '.'
 
 export class Kudo {
-  id
-  body
-  receivers
-  giver
-  givenAt
-  likes
-  colorClass
+  @observable id = ''
+  @observable body = ''
+  @observable receivers = []
+  @observable giver = ''
+  @observable givenAt = ''
+  @observable likes = []
+  @observable colorClass = ''
 
   constructor(kudo) {
     this.validateKudo(kudo)
@@ -23,10 +24,12 @@ export class Kudo {
     this.colorClass = kudo.colorClass
   }
 
+  @computed
   get numLikes() {
     return this.likes.length
   }
 
+  @computed
   get timestamp() {
     const ts = dayjs(this.givenAt)
     return `At ${ts.format('h:mm a')} on ${ts.format('MMM D, YYYY')}`

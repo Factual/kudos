@@ -92,8 +92,9 @@ export default class Kudo extends React.Component {
   }
 
   renderLikeIcon() {
+    console.log(this.props.kudo)
     const { unlikeKudo, likeKudo, id } = this.props
-    const likedBySelf = this.props.likes.some(like => like.giver_id === this.props.userId)
+    const likedBySelf = this.props.kudo.likes.some(like => like.giver_id === this.props.userId)
 
     return (
       <i

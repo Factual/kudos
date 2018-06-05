@@ -60,7 +60,6 @@ export class List extends React.Component {
                 userId={this.props.user.id}
                 key={kudo.id}
                 kudo={kudo}
-                likes={kudo.likes}
                 likeKudo={id => () => AppStore.kudosStore.likeKudo(id)}
                 unlikeKudo={id => () => AppStore.kudosStore.unlikeKudo(id)}
                 updateKudo={AppStore.kudosStore.editKudo}

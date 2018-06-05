@@ -61,9 +61,12 @@ class KudosStore {
     try {
       console.log('edit kudo!')
       const newKudo = await patchKudo(kudoId, message)
-      this.updateKudo(kudoId, () => newKudo, ['Recent', 'Awarded+Kudos'])
+      const i = this.findKudoIndex(kudoId)
+      if (i !== NOT_FOUND) {
+        this.kudos[i].body = newKudo.body
+      }
     } catch (e) {
-      console.error(`Failed to edit kudo ${kudoId} with body ${body}`)
+      console.error(`Failed to edit kudo ${kudoId} with message ${message}`)
       console.error(e)
     }
   }
@@ -72,10 +75,10 @@ class KudosStore {
   async likeKudo(kudoId) {
     try {
       const newLike = await postLike(kudoId)
-      this.updateKudo(kudoId, kudo => {
-        kudo.likes.push(newLike)
-        return kudo
-      })
+      const i = this.findKudoIndex(kudoId)
+      if (i !== NOT_FOUND) {
+        this.kudos[i].likes.push(newLike)
+      }
     } catch (e) {
       console.error(`Failed to toggle like for kudo ${kudoId}`)
       console.error(e)
@@ -86,11 +89,12 @@ class KudosStore {
   async unlikeKudo(kudoId, userId) {
     try {
       const unliked = await postUnlike(kudoId)
+      console.log(unliked)
       if (unliked) {
-        this.updateKudo(kudoId, kudo => {
-          kudo.likes = kudo.likes.filter(like => like.giver_id === userId)
-          return kudo
-        })
+        const i = this.findKudoIndex(kudoId)
+        if (i !== NOT_FOUND) {
+          this.kudos[i].likes = this.kudos[i].likes.filter(like => like.giver_id === userId)
+        }
       }
     } catch (e) {
       console.error(`Failed to toggle like for kudo ${kudoId}`)
@@ -109,13 +113,6 @@ class KudosStore {
 
     if (total > 0) {
       this.total = total
-    }
-  }
-
-  updateKudo(kudoId, update) {
-    const i = this.findKudoIndex(this.currentTab, kudoId)
-    if (i !== NOT_FOUND) {
-      this.kudos[i] = update(kudo)
     }
   }
 
