@@ -40,6 +40,7 @@ class KudosStore {
   @action
   async resetKudos() {
     this.kudos = []
+    ColorGenerator.reset()
     this.fetchKudos()
   }
 
@@ -101,12 +102,11 @@ class KudosStore {
   }
 
   appendKudos({ kudos, total } = {}) {
-    const newKudos = kudos.map(kudo => {
+    kudos.forEach(kudo => {
       kudo.colorClass = ColorGenerator.appendBack()
-      return kudo
     })
 
-    this.kudos = this.kudos.concat(newKudos)
+    this.kudos = this.kudos.concat(kudos)
     this.page += 1
 
     if (total > 0) {

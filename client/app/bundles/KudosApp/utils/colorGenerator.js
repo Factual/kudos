@@ -6,6 +6,10 @@ const maxIndex = colorClasses.length - 1
 
 class ColorGenerator {
   constructor() {
+    this.reset()
+  }
+
+  reset() {
     this.frontIndex = maxIndex
     this.backIndex = 0
   }
