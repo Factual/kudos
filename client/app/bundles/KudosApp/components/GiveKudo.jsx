@@ -20,13 +20,10 @@ const fuzzySearchUsers = (query) => {
   })
 }
 
-const getSuggestionValue = suggestion => suggestion.email
-
-const renderSuggestion = suggestion => (
-  <div>
-    {suggestion.name}, {suggestion.email}
-  </div>
-)
+const getEmailFromUser = (userString) => {
+  //react-select gives values as name | email, so must parse email from that
+  return userString.substring(userString.indexOf('|') + 1, userString.length).trim()
+}
 
 // Simple example of a React "dumb" component
 export default class GiveKudo extends React.Component {
@@ -58,7 +55,7 @@ export default class GiveKudo extends React.Component {
     // Uses lodash to bind all methods to the context of the object instance, otherwise
     // the methods defined here would not refer to the component's class, not the component
     // instance itself.
-    _.bindAll(this, 'handleClick', 'onSelectChange' , 'onChangeSearchInput', 'setMessage', 'onSuccess', 'onFailure')
+    _.bindAll(this, 'handleClick', 'onSelectChange' , 'setMessage', 'onSuccess', 'onFailure')
   }
 
   // React will automatically provide us with the event `e`
@@ -68,9 +65,10 @@ export default class GiveKudo extends React.Component {
     this.props.modalClick(e);
   }
 
-  onSelectChange = (value, options) => {
+  onSelectChange = (value) => {
     this.setState({
-      emails: value.split(',').map(trim)
+      emails: value.split(',').map(getEmailFromUser),
+      userSuggestions: value.split(','),
     })
   }
 
@@ -80,26 +78,6 @@ export default class GiveKudo extends React.Component {
 
   onFailure(_err) {
     this.setState({inFlight: false})
-  }
-
-  onChangeSearchInput = (event, {newValue}) => {
-    this.setState({
-      emails: newValue.split(',').map(trim)
-    })
-  }
-
-  onSuggestionsFetchRequested = ({value}) => {
-    fuzzySearchUsers(value).then(suggestions => {
-      this.setState({
-        userSuggestions: suggestions
-      })
-    })
-  }
-
-  onSuggestionsClearRequested = () => {
-    this.setState({
-      userSuggestions: []
-    })
   }
 
   setMessage(e) {
@@ -150,17 +128,9 @@ export default class GiveKudo extends React.Component {
               <label htmlFor="give-kudo__input-email">
                 TO:
               </label>
-              {/*<Autosuggest*/}
-                {/*suggestions={this.state.userSuggestions}*/}
-                {/*id="give-kudo__input-email"*/}
-                {/*disabled={this.state.inFlight}*/}
-                {/*onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}*/}
-                {/*onSuggestionsClearRequested={this.onSuggestionsClearRequested}*/}
-                {/*getSuggestionValue={getSuggestionValue}*/}
-                {/*renderSuggestion={renderSuggestion}*/}
-                {/*inputProps={autoSuggestProps}*/}
-              {/*/>*/}
-              <KudoSelectMenu allUsers={this.props.allUsers} onChange={this.onSelectChange}/>
+              <KudoSelectMenu allUsers={this.props.allUsers}
+                              onChange={this.onSelectChange}
+                              userSuggestions={this.state.userSuggestions}/>
               <label htmlFor="give-kudo__input-message">
                 MESSAGE:
               </label>
