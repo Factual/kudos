@@ -8,7 +8,7 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.from_omniauth(env["omniauth.auth"])
+    user = User.from_omniauth(request.env["omniauth.auth"])
     if user
       session[:user_id] = user.id
       merge_user_accounts
