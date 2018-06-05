@@ -2,16 +2,16 @@ import React, { PropTypes } from 'react';
 import Select from 'react-select';
 
 function constructOptions(key, index, returnArray, map) {
-  const filterValue = `${key} ${map[key]}`;
+  const filterValue = `${key} | ${map[key]}`;
   const displayValue = `${key} (${map[key]})`;
   returnArray.push({value: filterValue, label: displayValue})
 }
-// display={displayValue}
 export default class KudoSelectMenu extends React.Component {
 
   static propTypes = {
     allUsers: PropTypes.object.isRequired,
     onChange: PropTypes.func.isRequired,
+    userSuggestions: PropTypes.array.isRequired,
   };
 
   render() {
@@ -23,12 +23,11 @@ export default class KudoSelectMenu extends React.Component {
     return (<Select closeOnSelect={false}
                     disabled={false}
                     placeholder="Select a person!"
-                    multi
+                    multi={true}
+                    simpleValue={true}
+                    value={this.props.userSuggestions}
                     options={children}
-                    removeSelected={true}
                     rtl={false}
-                    simpleValue
                     onChange={this.props.onChange}/>)
   }
 }
-
