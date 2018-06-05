@@ -40,7 +40,6 @@ export async function postKudo(receiverEmails, body) {
 }
 
 export async function patchKudo(id, body) {
-  console.log('patch patch')
   const resp = await request({
     method: 'PATCH',
     url: `/kudos/${id}`,

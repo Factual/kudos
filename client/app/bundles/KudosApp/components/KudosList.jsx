@@ -62,7 +62,7 @@ export class List extends React.Component {
                 kudo={kudo}
                 likeKudo={id => () => AppStore.kudosStore.likeKudo(id)}
                 unlikeKudo={id => () => AppStore.kudosStore.unlikeKudo(id)}
-                updateKudo={AppStore.kudosStore.editKudo}
+                updateKudo={message => AppStore.kudosStore.editKudo(kudo.id, message)}
               />
             ))}
       </div>

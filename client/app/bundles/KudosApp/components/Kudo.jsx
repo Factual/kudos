@@ -53,9 +53,8 @@ export default class Kudo extends React.Component {
   }
 
   update = () => {
-    console.log('update!!')
     this.setState({ editing: false })
-    this.props.updateKudo(this.props.kudo.id, this.state.body)
+    this.props.updateKudo(this.state.body)
   }
 
   formattedHeaderText() {
@@ -92,7 +91,6 @@ export default class Kudo extends React.Component {
   }
 
   renderLikeIcon() {
-    console.log(this.props.kudo)
     const { unlikeKudo, likeKudo, id } = this.props
     const likedBySelf = this.props.kudo.likes.some(like => like.giver_id === this.props.userId)
 

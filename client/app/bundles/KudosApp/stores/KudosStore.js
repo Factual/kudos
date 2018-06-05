@@ -59,7 +59,6 @@ class KudosStore {
   @action
   async editKudo(kudoId, message) {
     try {
-      console.log('edit kudo!')
       const newKudo = await patchKudo(kudoId, message)
       const i = this.findKudoIndex(kudoId)
       if (i !== NOT_FOUND) {
@@ -89,7 +88,6 @@ class KudosStore {
   async unlikeKudo(kudoId, userId) {
     try {
       const unliked = await postUnlike(kudoId)
-      console.log(unliked)
       if (unliked) {
         const i = this.findKudoIndex(kudoId)
         if (i !== NOT_FOUND) {
