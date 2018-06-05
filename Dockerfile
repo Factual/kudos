@@ -6,7 +6,7 @@ RUN echo 'deb http://security.debian.org/debian-security jessie/updates main' > 
 RUN curl -s https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 RUN apt-get update
 
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get install -y nodejs build-essential s3cmd postgresql-client-9.6
 
 RUN mkdir -p /usr/src/app

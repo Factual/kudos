@@ -1,20 +1,21 @@
-import React, { PropTypes } from 'react'
 import { isEmpty, trim } from 'lodash'
+import React, { PropTypes } from 'react'
+import { observer } from 'mobx-react'
 import Autosuggest from 'react-autosuggest'
-import _ from 'lodash'
 import request from 'axios'
+import AppStore from '../stores/AppStore'
 
 // Functions for Autosuggest component
-const fuzzySearchUsers = (query) => {
+const fuzzySearchUsers = query => {
   return request({
     method: 'GET',
     url: 'users/search',
     responseType: 'json',
     params: {
-      q: query
-    }
-  }).then((res) => {
-    return res.data.map(obj => _.pick(obj, [ 'name', 'email' ]))
+      q: query,
+    },
+  }).then(res => {
+    return res.data.map(obj => _.pick(obj, ['name', 'email']))
   })
 }
 
@@ -26,20 +27,14 @@ const renderSuggestion = suggestion => (
   </div>
 )
 
-// Simple example of a React "dumb" component
-export default class GiveKudo extends React.Component {
-  static propTypes = {
-    // If you have lots of data or action properties, you should consider grouping them by
-    // passing two properties: "data" and "actions".
-    createKudo: PropTypes.func.isRequired,
-  }
-
+@observer
+export class GiveKudo extends React.Component {
   _initialState() {
     return {
       emails: [],
       message: '',
       userSuggestions: [],
-      inFlight: false
+      inFlight: false,
     }
   }
 
@@ -51,49 +46,50 @@ export default class GiveKudo extends React.Component {
     // Uses lodash to bind all methods to the context of the object instance, otherwise
     // the methods defined here would not refer to the component's class, not the component
     // instance itself.
-    _.bindAll(this, 'handleClick', 'onChangeSearchInput', 'setMessage', 'onSuccess', 'onFailure')
+    _.bindAll(this, 'handleClick', 'onChangeSearchInput', 'setMessage')
   }
 
   // React will automatically provide us with the event `e`
   handleClick(e) {
-    this.setState({inFlight: true})
-    this.props.createKudo(this.state.emails, this.state.message, this.onSuccess, this.onFailure)
-  }
-
-  onSuccess(_res) {
-    this.setState(this._initialState())
-  }
-
-  onFailure(_err) {
-    this.setState({inFlight: false})
+    try {
+      this.setState({ inFlight: true })
+      AppStore.kudosStore.newKudo(this.state.emails, this.state.message)
+      this.setState(this._initialState())
+    } catch (e) {
+      console.error(e)
+      this.setState({ inFlight: false })
+    }
   }
 
   onChangeSearchInput = (event, { newValue }) => {
     this.setState({
-      emails: newValue.split(',').map(trim)
+      emails: newValue.split(',').map(trim),
     })
   }
 
   onSuggestionsFetchRequested = ({ value }) => {
     fuzzySearchUsers(value).then(suggestions => {
       this.setState({
-        userSuggestions: suggestions
+        userSuggestions: suggestions,
       })
     })
   }
 
   onSuggestionsClearRequested = () => {
     this.setState({
-      userSuggestions: []
+      userSuggestions: [],
     })
   }
   setMessage(e) {
-    this.setState({message: e.target.value})
+    this.setState({ message: e.target.value })
   }
 
   render() {
-    const buttonInnerHTML = this.state.inFlight ? '<i class="fas fa-spinner fa-spin"></i>' : 'Give Kudo'
-    const buttonDisabled = isEmpty(this.state.emails) || isEmpty(this.state.message) || this.state.inFlight
+    const buttonInnerHTML = this.state.inFlight
+      ? '<i class="fas fa-spinner fa-spin"></i>'
+      : 'Give Kudo'
+    const buttonDisabled =
+      isEmpty(this.state.emails) || isEmpty(this.state.message) || this.state.inFlight
     const autoSuggestProps = {
       placeholder: 'Type an email or search a factualite',
       value: this.state.emails.join(', '),
@@ -106,14 +102,10 @@ export default class GiveKudo extends React.Component {
     }
     return (
       <div className="give-kudo">
-        <h3>
-          Give Kudo
-        </h3>
+        <h3>Give Kudo</h3>
         <form className="give-kudo__form">
           <fieldset className="give-kudo__inputs">
-            <label htmlFor="give-kudo__input-email">
-              To:
-            </label>
+            <label htmlFor="give-kudo__input-email">To:</label>
             <Autosuggest
               suggestions={this.state.userSuggestions}
               id="give-kudo__input-email"
@@ -124,9 +116,7 @@ export default class GiveKudo extends React.Component {
               renderSuggestion={renderSuggestion}
               inputProps={autoSuggestProps}
             />
-            <label htmlFor="give-kudo__input-message">
-              Say:
-            </label>
+            <label htmlFor="give-kudo__input-message">Say:</label>
             <textarea
               placeholder="Message"
               id="give-kudo__input-message"
@@ -143,12 +133,13 @@ export default class GiveKudo extends React.Component {
               className="give-kudo__button"
               onClick={this.handleClick}
               disabled={buttonDisabled}
-              dangerouslySetInnerHTML={{__html: buttonInnerHTML}}
-            >
-            </button>
+              dangerouslySetInnerHTML={{ __html: buttonInnerHTML }}
+            />
           </div>
         </form>
       </div>
     )
   }
 }
+
+export default GiveKudo

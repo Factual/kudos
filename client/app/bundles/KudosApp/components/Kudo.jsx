@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react'
+import { observer } from 'mobx-react'
 import { map, chunk, isEmpty } from 'lodash'
-import dayjs from 'dayjs'
 import { Tooltip } from 'material-ui'
 
 class UserAvatar extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      imageSrc: props.user.avatar || ''
+      imageSrc: props.user.avatar || '',
     }
   }
 
@@ -21,18 +21,20 @@ class UserAvatar extends React.Component {
       <Tooltip
         placement="top"
         className="kudo__tooltip"
-        title={ <div className="kudo__tooltip-text">{ name }</div> }>
+        title={<div className="kudo__tooltip-text">{name}</div>}
+      >
         <img
-          src={ this.state.imageSrc }
-          alt={ name }
+          src={this.state.imageSrc}
+          alt={name}
           className="avatar"
-          onError={ this.handleImageError }
+          onError={this.handleImageError}
         />
       </Tooltip>
     )
   }
 }
 
+@observer
 export default class Kudo extends React.Component {
   constructor(props) {
     super(props)
@@ -51,6 +53,7 @@ export default class Kudo extends React.Component {
   }
 
   update = () => {
+    console.log('update!!')
     this.setState({ editing: false })
     this.props.updateKudo(this.props.kudo.id, this.state.body)
   }
@@ -58,22 +61,6 @@ export default class Kudo extends React.Component {
   formattedHeaderText() {
     const recipients = map(this.props.kudo.receivers, 'name').join(', ')
     return `Kudos, ${recipients}!`
-  }
-
-  formattedTimestamp() {
-    const ts = dayjs(this.props.kudo.given_at)
-    return `At ${ts.format('h:mm a')} on ${ts.format('MMM D, YYYY')}`
-  }
-
-  likedBySelf() {
-    const { kudo, userId } = this.props
-    return kudo.likes.some(like => like.giver_id === userId)
-  }
-
-  postedByActiveUser() {
-    const user = this.props.userId
-    const poster = this.props.kudo.giver.id
-    return user === poster
   }
 
   // Render avatars in rows of at most 3
@@ -106,7 +93,7 @@ export default class Kudo extends React.Component {
 
   renderLikeIcon() {
     const { unlikeKudo, likeKudo, id } = this.props
-    const likedBySelf = this.likedBySelf()
+    const likedBySelf = this.props.likes.some(like => like.giver_id === this.props.userId)
 
     return (
       <i
@@ -121,10 +108,8 @@ export default class Kudo extends React.Component {
 
     const Save = () => <i className="far fa-save" onClick={this.update} />
 
-    return this.postedByActiveUser() ? (
-      <div>
-        {this.state.editing ? <Save /> : <Edit />}
-      </div>
+    return this.props.kudo.giver.id === this.props.userId ? (
+      <div>{this.state.editing ? <Save /> : <Edit />}</div>
     ) : null
   }
 
@@ -146,10 +131,10 @@ export default class Kudo extends React.Component {
         <div className="meta">
           <div className="meta-item">
             {this.renderLikeIcon()}
-            {this.props.kudo.likes.length}
+            {this.props.kudo.numLikes}
           </div>
           <div className="meta-item">
-            {this.formattedTimestamp()}
+            {this.props.kudo.timestamp}
             {this.renderEditOptions()}
           </div>
         </div>

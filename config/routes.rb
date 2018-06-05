@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   get 'kudos_app', to: 'kudos_app#index'
   get 'settings', to: 'kudos_app#index'
+  get 'present', to: 'kudos_app#index'
 
   # Auth
   get 'auth/:provider/callback', to: 'sessions#create'

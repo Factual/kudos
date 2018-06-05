@@ -1,34 +1,37 @@
 import React, { PropTypes } from 'react'
+import { observer } from 'mobx-react'
+import AppStore from '../stores/AppStore'
 
-function Header({ user }) {
-  const links = [
-    {
-      title: 'Settings',
-      path: '/settings',
-      icon: 'cogs',
-    },
-    {
-      title: 'Sign Out',
-      path: '/logout',
-      icon: 'sign-out-alt',
-    },
-  ]
+@observer
+class Header extends React.Component {
+  render() {
+    const user = AppStore.user
 
-  return (
-    <nav className="header">
-      <HeaderStripes />
+    const links = [
+      {
+        title: 'Settings',
+        path: '/settings',
+        icon: 'cogs',
+      },
+      {
+        title: 'Sign Out',
+        path: '/logout',
+        icon: 'sign-out-alt',
+      },
+    ]
 
-      <a href="/">
-        <img src="assets/kudos_logo.png" className="header-logo" />
-      </a>
+    return (
+      <nav className="header">
+        <HeaderStripes />
 
-      <UserMenu avatar={user.avatar} email={user.email} links={links} />
-    </nav>
-  )
-}
+        <a href="/">
+          <img src="assets/kudos_logo.png" className="header-logo" />
+        </a>
 
-Header.propTypes = {
-  user: PropTypes.object.isRequired,
+        <UserMenu avatar={user.avatar} email={user.email} links={links} />
+      </nav>
+    )
+  }
 }
 
 function HeaderStripes() {
