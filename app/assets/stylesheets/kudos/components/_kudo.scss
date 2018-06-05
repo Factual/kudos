@@ -138,7 +138,7 @@
 }
 
 .kudo .avatar {
-  @extend .img-circle;
+  @extend .rounded-circle;
   width: $avatar-size;
   height: $avatar-size;
 }
