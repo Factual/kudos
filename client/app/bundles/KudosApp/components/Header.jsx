@@ -34,7 +34,7 @@ class Header extends React.Component {
   }
 }
 
-function HeaderStripes() {
+export function HeaderStripes() {
   return (
     <div className="header-stripes">
       <span />

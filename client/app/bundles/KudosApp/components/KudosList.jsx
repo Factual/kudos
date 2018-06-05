@@ -56,13 +56,13 @@ export class List extends React.Component {
           : this.props.kudos.map(kudo => (
               <Kudo
                 id={kudo.id}
-                colorClass={kudo.colorClass}
                 userId={this.props.user.id}
                 key={kudo.id}
                 kudo={kudo}
                 likeKudo={id => () => AppStore.kudosStore.likeKudo(id)}
                 unlikeKudo={id => () => AppStore.kudosStore.unlikeKudo(id)}
                 updateKudo={message => AppStore.kudosStore.editKudo(kudo.id, message)}
+                showMeta
               />
             ))}
       </div>

@@ -3,7 +3,7 @@ import { observer } from 'mobx-react'
 import { map, chunk, isEmpty } from 'lodash'
 import { Tooltip } from 'material-ui'
 
-class UserAvatar extends React.Component {
+export class UserAvatar extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -119,7 +119,7 @@ export default class Kudo extends React.Component {
           <div className="sender">
             <UserAvatar user={this.props.kudo.giver} />
           </div>
-          <div className={`receiver ${this.props.colorClass}`}>
+          <div className={`receiver ${this.props.kudo.colorClass}`}>
             <div className="header">
               {this.formattedHeaderText()}
               {this.renderRecipientAvatars()}
@@ -127,16 +127,18 @@ export default class Kudo extends React.Component {
             <div className="message">{this.renderBody()}</div>
           </div>
         </div>
-        <div className="meta">
-          <div className="meta-item">
-            {this.renderLikeIcon()}
-            {this.props.kudo.numLikes}
+        {this.props.showMeta ? (
+          <div className="meta">
+            <div className="meta-item">
+              {this.renderLikeIcon()}
+              {this.props.kudo.numLikes}
+            </div>
+            <div className="meta-item">
+              {this.props.kudo.timestamp}
+              {this.renderEditOptions()}
+            </div>
           </div>
-          <div className="meta-item">
-            {this.props.kudo.timestamp}
-            {this.renderEditOptions()}
-          </div>
-        </div>
+        ) : null}
       </div>
     )
   }
