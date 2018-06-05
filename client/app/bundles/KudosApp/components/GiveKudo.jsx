@@ -49,6 +49,12 @@ export class GiveKudo extends React.Component {
     _.bindAll(this, 'handleClick', 'onChangeSearchInput', 'setMessage')
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.selfKudo(prevState.emails) && this.selfKudo(this.state.emails)) {
+      AppStore.easterEggStore.showEasterEggPunch()
+    }
+  }
+
   // React will automatically provide us with the event `e`
   handleClick(e) {
     try {
@@ -80,8 +86,13 @@ export class GiveKudo extends React.Component {
       userSuggestions: [],
     })
   }
+
   setMessage(e) {
     this.setState({ message: e.target.value })
+  }
+
+  selfKudo(emails) {
+    return emails.includes(AppStore.user.email)
   }
 
   render() {
@@ -137,6 +148,11 @@ export class GiveKudo extends React.Component {
             />
           </div>
         </form>
+        {AppStore.easterEggStore.easterEggPunchVisible ? (
+          <div className="easter-egg__punch-container">
+            <img className="easter-egg__punch centered" src="assets/easter-egg__fist.png" />
+          </div>
+        ): null}
       </div>
     )
   }

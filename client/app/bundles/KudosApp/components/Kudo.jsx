@@ -13,7 +13,7 @@ class UserAvatar extends React.Component {
   }
 
   handleImageError = () => {
-    this.setState({ imageSrc: 'default-avatar.jpeg' })
+    this.setState({ imageSrc: 'assets/default-avatar.jpeg' })
   }
 
   render() {
@@ -53,11 +53,11 @@ export default class Kudo extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (!this.props.superKudoMode && nextProps.superKudoMode) {
+  componentDidUpdate(prevProps) {
+    if (!prevProps.superKudoMode && this.props.superKudoMode) {
       this.startShake()
     }
-    if (!nextProps.superKudoMode) {
+    if (prevProps.superKudoMode && !this.props.superKudoMode) {
       this.stopShake()
     }
   }
@@ -76,6 +76,7 @@ export default class Kudo extends React.Component {
   }
 
   handleClick = () => {
+    console.log('click')
     this.setState({ clicks: this.state.clicks + 1}, () => {
       if (this.state.clicks % 3 === 0) {
         this.props.toggleSuperKudoMode()
