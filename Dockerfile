@@ -9,7 +9,9 @@ RUN apt-get update -y && \
     apt-get install -y nodejs \
                        build-essential \
                        s3cmd \
-                       postgresql-client-10
+                       postgresql-client-10 \
+                       libpq5 \
+                       libpq-dev
 
 WORKDIR /usr/src/app
 
