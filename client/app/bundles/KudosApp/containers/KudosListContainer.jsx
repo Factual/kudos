@@ -45,7 +45,7 @@ function mapStateToProps({ kudosAppStore }) {
 function mergeProps(stateProps, { dispatch }, ownProps) {
   const { currentTab, kudos, name, id } = stateProps
   const cursor = last(kudos)
-  const cursor_time = get(cursor, 'created_at')
+  const cursor_time = get(cursor, 'given_at')
 
   return Object.assign(
     {

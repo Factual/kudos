@@ -10,7 +10,6 @@ class Kudo < ApplicationRecord
   def as_json(*args)
     {
       id: id,
-      created_at: created_at,
       body: body,
       giver: giver.slice(:id, :name, :avatar),
       receivers: receivers.map { |r| r.slice(:id, :name, :avatar) },
