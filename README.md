@@ -1,3 +1,6 @@
+# Kudos
+[![Docker Build Status](https://img.shields.io/docker/build/factual/kudos.svg)](https://hub.docker.com/r/factual/kudos/)
+
 # Local setup
 1. Install Docker (use [Docker for Mac](https://docs.docker.com/docker-for-mac/) if you're on a Mac).
 1. Copy `docker-compose.override.yml.example` to `docker-compose.override.yml` and fill in any placeholder settings.
