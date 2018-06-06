@@ -10,7 +10,6 @@ export const initialState = {
   isFetchingKudos: false,
   totalKudos: 0,
   user: { name: '', id: '', email: '', avatar: '' },
-  allEmails: [],
   allUsers: {},
   showModal: false,
 }
@@ -148,14 +147,6 @@ const initialize = (
   return state
 }
 
-const allEmails = (state = [], action) => {
-  if (action.type === actionTypes.FETCH_ALL_EMAILS) {
-    const {allEmails} = action;
-    return allEmails;
-  }
-  return state;
-}
-
 const allUsers = (state = {}, action) => {
   if (action.type === actionTypes.FETCH_ALL_USERS) {
     const {allUsers} = action;
@@ -175,7 +166,6 @@ const appReducer = combineReducers({
   isFetchingKudos,
   totalKudos,
   user: initialize,
-  allEmails,
   allUsers,
   showModal,
 })

@@ -1,6 +1,5 @@
-import React, {PropTypes} from 'react'
-import {isEmpty, trim} from 'lodash'
-import Autosuggest from 'react-autosuggest'
+import React, { PropTypes } from 'react'
+import { isEmpty, trim } from 'lodash'
 import _ from 'lodash'
 import request from 'axios'
 import KudoButtonText from './KudoButtonText'
@@ -34,7 +33,6 @@ export default class GiveKudo extends React.Component {
     createKudo: PropTypes.func.isRequired,
     showModal: PropTypes.bool.isRequired,
     modalClick: PropTypes.func.isRequired,
-    allEmails: PropTypes.array.isRequired,
     allUsers: PropTypes.object.isRequired,
   }
 
@@ -106,12 +104,7 @@ export default class GiveKudo extends React.Component {
       placeholder: 'Type an email or search a factualite',
       value: this.state.emails.join(', '),
       onChange: this.onChangeSearchInput,
-      onKeyPress: e => {
-        if (e.key === 'Enter') {
-          e.preventDefault()
-        }
-      },
-    }
+    };
     this.resizeMessageBox();
     return (
       <div className="give-kudo__modal">

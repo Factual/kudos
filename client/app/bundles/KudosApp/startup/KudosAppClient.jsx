@@ -6,7 +6,6 @@ import createStore from '../store/kudosAppStore';
 import KudosApp from '../containers/KudosApp';
 import Settings from '../containers/Settings';
 import Header from '../components/Header';
-import fetchEmails from '../actions/emailActions'
 import { fetchUsers } from '../actions/modalActions'
 
 // See documentation for https://github.com/reactjs/react-redux.
@@ -16,7 +15,6 @@ import { fetchUsers } from '../actions/modalActions'
 export default (props) => {
   const store = createStore(props)
   store.dispatch(initialize(props))
-  store.dispatch(fetchEmails(props.allEmails))
   store.dispatch(fetchUsers(props.allUsers))
 
   const reactComponent = (

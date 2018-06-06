@@ -10,7 +10,6 @@ export default class KudoModalRenderer extends React.Component {
     showModal: PropTypes.bool.isRequired,
     modalSwitch: PropTypes.func.isRequired,
     allUsers: PropTypes.object.isRequired,
-    allEmails: PropTypes.arrayOf(PropTypes.string).isRequired,
   }
 
   modalClick(e) {
@@ -28,7 +27,6 @@ export default class KudoModalRenderer extends React.Component {
                     showModal={this.props.showModal}
                     modalClick={this.modalClick.bind(this)}
                     allUsers={this.props.allUsers}
-                    allEmails={this.props.allEmails}
           /> : null
         }
       </div>
