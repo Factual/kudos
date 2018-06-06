@@ -38,7 +38,7 @@ const setActiveTab = (newActiveTab) => {
   }
 }
 
-const fetchPage = (currentTab, cursor_time, cursor_id) => {
+const fetchPage = (currentTab, cursor_time) => {
   return dispatch => {
     dispatch({ type: actionTypes.FETCH_KUDOS_REQUEST, append: true })
 
@@ -50,7 +50,6 @@ const fetchPage = (currentTab, cursor_time, cursor_id) => {
         limit: 10,
         tab: currentTab,
         cursor_time,
-        cursor_id,
       }
     }).then(res => {
       dispatch(fetchKudosSuccess(res.data.kudos, res.data.total, true))

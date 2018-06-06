@@ -46,14 +46,13 @@ function mergeProps(stateProps, { dispatch }, ownProps) {
   const { currentTab, kudos, name, id } = stateProps
   const cursor = last(kudos)
   const cursor_time = get(cursor, 'created_at')
-  const cursor_id = get(cursor, 'id')
 
   return Object.assign(
     {
       likeKudo: thumbKudo(dispatch, true, id, name),
       unlikeKudo: thumbKudo(dispatch, false, id, name),
       updateKudo: bindActionCreators(editKudo, dispatch),
-      fetchPage: () => dispatch(fetchPage(currentTab, cursor_time, cursor_id)),
+      fetchPage: () => dispatch(fetchPage(currentTab, cursor_time)),
     },
     ownProps,
     omit(stateProps, ['currentTab'])

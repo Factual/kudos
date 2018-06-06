@@ -2,8 +2,7 @@
 class KudosController < ApplicationController
 
   SORTING = {
-    created_at: :desc,
-    id: :desc
+    created_at: :desc
   }.freeze
 
   def index
@@ -13,7 +12,6 @@ class KudosController < ApplicationController
 
     limit = params[:limit] || 10
     cursor_time = params[:cursor_time]
-    cursor_id = params[:cursor_id]
 
     kudos = Kudo.includes(:receivers, :giver).order(SORTING)
     kudos =
@@ -29,12 +27,7 @@ class KudosController < ApplicationController
     kudos_count = kudos.count
 
     # offset using cursor and paginate
-    if cursor_time.present? && cursor_id.present?
-      kudos = kudos.where(
-        "created_at < :cursor_time OR (created_at = :cursor_time AND id < :cursor_id)",
-        { cursor_time: cursor_time, cursor_id: cursor_id }
-      )
-    end
+    kudos = kudos.where("created_at < ?", cursor_time) if cursor_time.present?
     kudos = kudos.limit(limit)
 
     render json: { kudos: kudos, total: kudos_count }
