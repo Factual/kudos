@@ -9,15 +9,16 @@ sleep 15
 
 # Create and migrate dev and test databases in Postgres
 docker-compose run web rails db:create
-docker-compose run web rails db:migrate
 
 # Attempt to restore from S3 backup
 docker-compose run web rails db:restore
 
+docker-compose run web rails db:migrate
+
 # Install NPM modules
 # Because modules are stored in the local `node_modules` folder and that folder
 # is shadowed by our mounted volume, we need to run this again.
-docker-compose run web npm install
+docker-compose run web bash -c 'cd client && npm install'
 
 # Start the server!
 docker-compose up
