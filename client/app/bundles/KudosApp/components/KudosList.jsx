@@ -26,9 +26,11 @@ const List = ({ userId, kudos, likeKudo, unlikeKudo, updateKudo, isFetchingKudos
 )
 
 const Spinner = () => (
-  <div className="kudos-list__fetching-container">
-    <i className="fas fa-spin fa-spinner fa-5x" aria-hidden="true" />
-  </div>
+  <i className="fas fa-spin fa-spinner fa-5x" aria-hidden="true" />
+)
+
+const LoadMore = ({ onClick }) => (
+  <a onClick={onClick}>Load more...</a>
 )
 
 export default class KudosList extends React.Component {
@@ -70,7 +72,9 @@ export default class KudosList extends React.Component {
           updateKudo={updateKudo}
           isFetchingKudos={isFetchingKudos}
         />
-        {isFetchingKudos ? <Spinner /> : null}
+        <div className="kudos-list__fetching-container">
+          {isFetchingKudos ? <Spinner /> : <LoadMore onClick={this.loadMoreKudos} />}
+        </div>
         <BottomScrollListener offset={200} onBottom={this.loadMoreKudos} />
       </div>
     )
