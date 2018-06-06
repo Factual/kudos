@@ -1,4 +1,4 @@
-FROM ruby:2.5
+FROM ruby@sha256:07ae38136a1bcc4a14bc4fcdbd675575fc697ff21ee05417581548ed01f55645
 
 # Install node, s3cmd, postgresql-client
 RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' > /etc/apt/sources.list.d/pgdg.list
