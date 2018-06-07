@@ -100,11 +100,6 @@ export default class GiveKudo extends React.Component {
       <i className="fas fa-spinner fa-spin"> </i> :
       <KudoButtonText text={"KUDOS!"}/>;
     const buttonDisabled = isEmpty(this.state.emails) || isEmpty(this.state.message) || this.state.inFlight;
-    const autoSuggestProps = {
-      placeholder: 'Type an email or search a factualite',
-      value: this.state.emails.join(', '),
-      onChange: this.onChangeSearchInput,
-    };
     this.resizeMessageBox();
     return (
       <div className="give-kudo__modal">
@@ -138,8 +133,7 @@ export default class GiveKudo extends React.Component {
               />
             </fieldset>
             <div className="give-kudo__actions">
-              <div className="modal-button">
-                <button
+              <div className="modal-button"><button
                   type="button"
                   className="styled-kudo-button send-kudo-button"
                   onClick={this.handleClick}
@@ -147,9 +141,8 @@ export default class GiveKudo extends React.Component {
                 >
                   {buttonInnerHTML}
                 </button>
-              </div>
-              <div className="modal-button">
-                <button className="close-modal"
+              </div><div className="modal-button">
+              <button className="close-modal"
                         onClick={this.props.modalClick}
                 >
                   JK, CANCEL

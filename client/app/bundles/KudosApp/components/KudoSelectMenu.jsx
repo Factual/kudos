@@ -22,7 +22,7 @@ export default class KudoSelectMenu extends React.Component {
     });
     return (<Select closeOnSelect={false}
                     disabled={false}
-                    placeholder="Select a person!"
+                    placeholder="Select some people!"
                     multi={true}
                     simpleValue={true}
                     value={this.props.userSuggestions}
