@@ -4,6 +4,7 @@ FROM ruby@sha256:07ae38136a1bcc4a14bc4fcdbd675575fc697ff21ee05417581548ed01f5564
 RUN echo 'deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main' > /etc/apt/sources.list.d/pgdg.list
 RUN curl -s https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get update -y && \
     apt-get install -y nodejs \
                        build-essential \
