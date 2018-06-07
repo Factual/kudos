@@ -3,6 +3,7 @@ import { action, observable } from 'mobx'
 class EasterEggStore {
   @observable superKudoMode = false
   @observable easterEggPunchVisible = false
+  @observable flashKudo = false
 
   @action
   toggleSuperKudoMode = () => {

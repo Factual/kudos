@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react'
 import { observer } from 'mobx-react'
-import { map, chunk, isEmpty } from 'lodash'
+import { map, chunk, isEmpty, after } from 'lodash'
 import { Tooltip } from 'material-ui'
 import Draggable from 'react-draggable'
 
@@ -35,6 +35,20 @@ class UserAvatar extends React.Component {
   }
 }
 
+// EASTER EGG
+function convertFlashingKudos(text) {
+  const arr = text.split(/(kudos?)/i,)
+  return (
+    <span>
+    {arr.map((str, index) => {
+      return index % 2 === 0 ? str : (
+        <span key={`${index}-flash-${str}`}className="easter-egg__flash-color">{str}</span>
+      )
+    })}
+    </span>
+  )
+}
+
 @observer
 export default class Kudo extends React.Component {
   constructor(props) {
@@ -42,9 +56,9 @@ export default class Kudo extends React.Component {
     this.state = {
       body: this.props.kudo.body,
       editing: false,
-      clicks: 0,
       shakeClass: "",
     }
+    this.kudoClicked = null
   }
 
   componentDidMount() {
@@ -75,12 +89,17 @@ export default class Kudo extends React.Component {
     this.props.updateKudo(this.state.body)
   }
 
+  // EASTER EGG
   handleClick = () => {
-    console.log('click')
-    this.setState({ clicks: this.state.clicks + 1}, () => {
-      if (this.state.clicks % 3 === 0) {
-        this.props.toggleSuperKudoMode()
-      }
+    this.kudoClicked = this.kudoClicked || this.listenForTripleClick()
+    this.kudoClicked()
+  }
+
+  // EASTER EGG
+  listenForTripleClick = () => {
+    setTimeout(() => this.kudoClicked = null, 300)
+    return after(3, () => {
+      this.props.toggleSuperKudoMode()
     })
   }
 
@@ -91,13 +110,15 @@ export default class Kudo extends React.Component {
     }, Math.floor(Math.random() * 2000))
   }
 
+  // EASTER EGG
   stopShake = () => {
     this.setState({ shakeClass: '' })
   }
 
   formattedHeaderText() {
     const recipients = map(this.props.kudo.receivers, 'name').join(', ')
-    return `Kudos, ${recipients}!`
+    const headerText = `Kudos, ${recipients}!`
+    return this.props.flashKudo ? convertFlashingKudos(headerText) : headerText
   }
 
   // Render avatars in rows of at most 3
@@ -124,7 +145,7 @@ export default class Kudo extends React.Component {
     return editing ? (
       <textarea id="kudo-input" className="edit-box" value={body} onChange={this.setMessage} />
     ) : (
-      body
+      this.props.flashKudo ? convertFlashingKudos(body) : body
     )
   }
 

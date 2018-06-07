@@ -27,6 +27,11 @@ const renderSuggestion = suggestion => (
   </div>
 )
 
+// EASTER EGG
+function stringContainsKudos(str) {
+  return /\bKUDOS\b/.test(str)
+}
+
 @observer
 export class GiveKudo extends React.Component {
   _initialState() {
@@ -53,6 +58,7 @@ export class GiveKudo extends React.Component {
     if (!this.selfKudo(prevState.emails) && this.selfKudo(this.state.emails)) {
       AppStore.easterEggStore.showEasterEggPunch()
     }
+    AppStore.easterEggStore.flashKudo = stringContainsKudos(this.state.message)
   }
 
   // React will automatically provide us with the event `e`

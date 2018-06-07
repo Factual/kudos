@@ -25,6 +25,10 @@
   opacity: 0
 }
 
+.easter-egg__flash-color {
+  animation: rainbow 2.5s linear infinite alternate;
+}
+
 @keyframes punch {
   0% {
     transform: scale(.1);
@@ -40,4 +44,18 @@
     transform: scale(.1);
     opacity: 0;
   }
+}
+
+@keyframes rainbow {
+  0% {color: #ff0000;}
+  10% {color: #ff8000;}
+  20% {color: #ffff00;}
+  30% {color: #80ff00;}
+  40% {color: #00ff00;}
+  50% {color: #00ff80;}
+  60% {color: #00ffff;}
+  70% {color: #0080ff;}
+  80% {color: #0000ff;}
+  90% {color: #8000ff;}
+  100% {color: #ff0080;}
 }

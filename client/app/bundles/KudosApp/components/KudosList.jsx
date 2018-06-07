@@ -66,6 +66,7 @@ export class List extends React.Component {
                 updateKudo={message => AppStore.kudosStore.editKudo(kudo.id, message)}
                 toggleSuperKudoMode={AppStore.easterEggStore.toggleSuperKudoMode}
                 superKudoMode={AppStore.easterEggStore.superKudoMode}
+                flashKudo={AppStore.easterEggStore.flashKudo}
               />
             ))}
       </div>
