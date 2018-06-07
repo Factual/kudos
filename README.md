@@ -1,3 +1,6 @@
+# Kudos
+[![Docker Build Status](https://img.shields.io/docker/build/factual/kudos.svg)](https://hub.docker.com/r/factual/kudos/)
+
 # Local setup
 1. Install Docker (use [Docker for Mac](https://docs.docker.com/docker-for-mac/) if you're on a Mac).
 1. Copy `docker-compose.override.yml.example` to `docker-compose.override.yml` and fill in any placeholder settings.
@@ -30,8 +33,8 @@ Since we're using docker-compose, you can run `docker-compose run [SERVICE] [COM
 * To restore the database using an S3 backup, run `docker-compose run web rails db:restore`
 * To install node packages, run `docker-compose run web npm install` (this will run the outer *and* inner `npm install`)
 * To install new gems, run `docker-compose run web bundle install`
-* To install a new gem, run `docker-compose run bundle install [GEM_NAME]` then commit the updated `Gemfile.lock` file
-* To install a new node package, run `docker-compose run npm install --save [MODULE_NAME]` then commit the updated `package.json` file
+* To install a new gem, run `docker-compose run web bundle install [GEM_NAME]` then commit the updated `Gemfile.lock` file
+* To install a new node package, run `docker-compose run web npm install --save [MODULE_NAME]` then commit the updated `package.json` file
 
 Since the docker-compose file *mounts* the working directory inside the docker container, any changes the filesystem inside the docker are reflected locally. This is for ease of developer user and does *not* happen in production. If you need to install anything in production, it must be in the image's `Dockerfile`. (That might mean running things twice. For instance, `npm install` runs in `Dockercompose` and then again in quickstart: the first will affect the image's filesystem, so it can be run in production, and the second will change your locally mounted filesystem, for development.)
 
