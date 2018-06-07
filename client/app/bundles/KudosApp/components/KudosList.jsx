@@ -75,7 +75,7 @@ export default class KudosList extends React.Component {
         <div className="kudos-list__fetching-container">
           {isFetchingKudos ? <Spinner /> : <LoadMore onClick={this.loadMoreKudos} />}
         </div>
-        <BottomScrollListener offset={200} onBottom={this.loadMoreKudos} />
+        <BottomScrollListener debounce={0} offset={300} onBottom={this.loadMoreKudos} />
       </div>
     )
   }
