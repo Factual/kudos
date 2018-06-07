@@ -16,12 +16,19 @@ const TabBar = ({ currentTab, setActiveTab }) => {
     setActiveTab(event.target.value)
   }
   return (
-    <div>
+    <div className="kudo_list-changer kudos-list">
     <select onChange={itemChanger} className={"drop_down_menu"}>
       {drop_down.map(drop_down => <DropdownItem key={drop_down}
                                                 itemName={drop_down}
                                                 currentTab={currentTab}/>)}</select>
-      <p className="dotted_line"/>
+      <svg width="100%" height="10">
+        <line x1="0" x2="100%" y1="5" y2="5"
+              stroke="#898989"
+              strokeWidth="2.5"
+              strokeLinecap="square"
+              strokeDasharray=".5,5"
+              />
+      </svg>
     </div>
 
 @observer
