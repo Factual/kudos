@@ -39,6 +39,7 @@ export class KudosList extends React.Component {
   }
 }
 
+@observer
 export class List extends React.Component {
   render() {
     return (
@@ -55,6 +56,9 @@ export class List extends React.Component {
                 likeKudo={id => () => AppStore.kudosStore.likeKudo(id)}
                 unlikeKudo={id => () => AppStore.kudosStore.unlikeKudo(id)}
                 updateKudo={message => AppStore.kudosStore.editKudo(kudo.id, message)}
+                toggleSuperKudoMode={AppStore.easterEggStore.toggleSuperKudoMode}
+                superKudoMode={AppStore.easterEggStore.superKudoMode}
+                flashKudo={AppStore.easterEggStore.flashKudo}
               />
             ))}
       </div>

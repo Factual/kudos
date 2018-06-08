@@ -27,6 +27,11 @@ const renderSuggestion = suggestion => (
   </div>
 )
 
+// EASTER EGG
+function stringContainsKudos(str) {
+  return /\bKUDOS\b/.test(str)
+}
+
 @observer
 export class GiveKudo extends React.Component {
   _initialState() {
@@ -47,6 +52,13 @@ export class GiveKudo extends React.Component {
     // the methods defined here would not refer to the component's class, not the component
     // instance itself.
     _.bindAll(this, 'handleClick', 'onChangeSearchInput', 'setMessage')
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.selfKudo(prevState.emails) && this.selfKudo(this.state.emails)) {
+      AppStore.easterEggStore.showEasterEggPunch()
+    }
+    AppStore.easterEggStore.flashKudo = stringContainsKudos(this.state.message)
   }
 
   // React will automatically provide us with the event `e`
@@ -80,8 +92,13 @@ export class GiveKudo extends React.Component {
       userSuggestions: [],
     })
   }
+
   setMessage(e) {
     this.setState({ message: e.target.value })
+  }
+
+  selfKudo(emails) {
+    return emails.includes(AppStore.user.email)
   }
 
   render() {
@@ -137,6 +154,11 @@ export class GiveKudo extends React.Component {
             />
           </div>
         </form>
+        {AppStore.easterEggStore.easterEggPunchVisible ? (
+          <div className="easter-egg__punch-container">
+            <img className="easter-egg__punch centered" src="assets/easter-egg__fist.png" />
+          </div>
+        ): null}
       </div>
     )
   }
