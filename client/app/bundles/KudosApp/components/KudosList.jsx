@@ -33,6 +33,7 @@ export class KudosList extends React.Component {
             <LoadMore onClick={this.loadMoreKudos} />
           )}
         </div>
+        <BottomScrollListener debounce={0} offset={300} onBottom={this.loadMoreKudos} />
       </div>
     )
   }
