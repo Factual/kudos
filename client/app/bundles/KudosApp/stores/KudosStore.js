@@ -103,6 +103,7 @@ class KudosStore {
     }
   }
 
+  @action
   appendKudos({ kudos, total } = {}) {
     kudos.forEach(kudo => {
       kudo.colorClass = ColorGenerator.appendBack()
