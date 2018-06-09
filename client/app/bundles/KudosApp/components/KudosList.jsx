@@ -1,82 +1,73 @@
+import _ from 'lodash'
 import React, { PropTypes } from 'react'
-import TabBarContainer from '../containers/TabBarContainer'
-import Kudo from './Kudo'
+import { observer } from 'mobx-react'
 import injectTapEventPlugin from 'react-tap-event-plugin'
 import BottomScrollListener from 'react-bottom-scroll-listener'
+import AppStore from '../stores/AppStore'
+import TabBar from '../components/TabBar'
+import Kudo from './Kudo'
 
 injectTapEventPlugin()
 
-const List = ({ userId, kudos, likeKudo, unlikeKudo, updateKudo, isFetchingKudos }) => (
-  <div className="kudos-list">
-    {kudos.length === 0 && !isFetchingKudos
-      ? 'No kudos'
-      : kudos.map(kudo => (
-          <Kudo
-            id={kudo.id}
-            colorClass={kudo.colorClass}
-            userId={userId}
-            key={kudo.id}
-            kudo={kudo}
-            likeKudo={likeKudo}
-            unlikeKudo={unlikeKudo}
-            updateKudo={updateKudo}
-          />
-        ))}
-  </div>
-)
-
-const Spinner = () => (
-  <i className="fas fa-spin fa-spinner fa-5x" aria-hidden="true" />
-)
-
-const LoadMore = ({ onClick }) => (
-  <a onClick={onClick}>Load more...</a>
-)
-
-export default class KudosList extends React.Component {
-  static propTypes = {
-    kudos: PropTypes.array.isRequired,
-    id: PropTypes.string.isRequired,
-    isFetchingKudos: PropTypes.bool.isRequired,
-    totalKudos: PropTypes.number.isRequired,
-    fetchPage: PropTypes.func.isRequired,
-    likeKudo: PropTypes.func.isRequired,
-    unlikeKudo: PropTypes.func.isRequired,
-    updateKudo: PropTypes.func.isRequired,
-  }
-
-  constructor(props, context) {
-    super(props, context)
-  }
-
-  areMoreKudos = () => {
-    return this.props.totalKudos > this.props.kudos.length
-  }
-
+@observer
+export class KudosList extends React.Component {
   loadMoreKudos = () => {
-    if (this.areMoreKudos() && !this.props.isFetchingKudos) {
-      this.props.fetchPage()
+    if (AppStore.kudosStore.canLoadMore && !AppStore.kudosStore.isFetchingKudos) {
+      AppStore.kudosStore.fetchKudos()
     }
   }
 
   render() {
-    const { id, kudos, likeKudo, unlikeKudo, updateKudo, isFetchingKudos } = this.props
     return (
       <div className="kudos-list__container">
-        <TabBarContainer />
+        <TabBar />
         <List
-          userId={id}
-          kudos={kudos}
-          likeKudo={likeKudo}
-          unlikeKudo={unlikeKudo}
-          updateKudo={updateKudo}
-          isFetchingKudos={isFetchingKudos}
+          user={AppStore.user}
+          kudos={AppStore.kudosStore.kudos}
+          isFetchingKudos={AppStore.kudosStore.isFetchingKudos}
         />
         <div className="kudos-list__fetching-container">
-          {isFetchingKudos ? <Spinner /> : <LoadMore onClick={this.loadMoreKudos} />}
+          {AppStore.kudosStore.isFetchingKudos ? (
+            <Spinner />
+          ) : (
+            <LoadMore onClick={this.loadMoreKudos} />
+          )}
         </div>
         <BottomScrollListener debounce={0} offset={300} onBottom={this.loadMoreKudos} />
       </div>
     )
   }
 }
+
+@observer
+export class List extends React.Component {
+  render() {
+    return (
+      <div className="kudos-list">
+        {this.props.kudos.length === 0 && !this.props.isFetchingKudos
+          ? 'No kudos'
+          : this.props.kudos.map(kudo => (
+              <Kudo
+                id={kudo.id}
+                colorClass={kudo.colorClass}
+                userId={this.props.user.id}
+                key={kudo.id}
+                kudo={kudo}
+                likeKudo={id => () => AppStore.kudosStore.likeKudo(id)}
+                unlikeKudo={id => () => AppStore.kudosStore.unlikeKudo(id)}
+                updateKudo={message => AppStore.kudosStore.editKudo(kudo.id, message)}
+                toggleSuperKudoMode={AppStore.easterEggStore.toggleSuperKudoMode}
+                superKudoMode={AppStore.easterEggStore.superKudoMode}
+                flashKudo={AppStore.easterEggStore.flashKudo}
+              />
+            ))}
+      </div>
+    )
+  }
+}
+
+const LoadMore = ({ onClick }) => <a onClick={onClick}>Load more...</a>
+
+const Spinner = () => <i className="fas fa-spin fa-spinner fa-5x" aria-hidden="true" />
+
+export default KudosList
