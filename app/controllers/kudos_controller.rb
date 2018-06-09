@@ -27,7 +27,7 @@ class KudosController < ApplicationController
     kudos_count = kudos.count
 
     # offset using cursor and paginate
-    kudos = kudos.where("created_at < ?", cursor_time) if cursor_time.present?
+    kudos = kudos.where("kudos.created_at < ?", cursor_time) if cursor_time.present?
     kudos = kudos.limit(limit)
 
     render json: { kudos: kudos, total: kudos_count }
