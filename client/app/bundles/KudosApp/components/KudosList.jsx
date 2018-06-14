@@ -29,9 +29,9 @@ export class KudosList extends React.Component {
         <div className="kudos-list__fetching-container">
           {AppStore.kudosStore.isFetchingKudos ? (
             <Spinner />
-          ) : (
+          ) : AppStore.kudosStore.canLoadMore ? (
             <LoadMore onClick={this.loadMoreKudos} />
-          )}
+          ) : null}
         </div>
         <BottomScrollListener debounce={0} offset={300} onBottom={this.loadMoreKudos} />
       </div>

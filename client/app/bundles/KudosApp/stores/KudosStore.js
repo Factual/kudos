@@ -42,6 +42,8 @@ class KudosStore {
   @action
   async resetKudos() {
     this.kudos = []
+    this.total = 0
+    this.cursorTime = undefined
     ColorGenerator.reset()
     this.fetchKudos()
   }
