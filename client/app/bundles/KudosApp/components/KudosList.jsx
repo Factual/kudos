@@ -2,6 +2,7 @@ import _ from 'lodash'
 import React, { PropTypes } from 'react'
 import { observer } from 'mobx-react'
 import injectTapEventPlugin from 'react-tap-event-plugin'
+import BottomScrollListener from 'react-bottom-scroll-listener'
 import AppStore from '../stores/AppStore'
 import TabBar from '../components/TabBar'
 import Kudo from './Kudo'
@@ -10,24 +11,8 @@ injectTapEventPlugin()
 
 @observer
 export class KudosList extends React.Component {
-  constructor(props, context) {
-    super(props, context)
-    _.bindAll(this, 'handleScroll')
-  }
-
-  componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll)
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll)
-  }
-
-  handleScroll(event) {
-    const isAtBottom =
-      event.srcElement.body.scrollTop + window.innerHeight == document.body.offsetHeight
-
-    if (isAtBottom && AppStore.kudosStore.canLoadMore && !AppStore.kudosStore.isFetchingKudos) {
+  loadMoreKudos = () => {
+    if (AppStore.kudosStore.canLoadMore && !AppStore.kudosStore.isFetchingKudos) {
       AppStore.kudosStore.fetchKudos()
     }
   }
@@ -41,12 +26,20 @@ export class KudosList extends React.Component {
           kudos={AppStore.kudosStore.kudos}
           isFetchingKudos={AppStore.kudosStore.isFetchingKudos}
         />
-        {AppStore.kudosStore.isFetchingKudos ? <Spinner /> : null}
+        <div className="kudos-list__fetching-container">
+          {AppStore.kudosStore.isFetchingKudos ? (
+            <Spinner />
+          ) : AppStore.kudosStore.canLoadMore ? (
+            <LoadMore onClick={this.loadMoreKudos} />
+          ) : null}
+        </div>
+        <BottomScrollListener debounce={0} offset={300} onBottom={this.loadMoreKudos} />
       </div>
     )
   }
 }
 
+@observer
 export class List extends React.Component {
   render() {
     return (
@@ -62,6 +55,9 @@ export class List extends React.Component {
                 likeKudo={id => () => AppStore.kudosStore.likeKudo(id)}
                 unlikeKudo={id => () => AppStore.kudosStore.unlikeKudo(id)}
                 updateKudo={message => AppStore.kudosStore.editKudo(kudo.id, message)}
+                toggleSuperKudoMode={AppStore.easterEggStore.toggleSuperKudoMode}
+                superKudoMode={AppStore.easterEggStore.superKudoMode}
+                flashKudo={AppStore.easterEggStore.flashKudo}
                 showMeta
               />
             ))}
@@ -70,10 +66,8 @@ export class List extends React.Component {
   }
 }
 
-const Spinner = () => (
-  <div className="kudos-list__fetching-container">
-    <i className="fas fa-spin fa-spinner fa-5x" aria-hidden="true" />
-  </div>
-)
+const LoadMore = ({ onClick }) => <a onClick={onClick}>Load more...</a>
+
+const Spinner = () => <i className="fas fa-spin fa-spinner fa-5x" aria-hidden="true" />
 
 export default KudosList

@@ -1,4 +1,4 @@
-import { findIndex } from 'lodash'
+import { findIndex, last } from 'lodash'
 import { action, computed, observable } from 'mobx'
 import { getKudos, postKudo, patchKudo, postLike, postUnlike } from '../services/KudosService'
 import ColorGenerator from '../utils/colorGenerator'
@@ -11,7 +11,7 @@ class KudosStore {
   @observable isFetchingKudos = false
   @observable kudos = []
   @observable total = 0
-  @observable currentPage = 0
+  @observable cursorTime
 
   @computed
   get canLoadMore() {
@@ -28,11 +28,13 @@ class KudosStore {
   async fetchKudos() {
     try {
       this.isFetchingKudos = true
-      const { kudos, total } = await getKudos(this.currentTab, this.currentPage)
+      const { kudos, total } = await getKudos(this.currentTab, this.cursorTime)
       this.appendKudos({ kudos, total })
       this.isFetchingKudos = false
     } catch (e) {
-      console.error(`Failed to fetch kudos for tab ${this.currentTab} page ${this.currentPage}`)
+      console.error(
+        `Failed to fetch kudos for tab ${this.currentTab} at cursor time ${this.cursorTime}`
+      )
       console.error(e)
     }
   }
@@ -40,6 +42,8 @@ class KudosStore {
   @action
   async resetKudos() {
     this.kudos = []
+    this.total = 0
+    this.cursorTime = undefined
     ColorGenerator.reset()
     this.fetchKudos()
   }
@@ -101,13 +105,14 @@ class KudosStore {
     }
   }
 
+  @action
   appendKudos({ kudos, total } = {}) {
     kudos.forEach(kudo => {
       kudo.colorClass = ColorGenerator.appendBack()
     })
 
     this.kudos = this.kudos.concat(kudos)
-    this.page += 1
+    this.cursorTime = last(kudos).givenAt
 
     if (total > 0) {
       this.total = total

@@ -5,7 +5,7 @@ import { Kudo } from '../models'
 const PAGE_LIMIT = 10
 
 // TODO: API call should not rely on the tab!
-export async function getKudos(tab, page) {
+export async function getKudos(tab, cursorTime) {
   const resp = await request({
     method: 'GET',
     url: '/kudos',
@@ -13,7 +13,7 @@ export async function getKudos(tab, page) {
     params: {
       limit: PAGE_LIMIT,
       tab,
-      offset: page * PAGE_LIMIT,
+      cursor_time: cursorTime,
     },
   })
 
