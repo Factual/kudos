@@ -49,7 +49,6 @@ export class List extends React.Component {
           : this.props.kudos.map(kudo => (
               <Kudo
                 id={kudo.id}
-                colorClass={kudo.colorClass}
                 userId={this.props.user.id}
                 key={kudo.id}
                 kudo={kudo}
@@ -59,6 +58,7 @@ export class List extends React.Component {
                 toggleSuperKudoMode={AppStore.easterEggStore.toggleSuperKudoMode}
                 superKudoMode={AppStore.easterEggStore.superKudoMode}
                 flashKudo={AppStore.easterEggStore.flashKudo}
+                showMeta
               />
             ))}
       </div>

@@ -18,6 +18,11 @@ class Header extends React.Component {
         path: '/logout',
         icon: 'sign-out-alt',
       },
+      {
+        title: 'Present',
+        path: '/present',
+        icon: 'play-circle',
+      },
     ]
 
     return (
@@ -34,7 +39,7 @@ class Header extends React.Component {
   }
 }
 
-function HeaderStripes() {
+export function HeaderStripes() {
   return (
     <div className="header-stripes">
       <span />

@@ -4,7 +4,7 @@ import { map, chunk, isEmpty, after } from 'lodash'
 import { Tooltip } from 'material-ui'
 import Draggable from 'react-draggable'
 
-class UserAvatar extends React.Component {
+export class UserAvatar extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -37,14 +37,18 @@ class UserAvatar extends React.Component {
 
 // EASTER EGG
 function convertFlashingKudos(text) {
-  const arr = text.split(/(kudos?)/i,)
+  const arr = text.split(/(kudos?)/i)
   return (
     <span>
-    {arr.map((str, index) => {
-      return index % 2 === 0 ? str : (
-        <span key={`${index}-flash-${str}`}className="easter-egg__flash-color">{str}</span>
-      )
-    })}
+      {arr.map((str, index) => {
+        return index % 2 === 0 ? (
+          str
+        ) : (
+          <span key={`${index}-flash-${str}`} className="easter-egg__flash-color">
+            {str}
+          </span>
+        )
+      })}
     </span>
   )
 }
@@ -56,7 +60,7 @@ export default class Kudo extends React.Component {
     this.state = {
       body: this.props.kudo.body,
       editing: false,
-      shakeClass: "",
+      shakeClass: '',
     }
     this.kudoClicked = null
   }
@@ -97,7 +101,7 @@ export default class Kudo extends React.Component {
 
   // EASTER EGG
   listenForTripleClick = () => {
-    setTimeout(() => this.kudoClicked = null, 300)
+    setTimeout(() => (this.kudoClicked = null), 300)
     return after(3, () => {
       this.props.toggleSuperKudoMode()
     })
@@ -144,8 +148,10 @@ export default class Kudo extends React.Component {
 
     return editing ? (
       <textarea id="kudo-input" className="edit-box" value={body} onChange={this.setMessage} />
+    ) : this.props.flashKudo ? (
+      convertFlashingKudos(body)
     ) : (
-      this.props.flashKudo ? convertFlashingKudos(body) : body
+      body
     )
   }
 
@@ -175,12 +181,12 @@ export default class Kudo extends React.Component {
     return (
       <Draggable disabled={!this.props.superKudoMode}>
         <div className="kudo" onClick={this.handleClick}>
-          <div className={ this.state.shakeClass }>
+          <div className={this.state.shakeClass}>
             <div className="content">
               <div className="sender">
                 <UserAvatar user={this.props.kudo.giver} />
               </div>
-              <div className={`receiver ${this.props.colorClass}`}>
+              <div className={`receiver ${this.props.kudo.colorClass}`}>
                 <div className="header">
                   {this.formattedHeaderText()}
                   {this.renderRecipientAvatars()}
@@ -188,16 +194,18 @@ export default class Kudo extends React.Component {
                 <div className="message">{this.renderBody()}</div>
               </div>
             </div>
-            <div className="meta">
-              <div className="meta-item">
-                {this.renderLikeIcon()}
-                {this.props.kudo.numLikes}
+            {this.props.showMeta ? (
+              <div className="meta">
+                <div className="meta-item">
+                  {this.renderLikeIcon()}
+                  {this.props.kudo.numLikes}
+                </div>
+                <div className="meta-item">
+                  {this.props.kudo.timestamp}
+                  {this.renderEditOptions()}
+                </div>
               </div>
-              <div className="meta-item">
-                {this.props.kudo.timestamp}
-                {this.renderEditOptions()}
-              </div>
-            </div>
+            ) : null}
           </div>
         </div>
       </Draggable>
