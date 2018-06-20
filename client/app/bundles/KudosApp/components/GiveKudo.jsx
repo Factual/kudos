@@ -1,12 +1,15 @@
-import React, { PropTypes } from 'react'
 import { isEmpty, trim } from 'lodash'
+import React, { PropTypes } from 'react'
+import { observer } from 'mobx-react'
+import Autosuggest from 'react-autosuggest'
 import _ from 'lodash'
 import request from 'axios'
+import AppStore from '../stores/AppStore'
 import KudoButtonText from './KudoButtonText'
 import KudoSelectMenu from './KudoSelectMenu'
 
 // Functions for Autosuggest component
-const fuzzySearchUsers = (query) => {
+const fuzzySearchUsers = query => {
   return request({
     method: 'GET',
     url: 'users/search',
@@ -24,18 +27,13 @@ const getEmailFromUser = (userString) => {
   return userString.substring(userString.indexOf('|') + 1, userString.length).trim()
 }
 
-// Simple example of a React "dumb" component
-export default class GiveKudo extends React.Component {
+// EASTER EGG
+function stringContainsKudos(str) {
+  return /\bKUDOS\b/.test(str)
+}
 
-  static propTypes = {
-    // If you have lots of data or action properties, you should consider grouping them by
-    // passing two properties: "data" and "actions".
-    createKudo: PropTypes.func.isRequired,
-    showModal: PropTypes.bool.isRequired,
-    modalClick: PropTypes.func.isRequired,
-    allUsers: PropTypes.object.isRequired,
-  }
-
+@observer
+export class GiveKudo extends React.Component {
   _initialState() {
     return {
       emails: [],
@@ -56,8 +54,23 @@ export default class GiveKudo extends React.Component {
     _.bindAll(this, 'handleClick', 'onSelectChange' , 'setMessage', 'onSuccess', 'onFailure')
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (!this.selfKudo(prevState.emails) && this.selfKudo(this.state.emails)) {
+      AppStore.easterEggStore.showEasterEggPunch()
+    }
+    AppStore.easterEggStore.flashKudo = stringContainsKudos(this.state.message)
+  }
+
   // React will automatically provide us with the event `e`
   handleClick(e) {
+    try {
+      this.setState({ inFlight: true })
+      AppStore.kudosStore.newKudo(this.state.emails, this.state.message)
+      this.setState(this._initialState())
+    } catch (e) {
+      console.error(e)
+      this.setState({ inFlight: false })
+    }
     this.setState({inFlight: true})
     this.props.createKudo(this.state.emails, this.state.message, this.onSuccess, this.onFailure)
     this.props.modalClick(e);
@@ -78,8 +91,32 @@ export default class GiveKudo extends React.Component {
     this.setState({inFlight: false})
   }
 
+  onChangeSearchInput = (event, { newValue }) => {
+    this.setState({
+      emails: newValue.split(',').map(trim),
+    })
+  }
+
+  onSuggestionsFetchRequested = ({ value }) => {
+    fuzzySearchUsers(value).then(suggestions => {
+      this.setState({
+        userSuggestions: suggestions,
+      })
+    })
+  }
+
+  onSuggestionsClearRequested = () => {
+    this.setState({
+      userSuggestions: [],
+    })
+  }
+
   setMessage(e) {
-    this.setState({message: e.target.value})
+    this.setState({ message: e.target.value })
+  }
+
+  selfKudo(emails) {
+    return emails.includes(AppStore.user.email)
   }
 
   resizeMessageBox() {
@@ -150,8 +187,15 @@ export default class GiveKudo extends React.Component {
               </div>
             </div>
           </form>
+          {AppStore.easterEggStore.easterEggPunchVisible ? (
+            <div className="easter-egg__punch-container">
+              <img className="easter-egg__punch centered" src="assets/easter-egg__fist.png" />
+            </div>
+          ): null}
         </div>
       </div>
     )
   }
 }
+
+export default GiveKudo

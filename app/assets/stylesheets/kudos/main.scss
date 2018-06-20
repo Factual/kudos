@@ -9,6 +9,7 @@
 @import 'components/kudo';
 @import 'components/settings';
 @import '../../../../client/node_modules/react-select/dist/react-select';
+@import 'components/easter-eggs';
 
 body {
   font-family: Whitney SSm A, Whitney SSm B, Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -21,4 +22,3 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-

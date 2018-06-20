@@ -1,32 +1,20 @@
-import React from 'react';
-import { Provider } from 'react-redux';
+import React from 'react'
 import { BrowserRouter as Router, Route } from 'react-router-dom'
-import { initialize } from '../actions/actionCreators';
-import createStore from '../store/kudosAppStore';
-import KudosApp from '../containers/KudosApp';
-import Settings from '../containers/Settings';
-import Header from '../components/Header';
-import { fetchUsers } from '../actions/modalActions'
+import KudosApp from '../containers/KudosApp'
+import KudosPresentation from '../components/KudosPresentation'
+import Settings from '../components/Settings'
+import AppStore from '../stores/AppStore'
 
-// See documentation for https://github.com/reactjs/react-redux.
-// This is how you get props from the Rails view into the redux store.
-// This code here binds your smart component to the redux store.
+export default props => {
+  AppStore.loadClientData(props)
 
-export default (props) => {
-  const store = createStore(props)
-  store.dispatch(initialize(props))
-  store.dispatch(fetchUsers(props.allUsers))
-
-  const reactComponent = (
-    <Provider store={store}>
-      <Router>
-        <div>
-          <Header user={props.user} />
-          <Route exact path="/" component={ KudosApp } />
-          <Route exact path="/settings" component={ Settings } />
-        </div>
-      </Router>
-    </Provider>
-  );
-  return reactComponent;
-};
+  return (
+    <Router>
+      <div>
+        <Route exact path="/" component={KudosApp} />
+        <Route exact path="/settings" component={Settings} />
+        <Route exact path="/present" component={KudosPresentation} />
+      </div>
+    </Router>
+  )
+}
