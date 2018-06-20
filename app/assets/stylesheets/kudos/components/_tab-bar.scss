@@ -12,7 +12,7 @@ select.drop_down_menu {
   display: flex;
   border:0;
   -webkit-appearance: none;
-  font-size: 1.5em;
+  font-size: $heading-font-size;
   align-content: center;
   font-weight: 600;
   width: 100%;
