@@ -1,26 +1,10 @@
 import { isEmpty, trim } from 'lodash'
 import React, { PropTypes } from 'react'
 import { observer } from 'mobx-react'
-import Autosuggest from 'react-autosuggest'
 import _ from 'lodash'
-import request from 'axios'
 import AppStore from '../stores/AppStore'
 import KudoButtonText from './KudoButtonText'
 import KudoSelectMenu from './KudoSelectMenu'
-
-// Functions for Autosuggest component
-const fuzzySearchUsers = query => {
-  return request({
-    method: 'GET',
-    url: 'users/search',
-    responseType: 'json',
-    params: {
-      q: query
-    }
-  }).then((res) => {
-    return res.data.map(obj => _.pick(obj, ['name', 'email']))
-  })
-}
 
 const getEmailFromUser = (userString) => {
   //react-select gives values as name | email, so must parse email from that
@@ -55,7 +39,7 @@ export class GiveKudo extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (!this.selfKudo(prevState.emails) && this.selfKudo(this.state.emails)) {
+    if (!GiveKudo.selfKudo(prevState.emails) && GiveKudo.selfKudo(this.state.emails)) {
       AppStore.easterEggStore.showEasterEggPunch()
     }
     AppStore.easterEggStore.flashKudo = stringContainsKudos(this.state.message)
@@ -67,13 +51,11 @@ export class GiveKudo extends React.Component {
       this.setState({ inFlight: true })
       AppStore.kudosStore.newKudo(this.state.emails, this.state.message)
       this.setState(this._initialState())
+      this.props.modalClick(e);
     } catch (e) {
       console.error(e)
       this.setState({ inFlight: false })
     }
-    this.setState({inFlight: true})
-    this.props.createKudo(this.state.emails, this.state.message, this.onSuccess, this.onFailure)
-    this.props.modalClick(e);
   }
 
   onSelectChange = (value) => {
@@ -91,31 +73,11 @@ export class GiveKudo extends React.Component {
     this.setState({inFlight: false})
   }
 
-  onChangeSearchInput = (event, { newValue }) => {
-    this.setState({
-      emails: newValue.split(',').map(trim),
-    })
-  }
-
-  onSuggestionsFetchRequested = ({ value }) => {
-    fuzzySearchUsers(value).then(suggestions => {
-      this.setState({
-        userSuggestions: suggestions,
-      })
-    })
-  }
-
-  onSuggestionsClearRequested = () => {
-    this.setState({
-      userSuggestions: [],
-    })
-  }
-
   setMessage(e) {
     this.setState({ message: e.target.value })
   }
 
-  selfKudo(emails) {
+  static selfKudo(emails) {
     return emails.includes(AppStore.user.email)
   }
 
@@ -153,7 +115,7 @@ export class GiveKudo extends React.Component {
               <label htmlFor="give-kudo__input-email">
                 TO:
               </label>
-              <KudoSelectMenu allUsers={this.props.allUsers}
+              <KudoSelectMenu allUsers={AppStore.allUsers.userList}
                               onChange={this.onSelectChange}
                               userSuggestions={this.state.userSuggestions}/>
               <label htmlFor="give-kudo__input-message">
@@ -180,7 +142,7 @@ export class GiveKudo extends React.Component {
                 </button>
               </div><div className="modal-button">
               <button className="close-modal"
-                        onClick={this.props.modalClick}
+                        onClick={this.props.modalClick.bind(this)}
                 >
                   JK, CANCEL
                 </button>
