@@ -16,9 +16,9 @@ class KudosController < ApplicationController
     kudos = Kudo.includes(:receivers, :giver).order(SORTING)
     kudos =
       case params[:tab]
-      when 'My Kudos'
+      when 'Kudos Received'
         kudos.joins(:receipts).merge(KudoReceipt.where(receiver_id: current_user.id))
-      when 'Awarded Kudos'
+      when 'Kudos Sent'
         kudos.where(giver_id: current_user.id)
       else
         kudos

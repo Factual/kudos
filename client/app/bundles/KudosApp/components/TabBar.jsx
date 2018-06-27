@@ -16,16 +16,17 @@ export class TabBar extends React.Component {
     AppStore.kudosStore.setCurrentTab(event.target.value)
   }
   render() {
-    const drop_down = ['All Kudos', 'My Kudos', 'Awarded Kudos']
+    const drop_down = ['All Kudos', 'Kudos Received', 'Kudos Sent']
+    const gray = "#898989";
     return (
     <div className="kudo_list-changer kudos-list">
-    <select onChange={TabBar.itemChanger} className={"drop_down_menu"}>
+    <select onChange={TabBar.itemChanger} className="drop_down_menu">
       {drop_down.map(drop_down => <DropDownItem key={drop_down}
                                                 itemName={drop_down}
                                                 currentTab={AppStore.kudosStore.currentTab}/>)}</select>
       <svg width="100%" height="10">
         <line x1="0" x2="100%" y1="5" y2="5"
-              stroke="#898989"
+              stroke={gray}
               strokeWidth="2.5"
               strokeLinecap="square"
               strokeDasharray=".5,5"
