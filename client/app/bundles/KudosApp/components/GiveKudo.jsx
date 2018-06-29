@@ -3,10 +3,10 @@ import React, { PropTypes } from 'react'
 import { observer } from 'mobx-react'
 import _ from 'lodash'
 import AppStore from '../stores/AppStore'
-import KudoButtonText from './KudoButtonText'
+import FistBumpText from './FistBumpText'
 import KudoSelectMenu from './KudoSelectMenu'
 
-const getEmailFromUser = (userString) => {
+const getEmailFromUser = userString => {
   //react-select gives values as name | email, so must parse email from that
   return userString.substring(userString.indexOf('|') + 1, userString.length).trim()
 }
@@ -35,7 +35,7 @@ export class GiveKudo extends React.Component {
     // Uses lodash to bind all methods to the context of the object instance, otherwise
     // the methods defined here would not refer to the component's class, not the component
     // instance itself.
-    _.bindAll(this, 'handleClick', 'onSelectChange' , 'setMessage', 'onSuccess', 'onFailure')
+    _.bindAll(this, 'handleClick', 'onSelectChange', 'setMessage', 'onSuccess', 'onFailure')
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -51,16 +51,16 @@ export class GiveKudo extends React.Component {
       this.setState({ inFlight: true })
       AppStore.kudosStore.newKudo(this.state.emails, this.state.message)
       this.setState(this._initialState())
-      this.props.modalClick(e);
+      AppStore.toggleModal()
     } catch (e) {
       console.error(e)
       this.setState({ inFlight: false })
     }
   }
 
-  onSelectChange = (value) => {
+  onSelectChange = value => {
     this.setState({
-      emails: value.split(',').map(getEmailFromUser),
+      emails: value.map(getEmailFromUser),
       userSuggestions: value.split(','),
     })
   }
@@ -70,7 +70,7 @@ export class GiveKudo extends React.Component {
   }
 
   onFailure(_err) {
-    this.setState({inFlight: false})
+    this.setState({ inFlight: false })
   }
 
   setMessage(e) {
@@ -82,45 +82,52 @@ export class GiveKudo extends React.Component {
   }
 
   resizeMessageBox() {
-    let message = document.querySelector('textarea');
-    message ? message.addEventListener('keydown', resize) : null;
+    let message = document.querySelector('textarea')
+    message ? message.addEventListener('keydown', resize) : null
 
     function resize() {
       // setTimeout needed so that top also resizes dynamically to reveal top row of words
-      setTimeout(function () {
-        message.style.height = 'auto';
-        message.style.height = message.scrollHeight + 'px';
-      }, 0);
+      setTimeout(function() {
+        message.style.height = 'auto'
+        message.style.height = message.scrollHeight + 'px'
+      }, 0)
     }
   }
 
   render() {
-    const buttonInnerHTML = this.state.inFlight ?
-      <i className="fas fa-spinner fa-spin"> </i> :
-      <KudoButtonText text={"KUDOS!"}/>;
-    const buttonDisabled = isEmpty(this.state.emails) || isEmpty(this.state.message) || this.state.inFlight;
-    this.resizeMessageBox();
+    const buttonInnerHTML = this.state.inFlight ? (
+      <i className="fas fa-spinner fa-spin"> </i>
+    ) : (
+      <FistBumpText text={'KUDOS!'} />
+    )
+    const buttonDisabled =
+      isEmpty(this.state.emails) || isEmpty(this.state.message) || this.state.inFlight
+    this.resizeMessageBox()
     return (
       <div className="give-kudo__modal">
         <div>
-          <h3>
-            GIVE A KUDO!
-          </h3>
-          <svg style={{display: 'block'}} width="100%" height="4px">
-            <line x1="0" x2="100%" y1="2" y2="2" stroke="#FFC165" strokeWidth="4" strokeLinecap="round"
-                  strokeDasharray="0.25, 8"/>
+          <h3>GIVE A KUDO!</h3>
+          <svg style={{ display: 'block' }} width="100%" height="4px">
+            <line
+              x1="0"
+              x2="100%"
+              y1="2"
+              y2="2"
+              stroke="#FFC165"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeDasharray="0.25, 8"
+            />
           </svg>
           <form className="give-kudo__form">
             <fieldset className="give-kudo__inputs">
-              <label htmlFor="give-kudo__input-email">
-                TO:
-              </label>
-              <KudoSelectMenu allUsers={AppStore.allUsers.userList}
-                              onChange={this.onSelectChange}
-                              userSuggestions={this.state.userSuggestions}/>
-              <label htmlFor="give-kudo__input-message">
-                MESSAGE:
-              </label>
+              <label htmlFor="give-kudo__input-email">TO:</label>
+              <KudoSelectMenu
+                allUsers={AppStore.allUsers}
+                onChange={this.onSelectChange}
+                userSuggestions={this.state.userSuggestions}
+              />
+              <label htmlFor="give-kudo__input-message">MESSAGE:</label>
               <textarea
                 placeholder="Message"
                 id="give-kudo__input-message"
@@ -132,7 +139,8 @@ export class GiveKudo extends React.Component {
               />
             </fieldset>
             <div className="give-kudo__actions">
-              <div className="modal-button"><button
+              <div className="modal-button">
+                <button
                   type="button"
                   className="styled-kudo-button send-kudo-button"
                   onClick={this.handleClick}
@@ -140,10 +148,9 @@ export class GiveKudo extends React.Component {
                 >
                   {buttonInnerHTML}
                 </button>
-              </div><div className="modal-button">
-              <button className="close-modal"
-                        onClick={this.props.modalClick.bind(this)}
-                >
+              </div>
+              <div className="modal-button">
+                <button className="close-modal" onClick={AppStore.toggleModal}>
                   JK, CANCEL
                 </button>
               </div>
@@ -153,7 +160,7 @@ export class GiveKudo extends React.Component {
             <div className="easter-egg__punch-container">
               <img className="easter-egg__punch centered" src="assets/easter-egg__fist.png" />
             </div>
-          ): null}
+          ) : null}
         </div>
       </div>
     )

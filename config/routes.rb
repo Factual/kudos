@@ -11,8 +11,6 @@ Rails.application.routes.draw do
   get 'auth/failure', to: redirect('/')
   get 'logout', to: 'sessions#destroy', as: 'logout'
 
-  get 'users/search', to: 'users#search'
-
   post 'users/settings', to: 'users#update'
 
   post 'like', to: 'likes#like'

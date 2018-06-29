@@ -1,5 +1,8 @@
-import { COLOR_CLASSES } from '../constants/appConstants'
-
+const COLOR_CLASSES = Object.freeze({
+  TEAL: 'kudo-teal',
+  GREEN: 'kudo-lime',
+  ORANGE: 'kudo-orange',
+})
 const { TEAL, GREEN, ORANGE } = COLOR_CLASSES
 const colorClasses = [TEAL, GREEN, ORANGE]
 const maxIndex = colorClasses.length - 1

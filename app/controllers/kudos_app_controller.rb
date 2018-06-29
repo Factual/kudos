@@ -3,7 +3,7 @@ class KudosAppController < ApplicationController
   def index
     @kudos_app_props = {
       user: current_user.slice(:id, :email, :name, :avatar, :allow_email_notifications, :allow_slack_notifications),
-      allUsers: User.fetch_all_users,
+      allUsers: User.all.pluck(:name, :email),
     }
   end
 end

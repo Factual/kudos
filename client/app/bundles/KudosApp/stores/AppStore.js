@@ -3,12 +3,12 @@ import { User } from '../models'
 import { updateNotificationPreferences } from '../services/UserService'
 import KudosStore from './KudosStore'
 import EasterEggStore from './EasterEggStore'
-import AllUsers from "../models/AllUsers";
 
 class AppStore {
   @observable user = new User()
-  @observable allUsers = new AllUsers()
+  @observable allUsers = []
   @observable error = ''
+  @observable showModal = false
 
   kudosStore = KudosStore
   easterEggStore = EasterEggStore
@@ -20,7 +20,7 @@ class AppStore {
   @action
   loadClientData(props) {
     this.user = new User(props.user)
-    this.allUsers = new AllUsers(props.allUsers)
+    this.allUsers = props.allUsers
   }
 
   @action
@@ -29,6 +29,10 @@ class AppStore {
     updateNotificationPreferences(this.user.notificationPreferences)
   }
 
+  @action
+  toggleModal() {
+    this.showModal = !this.showModal
+  }
 }
 
 const APP_STORE = new AppStore()

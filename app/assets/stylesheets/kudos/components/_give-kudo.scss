@@ -32,6 +32,7 @@
   border: none;
   padding: 0 20px;
   transition: top .1s linear 0s;
+  cursor: pointer;
 
   .fist-left {
     padding-right: 5px;
@@ -97,6 +98,7 @@
   color: white;
   border: none;
   transition: top .1s linear 0s;
+  cursor: pointer;
 }
 
 .close-modal:hover {

@@ -1,9 +1,16 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes } from 'react'
+import AppStore from '../stores/AppStore'
 
-const ModalCover = ({ showModal }) => {return showModal ? <div className="overlay"> </div> : null};
+const ModalCover = () => {
+  return AppStore.showModal ? (
+    <div onClick={MODAL_STORE.toggleModal} className="overlay">
+      {' '}
+    </div>
+  ) : null
+}
 
 ModalCover.propTypes = {
   showModal: PropTypes.bool,
-};
+}
 
-export default ModalCover;
+export default ModalCover
