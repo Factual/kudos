@@ -9,7 +9,7 @@ export default class KudoModalRenderer extends React.Component {
   render() {
     return (
       <div className="give-kudo">
-        <button className="styled-kudo-button open-modal" onClick={AppStore.toggleModal}>
+        <button className="styled-kudo-button open-modal" onClick={() => AppStore.toggleModal()}>
           <FistBumpText text={'GIVE A KUDO!'} />
         </button>
         {AppStore.showModal ? <GiveKudo /> : null}

@@ -1,16 +1,16 @@
 import React, { PropTypes } from 'react'
 import AppStore from '../stores/AppStore'
+import { observer } from 'mobx-react'
 
-const ModalCover = () => {
-  return AppStore.showModal ? (
-    <div onClick={MODAL_STORE.toggleModal} className="overlay">
-      {' '}
-    </div>
-  ) : null
+@observer
+export default class ModalCover extends React.Component {
+  render() {
+    return AppStore.showModal ? (
+      <div onClick={() => AppStore.toggleModal()} className="overlay" />
+    ) : null
+  }
 }
 
 ModalCover.propTypes = {
   showModal: PropTypes.bool,
 }
-
-export default ModalCover

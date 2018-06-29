@@ -6,11 +6,6 @@ import AppStore from '../stores/AppStore'
 import FistBumpText from './FistBumpText'
 import KudoSelectMenu from './KudoSelectMenu'
 
-const getEmailFromUser = userString => {
-  //react-select gives values as name | email, so must parse email from that
-  return userString.substring(userString.indexOf('|') + 1, userString.length).trim()
-}
-
 // EASTER EGG
 function stringContainsKudos(str) {
   return /\bKUDOS\b/.test(str)
@@ -60,8 +55,8 @@ export class GiveKudo extends React.Component {
 
   onSelectChange = value => {
     this.setState({
-      emails: value.map(getEmailFromUser),
-      userSuggestions: value.split(','),
+      emails: value.map(v => v.email),
+      userSuggestions: value,
     })
   }
 
@@ -150,7 +145,7 @@ export class GiveKudo extends React.Component {
                 </button>
               </div>
               <div className="modal-button">
-                <button className="close-modal" onClick={AppStore.toggleModal}>
+                <button className="close-modal" onClick={() => AppStore.toggleModal()}>
                   JK, CANCEL
                 </button>
               </div>

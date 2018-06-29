@@ -2,15 +2,9 @@ import React, { PropTypes } from 'react'
 import Select from 'react-select'
 
 function constructOptions(user) {
-  const filterValue = `${user['name']} | ${user['email']}`
-  const displayValue = `${user['name']} (${user['email']})`
-  return { value: filterValue, label: displayValue }
-}
-
-KudoSelectMenu.propTypes = {
-  allUsers: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
-  userSuggestions: PropTypes.array.isRequired,
+  const filterValue = `${user[0]} ${user[1]}`
+  const displayValue = `${user[0]} (${user[1]})`
+  return { value: filterValue, label: displayValue, email: user[1] }
 }
 
 export default class KudoSelectMenu extends React.Component {
@@ -30,4 +24,10 @@ export default class KudoSelectMenu extends React.Component {
       />
     )
   }
+}
+
+KudoSelectMenu.propTypes = {
+  allUsers: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
+  userSuggestions: PropTypes.array.isRequired,
 }
