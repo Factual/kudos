@@ -1,7 +1,6 @@
-import { isEmpty, trim } from 'lodash'
+import { isEmpty, trim, bindAll } from 'lodash'
 import React, { PropTypes } from 'react'
 import { observer } from 'mobx-react'
-import _ from 'lodash'
 import AppStore from '../stores/AppStore'
 import FistBumpText from './FistBumpText'
 import KudoSelectMenu from './KudoSelectMenu'
@@ -30,7 +29,7 @@ export class GiveKudo extends React.Component {
     // Uses lodash to bind all methods to the context of the object instance, otherwise
     // the methods defined here would not refer to the component's class, not the component
     // instance itself.
-    _.bindAll(this, 'handleClick', 'onSelectChange', 'setMessage', 'onSuccess', 'onFailure')
+    bindAll(this, 'handleClick', 'onSelectChange', 'setMessage', 'onSuccess', 'onFailure')
   }
 
   componentDidUpdate(prevProps, prevState) {

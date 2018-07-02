@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react'
 import Select from 'react-select'
 
-function constructOptions(user) {
-  const filterValue = `${user[0]} ${user[1]}`
-  const displayValue = `${user[0]} (${user[1]})`
-  return { value: filterValue, label: displayValue, email: user[1] }
+function constructOptions([name, email]) {
+  const value = `${name} ${email}`
+  const label = `${name} (${email})`
+  return { value, label, email }
 }
 
 export default class KudoSelectMenu extends React.Component {
