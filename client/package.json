@@ -1,6 +1,6 @@
 {
   "name": "kudos",
-  "version": "1.3.1",
+  "version": "1.6.0",
   "scripts": {
     "build:client": "NODE_ENV=production webpack --config webpack.client.rails.config.js",
     "build:dev:client": "webpack -w --config webpack.client.rails.config.js",
