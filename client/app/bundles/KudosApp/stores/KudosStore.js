@@ -96,7 +96,7 @@ class KudosStore {
       if (unliked) {
         const i = this.findKudoIndex(kudoId)
         if (i !== NOT_FOUND) {
-          this.kudos[i].likes = this.kudos[i].likes.filter(like => like.giver_id === userId)
+          this.kudos[i].likes = this.kudos[i].likes.filter(like => like.giver_id !== userId)
         }
       }
     } catch (e) {
