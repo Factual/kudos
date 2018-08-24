@@ -77,11 +77,11 @@ class User < ApplicationRecord
       kudosbot.im_close(channel: im.channel.id)
     rescue Slack::Web::Api::Errors::SlackError => e
       puts e.inspect
-      if e.message == 'account_inactive'
-        # Factual Slack account not found
-        update({ allow_slack_notifications: false })
-        SlackUserNotFoundMailer.slack_error_notification(self).deliver_later
-      end
+      # if e.message == 'account_inactive'
+      #   # Factual Slack account not found
+      #   update({ allow_slack_notifications: false })
+      #   SlackUserNotFoundMailer.slack_error_notification(self).deliver_later
+      # end
     end
   end
 end
