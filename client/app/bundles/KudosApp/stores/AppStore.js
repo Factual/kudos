@@ -13,14 +13,13 @@ class AppStore {
   kudosStore = KudosStore
   easterEggStore = EasterEggStore
 
-  constructor() {
-    KudosStore.fetchKudos('Recent')
-  }
-
   @action
   loadClientData(props) {
     this.user = new User(props.user)
     this.allUsers = props.allUsers
+    this.kudosStore.filters = props.filters
+
+    KudosStore.fetchKudos('Recent')
   }
 
   @action

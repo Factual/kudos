@@ -12,6 +12,12 @@ class KudosStore {
   @observable kudos = []
   @observable total = 0
   @observable cursorTime
+  @observable
+  filters = {
+    recipient: '',
+    from: '',
+    to: '',
+  }
 
   @computed
   get canLoadMore() {
@@ -28,7 +34,7 @@ class KudosStore {
   async fetchKudos() {
     try {
       this.isFetchingKudos = true
-      const { kudos, total } = await getKudos(this.currentTab, this.cursorTime)
+      const { kudos, total } = await getKudos(this.currentTab, this.cursorTime, this.filters)
       this.appendKudos({ kudos, total })
       this.isFetchingKudos = false
     } catch (e) {

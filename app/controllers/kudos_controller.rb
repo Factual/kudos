@@ -21,7 +21,11 @@ class KudosController < ApplicationController
       when 'Kudos Sent'
         kudos.where(giver_id: current_user.id)
       else
-        kudos
+        if params[:recipient].present? && params[:from].present? && params[:to].present?
+          kudos.joins(:receivers).where(users: { email: params[:recipient] }, kudos: { created_at: Date.parse(params[:from])..Date.parse(params[:to]) })
+        else
+          kudos
+        end
       end
 
     kudos_count = kudos.count
